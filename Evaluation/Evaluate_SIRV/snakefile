@@ -1,0 +1,72 @@
+#this snakemake pipeline is used to analyse the performance of isONform,
+#especially on bigger datasets (>1k reads)
+#This is done by aligning all isoforms to the reference as well as aligning all original reads to the reference. We than can compare the counts of isoforms by comparing nr_occs and 
+
+#Runnable the script by using the following: snakemake --cores 1 --configfile configs.json
+
+#The following variables represent the paths to the files required to run this pipeline
+
+###File_location: Gives the location of the files that we want to analyse:
+#file_location="/home/alexanderpetri/isONform_analysis/100kSIRV/0againer/"
+file_location=config["SOURCE_FOLDER"]
+
+###Script_input_folder: Equal to the folder the snakefile is located in. Should also contain all scripts needed for our analysis:
+#script_input_folder="/home/alexanderpetri/isONform_analysis/Evaluation/Evaluate_SIRV/"
+script_input_folder=config["SCRIPT_FOLDER"]
+
+### Output_folder: The folder in which all intermediate datasets as well as all real outputs are stored:
+#output_folder="/home/alexanderpetri/isONform_analysis/Analysis/SIRVtest/"
+output_folder=config["OUT_FOLDER"]
+
+###ref_folder: Path to the reference which we use to analyse the data
+#ref_folder="/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/"
+ref_folder=config["REFERENCE_FOLDER"]
+
+IDS, = glob_wildcards(file_location+'spoa{id}merged.fa')
+
+rule all:
+    input:
+    	output_folder+"Final.txt"
+        #expand(output_folder+'alignment_{sample}_spoa.sam',sample=IDS)
+        #expand(output_folder+"analysis{sample}spoa.csv",sample=IDS),expand(output_folder+"nroccs_{sample}.txt",sample=IDS)
+#rule all:
+#    input:
+#        expand("alignment_0_spoa.sam",sample=samples)"""
+
+rule align_spoa:
+    input: ref_folder+'SIRVTranscriptome.fasta', file_location+'spoa{sample}merged.fa'
+    output: output_folder+'alignment_{sample}_spoa.sam'
+    shell: 'minimap2 -ax map-ont {input} > {output}'
+
+rule count_spoa_instances:
+    input: db = ref_folder+'SIRVTranscriptome.fasta',
+            map = file_location+'mapping{sample}.txt',
+            align= output_folder+'alignment_{sample}_spoa.sam'
+    output: output_folder+'analysis{sample}spoa.csv'
+    shell: 'python {script_input_folder}get_error_rates.py {input.db} {input.map} {input.align} {output}'
+
+rule align_batch:
+    input: ref_folder+'SIRVTranscriptome.fasta',file_location+'{sample}_batchfile.fa'
+    output: output_folder+'alignment{sample}batch.sam'
+    shell: 'minimap2 -ax map-ont  {input} > {output}'
+
+rule error_rates_batch:
+    input: ref_folder+'SIRVTranscriptome.fasta',output_folder+'alignment{sample}batch.sam'
+    output: output_folder+'analysis{sample}_batch.csv'
+    shell:'python {script_input_folder}get_error_rates_original.py {input} {output}'
+
+rule count_id_abundances_batch:
+    input: output_folder+'analysis{sample}_batch.csv'
+    output: output_folder+'nroccs_{sample}.txt'
+    shell:'./count_SIRV_id_abundances.sh  {input} {output}'
+    
+rule align_all_reads_to_transcriptome:
+   input: ref_folder+'SIRVTranscriptome.fasta',output_folder+'100k_sample.fastq'
+   output: output_folder+'full_reads_alignment.sam'
+   shell:'minimap2 -ax map-ont {input} > {output}'
+
+rule count_all_occs:
+   input: bat=expand(output_folder+'nroccs_{sample}.txt', sample=IDS),
+          spoa=expand(output_folder+'analysis{sample}spoa.csv',sample=IDS)
+   output:   output_folder+'Final.txt'
+   shell: 'python count_SIRV_id_occurrences.py {input.bat} {input.spoa}' 

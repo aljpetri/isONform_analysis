@@ -1,0 +1,7 @@
+{
+    "DATASETS" : ["SIRV"],
+    "OUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/SIRVtest/",
+    "SOURCE_FOLDER" : "/home/alexanderpetri/isONform_analysis/100kSIRV/0againer/",
+    "SCRIPT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Evaluation/Evaluate_SIRV/",
+    "REFERENCE_FOLDER": "/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/"
+}
