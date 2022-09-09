@@ -1,0 +1,9 @@
+#align Rattle result vs the full SIRVTranscriptome
+minimap2 -ax map-ont SIRVTranscriptome.fasta transcriptome.fq > Orig_vs_Rattle.sam
+python get_error_rates_original.py SIRVTranscriptome.fasta Orig_vs_Rattle.sam Rattle_analysis
+
+#align the 100k reads vs original Transcriptome
+minimap2 -ax map-ont SIRVTranscriptome.fasta 100k_sample.fastq >100kvsOriginal.sam
+python get_error_rates_original.py SIRVTranscriptome.fasta 100kvsOriginal.sam analyse_100k_reads.csv
+python count_SIRV_id_occurrences.py analyse_100k_reads.csv out.csv
+

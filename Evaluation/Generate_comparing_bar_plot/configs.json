@@ -1,0 +1,12 @@
+{
+    "DATASETS" : ["SIRV"],
+    "RATTLE_SCRIPT_FOLDER" : "~/RATTLE/",
+    "RATTLE_OUT_FOLDER" :"/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/Rattle/",
+    "ISONFORM_OUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/IsONform/isoforms/",
+    "MINIMAP_OUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/Minimap/",
+    "SOURCE_FOLDER" : "/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/",
+    "SCRIPT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Evaluation/Generate_comparing_bar_plot/",
+    "REFERENCE_FOLDER": "/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/",
+    "OUTPUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/",
+    "ISONFORM_LOCATION" :"/home/alexanderpetri/PHDProject1/"
+}
