@@ -20,8 +20,8 @@ isonform_dir=$5
 mkdir -p $filedirectory
 mkdir -p $filedirectory/errors
 mkdir -p $filedirectory/reads
-mkdir -p $filedirectory/isonform
-outputfile=$filedirectory/resultserror1.tsv
+mkdir -p $filedirectory/isONform
+outputfile=$filedirectory/IsONform.tsv
 #if results.tsv already exists 
 if [ -s $outputfile ]
 then 
@@ -38,10 +38,10 @@ errorcounter=0
 #ls
 #define the file we want to use as indicator for our algos performance
 file=out/mapping.txt
-file=$filedirectory/isonform/mapping.txt
+file=$filedirectory/isONform/mapping.txt
 
 
-FILES=$filedirectory"/reads/*.fq"
+FILES=$filedirectory"/reads/*.fastq"
 echo $FILES
 for file in $FILES
 do
@@ -71,7 +71,7 @@ do
 		#run IsONform
 		#if e=True
 	echo $isonform_dir/main.py
-	python $isonform_dir/main.py --fastq $file --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isONform
+	python $isonform_dir/main.py --fastq $file --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isONform --max_seqs 500
 	#python -m pyinstrument main.py --fastq $filedirectory/reads_$number.fq --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isonform/
 		#if e=False
 		#python main.py --fastq $filedirectory/reads/isoforms.fa --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 3 --outfolder out
