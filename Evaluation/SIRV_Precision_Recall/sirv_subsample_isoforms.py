@@ -17,7 +17,7 @@ USAGE:  python sirv_subsample_isoform.py --fastq {inputfile} --alignments {align
 '''
     Below code taken from https://github.com/lh3/readfq/blob/master/readfq.py
 '''
-
+#TODO: generate fasta file holding the reference. I.e. each SIRV that we choose should be added to the reference file
 def readfq(fp): # this is a generator function
     last = None # this is a buffer keeping the last unprocessed line
     while True: # mimic closure; is it a bad idea?
@@ -50,11 +50,13 @@ def readfq(fp): # this is a generator function
                 break
 
 
-def get_subsamples(transcript_cov, depth_dist, nr_isoforms):
+def get_subsamples(transcript_cov, depth_dist, nr_isoforms,reference,new_reference):
     #print("TC",transcript_cov)
     subsamples = {}
     already_used=set()
     depth_list=[]
+    #print(reference)
+
     for i in range(0,nr_isoforms):
         if depth_dist=="uniform":
             depth=random.randrange(10,50)
@@ -67,6 +69,7 @@ def get_subsamples(transcript_cov, depth_dist, nr_isoforms):
         while not_set:
             tr_acc = random.sample(list(transcript_cov), 1)
             this_acc=tr_acc[0]
+            #print("THIS",this_acc)
             if len(transcript_cov[this_acc]) > depth_elem:
                 #print("LEN",len(transcript_cov[this_acc]))
                 if not this_acc in already_used:
@@ -74,6 +77,7 @@ def get_subsamples(transcript_cov, depth_dist, nr_isoforms):
                     subsamples[this_acc] = subset
                     not_set=False
                     already_used.add(this_acc)
+                    new_reference[this_acc]=reference[this_acc]
                     print("Sampled ", depth_elem," reads for ",this_acc)
     return subsamples
 
@@ -131,15 +135,27 @@ def mkdir_p(path):
         else:
             raise
 
-
+def write_new_reference(dirname,new_reference):
+    ref_file_name=os.path.join(dirname,"reference.fasta")
+    new_ref_file = open(ref_file_name, "w")
+    for read_acc,seq in new_reference.items():
+            seq = new_reference[read_acc]
+            new_ref_file.write(">{0}\n{1}\n".format(read_acc, seq))
+    new_ref_file.close()
 def main(args):
+    #print(args)
     dirname = os.path.dirname(args.outfile)
+    #print(args.sirv_ref)
+    #print(args.fastq)
     mkdir_p(dirname)
     transcript_cov = get_abundance_aligned_reads(args.alignments)
+    reference = {acc: (seq) for acc, (seq, qual) in readfq(open(args.sirv_ref, 'r'))}
     #print(len(transcript_cov), [len(transcript_cov[g]) for g in transcript_cov])
-    subsamples = get_subsamples(transcript_cov, args.depth_dist, args.nr_isoforms)
+    new_reference={}
+    subsamples = get_subsamples(transcript_cov, args.depth_dist, args.nr_isoforms,reference,new_reference)
     fastq = { acc : (seq,qual) for acc, (seq,qual) in readfq(open(args.fastq, 'r'))}
-
+    write_new_reference(dirname,new_reference)
+    #print(reference)
     outfile = open(args.outfile, "w")
     for tr_id, set_of_reads in subsamples.items():
         for read_acc in set_of_reads:
@@ -152,7 +168,7 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Parses alignments and subsamples a fastq file based on alignments.")
     parser.add_argument('--fastq', type=str, help='fastq file. ')
-    # parser.add_argument('ref_fastq', type=str, help='fastq file. ')
+    parser.add_argument('--sirv_ref', type=str, help='fastq/a file. ')
     parser.add_argument('--alignments', type=str, help='fastq file. ')
     parser.add_argument('--outfile', type=str, help='Fastq file. ')
     parser.add_argument('--depth_dist', type=str, help="type of read distribution: either uniform (20 reads per isoform) or exp (2^(x-2)|x<=10)")

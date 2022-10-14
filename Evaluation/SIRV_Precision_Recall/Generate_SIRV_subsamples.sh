@@ -17,9 +17,11 @@ nr_runs=$2
 input_ref=$3
 filedirectory=$4
 alignment=$5
+reference=$6
 mkdir -p $filedirectory
 #mkdir -p $filedirectory/errors
 mkdir -p $filedirectory/reads
+mkdir -p $filedirectory/references
 outputfile=$filedirectory/resultserror1.tsv
 #if results.tsv already exists 
 if [ -s $outputfile ]
@@ -56,9 +58,9 @@ do
 		number="${i}_${j}"
 		############ COMMENT THE FOLLOWING TWO LINES FOR BUGFIXING ON IDENTICAL READ FILES ############
 		###############################################################################################
-		python sirv_subsample_isoforms.py --fastq $input_ref  --outfile $filedirectory/reads/reads_$number.fastq  --depth_dist exp --nr_isoforms $i --alignments $alignment
+		python sirv_subsample_isoforms.py --fastq $input_ref  --outfile $filedirectory/reads/reads_$number.fastq  --depth_dist exp --nr_isoforms $i --alignments $alignment --sirv_ref $reference
 		#cp $filedirectory/isoforms/reads.fq $filedirectory/reads/reads.fq
-		#mv $filedirectory/reads/reads.fq $filedirectory/reads/reads_$number.fastq
+		mv $filedirectory/reads/reference.fasta $filedirectory/references/reference_$number.fasta
 	done
 done
 touch dummyfile

@@ -4,6 +4,9 @@ import os
 import errno
 import shutil
 import glob
+
+#This script is used to generate a plot indicating the precision and recall comparing rattle and the isONpipeline.
+#
 #The following variables represent the paths to the files required to run this pipeline
 
 ###File_location: Gives the location of the files that we want to analyse:
@@ -33,7 +36,7 @@ isExist = os.path.exists(outfolder)
 if not isExist:
     # Create a new directory because it does not exist
     os.makedirs(outfolder)
-        
+#TODO: this pipe lacks the correct reference file. Add the generation of this file to the subsample_reads rule and change the convert rules to use it        
 rule all:
 #input: outfolder+"/graphs/Precision.png"
 #input: #expand(outfolder+'/isONcorrform/alignments/alignment_{nr_isoforms}_{run_id}.sam', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
@@ -48,44 +51,51 @@ rule all:
 	#input: expand(outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
 	input: expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS,run_id=RUN_ID), outfolder+"/graphs/Precision.png"
 	
-
+#align the original set of reads to the reference transcriptome
 rule minimap_alignment:
 	input: ref_folder+'SIRVTranscriptome.fasta', file_location+'100k_sample.fastq'
 	output: outfolder+'/minimap/100kvsOriginal.sam'
 	shell: 'minimap2 -ax map-ont -k 7 -w 1 {input} > {output}' 
-	
+#subsample reads so that we get a controlled number of isoforms by using the generated sam file	
 rule subsample_reads:
-	input: align=outfolder+'/minimap/100kvsOriginal.sam', seqs=file_location+'100k_sample.fastq',fold=sequence_dir
-	output: outflag=expand(sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	shell:"./Generate_SIRV_subsamples.sh 15 20 {input.seqs} {input.fold} {input.align} "
-	
-rule run_isonform:
-    input: rules.subsample_reads.output.outflag #sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
-    output: flag2=expand(outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-    shell: './RunIsoncorrectIsonform.sh 15 20 {file_location}ERR3588903_1.fastq {sequence_dir} {script_folder}'
-    
+	input: align=outfolder+'/minimap/100kvsOriginal.sam', seqs=file_location+'100k_sample.fastq', fold=sequence_dir, ref=ref_folder+'SIRVTranscriptome.fasta'
+	output: outflag=expand(sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),otheroutfl=expand(sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
+	shell:"./Generate_SIRV_subsamples.sh 15 10 {input.seqs} {input.fold} {input.align} {input.ref}"
+	#run isONcorrect+isONform	
+rule run_isonform_single:
+    input: sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
+    output: outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq"
+    shell: './RunIsoncorrectIsonformSingle.sh 15 10 {file_location}ERR3588903_1.fastq {sequence_dir} {script_folder} {input}'
+#####run isONcorrect+isONform	
+#rule run_isonform:
+#    input: rules.subsample_reads.output.outflag #sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
+#    output: flag2=expand(outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
+#    shell: './RunIsoncorrectIsonform.sh 15 10 {file_location}ERR3588903_1.fastq {sequence_dir} {script_folder}'
+####
+#run Rattle 
 rule run_rattle:
 	input: rules.subsample_reads.output.outflag #sequence_dir+"/reads/reads_{isoform_nr}_{run_id}.fastq"
 	output: flag3=expand(outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	shell:"./RunRattle.sh 15 20 {file_location}ERR3588903_1.fastq {sequence_dir} {rattle_dir}"
-	
+	shell:"./RunRattle.sh 15 10 {file_location}ERR3588903_1.fastq {sequence_dir} {rattle_dir}"
+#convert the resulting file from fastq to fasta format	
 rule convert_results:
-	input: rules.run_isonform.output.flag2 #outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq"
+	input: outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq"
 	output: flag4=outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta"
 	shell:	"sed -n '1~4s/^@/>/p;2~4p' {input} > {output}"
-	
+#convert the resulting file from fastq to fasta format	
 rule convert_rattle_results:
-	input: rules.run_rattle.output.flag3 #outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq"
+	input: outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq"
 	output: flag4=outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta"
 	shell:	"sed -n '1~4s/^@/>/p;2~4p' {input} > {output}"
-	
+#align the results to the input file better to align vs transcriptome?	
 rule align_for_best_match:
-	input: ref=outfolder+'/reads/reads_{nr_isoforms}_{run_id}.fastq',corr=outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta"
+	#input: ref=outfolder+'/reads/reads_{nr_isoforms}_{run_id}.fastq',corr=outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta"
+	input:corr=outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta",ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta"
 	output: ison_flag= outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv"
 	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output}"
 	
 rule align_rattle_for_best_match:
-	input: ref=outfolder+'/reads/reads_{nr_isoforms}_{run_id}.fastq', corr=outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta" #outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta",ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa'
+	input:  corr=outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta", ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta"#outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta",ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa' 
 	output: rattle_flag=outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv"
 	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output}"
 	
