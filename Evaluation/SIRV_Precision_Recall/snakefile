@@ -57,12 +57,16 @@ rule minimap_alignment:
 rule subsample_reads:
 	input: align=outfolder+'/minimap/100kvsOriginal.sam', seqs=file_location+'100k_sample.fastq', fold=sequence_dir, ref=ref_folder+'SIRVTranscriptome.fasta'
 	output: outflag=expand(sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),otheroutfl=expand(sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	shell:"./Generate_SIRV_subsamples.sh 15 10 {input.seqs} {input.fold} {input.align} {input.ref}"
+	run:
+		nr_runs=str(n_runs)
+		shell("./Generate_SIRV_subsamples.sh 15 {nr_runs} {input.seqs} {input.fold} {input.align} {input.ref}")
 	#run isONcorrect+isONform	
 rule run_isonform_single:
     input: sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
     output: outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq"
-    shell: './RunIsoncorrectIsonformSingle.sh 15 10 {file_location}ERR3588903_1.fastq {sequence_dir} {script_folder} {input}'
+    run:
+    	iso_abundance=config["ISO_ABUNDANCE"]
+    	shell( './RunIsoncorrectIsonformSingle.sh  {sequence_dir} {script_folder} {input} {iso_abundance}')
 #####run isONcorrect+isONform	
 #rule run_isonform:
 #    input: rules.subsample_reads.output.outflag #sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
@@ -73,7 +77,7 @@ rule run_isonform_single:
 rule run_rattle:
 	input: rules.subsample_reads.output.outflag #sequence_dir+"/reads/reads_{isoform_nr}_{run_id}.fastq"
 	output: flag3=expand(outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	shell:"./RunRattle.sh 15 10 {file_location}ERR3588903_1.fastq {sequence_dir} {rattle_dir}"
+	shell:"./RunRattle.sh {sequence_dir} {rattle_dir}"
 #convert the resulting file from fastq to fasta format	
 rule convert_results:
 	input: outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq"
@@ -88,13 +92,13 @@ rule convert_rattle_results:
 rule align_for_best_match:
 	#input: ref=outfolder+'/reads/reads_{nr_isoforms}_{run_id}.fastq',corr=outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta"
 	input:corr=outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq",ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta"
-	output: ison_flag= outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv"
-	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output}"
+	output: ison_flag= outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv", notneeded=outfolder+"/alignments/error_ison_{nr_isoforms}_{run_id}.csv"
+	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output.ison_flag}"
 	
 rule align_rattle_for_best_match:
 	input:  corr=outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq", ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta"#outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta",ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa' 
-	output: rattle_flag=outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv"
-	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output}"
+	output: needed=outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv", notneeded=outfolder+"/alignments/error_rattle_{nr_isoforms}_{run_id}.csv"
+	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output.needed}"
 	
 rule plot_results: 
 	input: expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID), expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)

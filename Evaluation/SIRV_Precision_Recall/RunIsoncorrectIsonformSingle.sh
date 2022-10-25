@@ -13,12 +13,12 @@ if [ $# -lt 2 ]; then
     echo "./RunIsonform.sh  <Max isoform number> <nr runs> </path/to/input/reference.fa> <output_root> </path/to/isONform.py>"
     exit 1
 fi
-max_iso_nr=$1
-nr_runs=$2
-input_ref=$3
-filedirectory=$4
-isonform_dir=$5
-actual_file=$6
+
+filedirectory=$1
+isonform_dir=$2
+actual_file=$3
+iso_abundance=$4
+echo $iso_abundance
 mkdir -p $filedirectory
 #mkdir -p $filedirectory/errors
 mkdir -p $filedirectory/reads
@@ -73,8 +73,14 @@ FILES=$filedirectory"/reads/*.fastq"
 	echo $isonform_dir/main.py
 	isONcorrect  --fastq $actual_file  --outfolder $filedirectory/correction/
 	mv $filedirectory/correction/corrected_reads.fastq $filedirectory/correction/corr_$number.fastq
-	python $isonform_dir/main.py --fastq $filedirectory/correction/corr_$number.fastq --k 9 --w 20 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 10 --outfolder $filedirectory/isONcorrform
-	mv $filedirectory/isONcorrform/spoa0merged.fa $filedirectory/isONcorrform/cl_spoa_$number.fastq
+	python $isonform_dir/main.py --fastq $filedirectory/correction/corr_$number.fastq --k 9 --w 20 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 10 --outfolder $filedirectory/isONcorrform --iso_abundance $iso_abundance
+	FILE=$filedirectory/isONcorrform/cluster_merged.fastq
+	if test -f "$FILE"; then
+		mv $isonform_dir/isONcorrform/cluster_merged.fastq  $filedirectory/isONcorrform/cl_spoa_$number.fastq
+	else
+		mv $filedirectory/isONcorrform/spoa0merged.fastq $filedirectory/isONcorrform/cl_spoa_$number.fastq
+	fi
+	#mv $filedirectory/isONcorrform/spoa0merged.fastq $filedirectory/isONcorrform/cl_spoa_$number.fastq
 	#python -m pyinstrument main.py --fastq $filedirectory/reads_$number.fq --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isonform/
 		#if e=False
 		#python main.py --fastq $filedirectory/reads/isoforms.fa --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 3 --outfolder out
