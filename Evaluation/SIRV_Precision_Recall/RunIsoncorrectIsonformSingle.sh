@@ -74,12 +74,12 @@ FILES=$filedirectory"/reads/*.fastq"
 	isONcorrect  --fastq $actual_file  --outfolder $filedirectory/correction/
 	mv $filedirectory/correction/corrected_reads.fastq $filedirectory/correction/corr_$number.fastq
 	python $isonform_dir/main.py --fastq $filedirectory/correction/corr_$number.fastq --k 9 --w 20 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 10 --outfolder $filedirectory/isONcorrform --iso_abundance $iso_abundance
-	FILE=$filedirectory/isONcorrform/cluster_merged.fastq
-	if test -f "$FILE"; then
-		mv $isonform_dir/isONcorrform/cluster_merged.fastq  $filedirectory/isONcorrform/cl_spoa_$number.fastq
-	else
-		mv $filedirectory/isONcorrform/spoa0merged.fastq $filedirectory/isONcorrform/cl_spoa_$number.fastq
-	fi
+	#FILE=$filedirectory/isONcorrform/cluster_merged.fastq
+	#if test -f "$FILE"; then
+	mv $filedirectory/isONcorrform/cluster_merged.fastq  $filedirectory/isONcorrform/cl_spoa_$number.fastq
+	#else
+	#	mv $filedirectory/isONcorrform/spoa0merged.fasta $filedirectory/isONcorrform/cl_spoa_$number.fasta
+	#fi
 	#mv $filedirectory/isONcorrform/spoa0merged.fastq $filedirectory/isONcorrform/cl_spoa_$number.fastq
 	#python -m pyinstrument main.py --fastq $filedirectory/reads_$number.fq --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isonform/
 		#if e=False

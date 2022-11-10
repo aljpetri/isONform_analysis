@@ -12,11 +12,9 @@ if [ $# -lt 2 ]; then
     echo "./RunIsonform.sh  <Max isoform number> <nr runs> </path/to/input/reference.fa> <output_root> </path/to/Rattle>"
     exit 1
 fi
-max_iso_nr=$1
-nr_runs=$2
-input_ref=$3
-filedirectory=$4
-rattle_loc=$5
+
+filedirectory=$1
+rattle_loc=$2
 mkdir -p $filedirectory/Rattle
 
 outputfile=$filedirectory/rattle/resultserror1.tsv

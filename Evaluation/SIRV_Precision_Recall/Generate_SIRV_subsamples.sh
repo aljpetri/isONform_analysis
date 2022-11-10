@@ -50,7 +50,7 @@ do
 	#for each amount of isoforms we would like to run 15 tests to make sure our algo works stable
 	for((j=1;j<=$nr_runs;j++))
 	do
-		echo $i_$j
+		#echo $i_$j
 		outputs=0
 		#python generateTestCases.py --ref $input_ref --sim_genome_len 1344 --nr_reads 20 --outfolder testout --coords 50 100 150 200 250 300 350 400 450 500 --probs 0.4 0.4 0.4 0.4 0.4 --n_isoforms 2 --e True
 		#run the test case generation script with the parameters needed
