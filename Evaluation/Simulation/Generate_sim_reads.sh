@@ -56,7 +56,7 @@ do
 		number="${i}_${j}"
 		############ COMMENT THE FOLLOWING TWO LINES FOR BUGFIXING ON IDENTICAL READ FILES ############
 		###############################################################################################
-		python generateTestCases.py --ref $input_ref --sim_genome_len 1344 --nr_reads $n_reads --outfolder $filedirectory/isoforms --coords  200 400 600 800 1000 1200 1400 1600 1800 2000 --probs 0.4 0.4 0.4 0.4 0.4 --n_isoforms $i --e True --id $number --read_dist exp
+		python generateTestCases.py --ref $input_ref --sim_genome_len 1344 --nr_reads $n_reads --outfolder $filedirectory/isoforms --coords  200 400 600 800 1000 1200 1400 1600 1800 2000 --probs 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 --n_isoforms $i --e True --id $number --read_dist exp
 		cp $filedirectory/isoforms/reads.fq $filedirectory/reads/reads.fq
 		mv $filedirectory/reads/reads.fq $filedirectory/reads/reads_$number.fastq
 	done

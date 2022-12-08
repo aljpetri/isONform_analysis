@@ -12,11 +12,9 @@ if [ $# -lt 2 ]; then
     echo "./RunIsonform.sh  <Max isoform number> <nr runs> </path/to/input/reference.fa> <output_root> </path/to/Rattle>"
     exit 1
 fi
-max_iso_nr=$1
-nr_runs=$2
-input_ref=$3
-filedirectory=$4
-rattle_loc=$5
+
+filedirectory=$1
+rattle_loc=$2
 mkdir -p $filedirectory/Rattle
 
 outputfile=$filedirectory/rattle/resultserror1.tsv
@@ -77,10 +75,13 @@ do
 	$rattle_loc/rattle polish -i $rattle_dir"/consensi.fq" -o $rattle_out_file -t24 
 	echo "Polished"
 	FILE=$rattle_dir/transcriptome.fq
+	OTHERFILE=$rattle_dir/consensi.fq
 	if test -f "$FILE"; then
 		mv $rattle_dir"/transcriptome.fq" $rattle_dir/rattle_res_$number.fastq
-	else
+	elif test -f "$OTHERFILE" ;then
 		mv $rattle_dir"/consensi.fq" $rattle_dir/rattle_res_$number.fastq
+	else
+		touch $rattle_dir/rattle_res_$number.fastq
 	fi
 	#python $isonform_dir/main.py --fastq $file --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isONform
 	#python -m pyinstrument main.py --fastq $filedirectory/reads_$number.fq --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isonform/

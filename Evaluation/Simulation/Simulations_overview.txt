@@ -1,0 +1,6 @@
+Simulations currently are almost perfect:
+Recall:
+ we sometimes do not get perfection as we may have very similar isoforms in which only some base pairs differ. This may not be detectable via delta_len
+ 
+ Precision:
+ reads of the same isoform are put into different clusters
