@@ -36,18 +36,10 @@ if not isExist:
     os.makedirs(outfolder) 
           
 rule all:
-#input: outfolder+"/graphs/Precision.png"
+    input: outfolder+"/graphs/Precision.png"
 #input: #expand(outfolder+'/isONcorrform/alignments/alignment_{nr_isoforms}_{run_id}.sam', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
 #input: expand(sequence_dir+'/reads/reads_{nr_isoforms}_{run_id}.fastq', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	#expand(outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	#input: outfolder+'/minimap/100kvsOriginal.sam',expand(sequence_dir+'/reads/reads_{nr_isoforms}_{run_id}.fastq', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	#input: expand(outfolder+'/counts/counts_{nr_isoforms}_{run_id}.csv', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	#input: expand(outfolder + "/isONcorrform/cl_map_{nr_isoforms}_{run_id}.txt", nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	#input: rules.gen_sim_data.output.flag
-	#input: expand(outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	#input: expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	#input: expand(outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	input: expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS,run_id=RUN_ID), outfolder+"/graphs/Precision.png"
+#input:  outfolder+"/graphs/Precision.png", expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS,run_id=RUN_ID)
 
 rule pychop:
 	input: file_location+'100k_sample.fastq'
@@ -109,12 +101,12 @@ rule run_rattle:
 rule align_for_best_match:
 	#input: ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",corr=outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta"
 	input:corr=outfolder+"/isONform/cl_spoa_{nr_isoforms}_{run_id}.fastq",ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",#ref=ref_folder+'SIRVTranscriptome.fasta' #
-	output: ison_flag= outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv", notneeded=outfolder+"/alignments/error_ison_{nr_isoforms}_{run_id}.csv"
+	output: ison_flag= outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv"#, notneeded=outfolder+"/alignments/error_ison_{nr_isoforms}_{run_id}.csv"
 	shell:"python evaluate_sim_reads.py {input.corr} {input.ref} {output.ison_flag}"
 	
 rule align_rattle_for_best_match:
 	input:  corr=outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq", ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta"#outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta",ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa',ref=ref_folder+'SIRVTranscriptome.fasta'#,
-	output: needed=outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv", notneeded=outfolder+"/alignments/error_rattle_{nr_isoforms}_{run_id}.csv"
+	output: needed=outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv"#, notneeded=outfolder+"/alignments/error_rattle_{nr_isoforms}_{run_id}.csv"
 	shell:"python evaluate_sim_reads.py {input.corr} {input.ref} {output.needed}"
 	
 rule plot_results: 
@@ -123,3 +115,5 @@ rule plot_results:
 	run:
 	    max_isos=config["MAX_ISO_NR"]
 	    shell(" python Plotresults.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {max_isos}")
+	    shell(" python PlotErrorRates.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {max_isos}")
+

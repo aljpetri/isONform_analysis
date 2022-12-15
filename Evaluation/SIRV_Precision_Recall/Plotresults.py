@@ -117,7 +117,6 @@ def calculate_statistics(tp,fp,fn):
     return precision,recall
 def plot_data(header,data1,data2,ticks,outfolder):
     plt.figure()
-
     bpl = plt.boxplot(data1, positions=np.array(range(len(data1))) * 2.0 - 0.4, widths=0.6)
     bpr = plt.boxplot(data2, positions=np.array(range(len(data2))) * 2.0 + 0.4, widths=0.6)
     set_box_color(bpl, '#D7191C')  # colors are from http://colorbrewer2.org/
@@ -147,7 +146,9 @@ def main(args):
     ison_path = os.path.join(args.outfolder, "isONform.csv")
     ison_file = open(ison_path, "w")
     print("SIONPATHS", ison_path)
-    max_iso_nr=args.max_isoforms-1
+    isoformNumbers = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+    #max_iso_nr=args.max_isoforms-1
+    max_iso_nr=len(isoformNumbers)
     #we save the precision and recall values for isONform an Rattle in lists
     ison_precision_list=[None] * max_iso_nr
     ison_recall_list=[None] * max_iso_nr
@@ -155,21 +156,20 @@ def main(args):
     rattle_recall_list=[None] * max_iso_nr
     print("IN",args.indir)
     print("OUT",args.outfolder)
+    nr_isoforms_dict={}
 
-
+    for i,number in enumerate(isoformNumbers):
+        nr_isoforms_dict[number]=i
+    print("NR_ISOS_DICT",nr_isoforms_dict)
     for analysisfile in os.listdir(args.indir):
         if analysisfile.startswith("results_ison_"):
             print("File",analysisfile)
-
             file_dir = os.path.join(args.indir, analysisfile)
             isonform_dict,fp,tp=read_analysis(file_dir)
-            #tp=len(isonform_dict)
             filename=analysisfile.split(".")[0]
             nr_isos=int(filename.split("_")[2])
             run_id=int(filename.split("_")[3])
             id = str(nr_isos) + "_" + str(run_id)
-            #print(nr_isos)
-            #print(run_id)
             fn=nr_isos-tp
             precision,recall=calculate_statistics(tp,fp,fn)
             print("Precision", precision)
@@ -178,30 +178,16 @@ def main(args):
             ison_file.write(">precision {0}:{1}\n".format(id, precision))
             # rattle_file.write("precision\n")
             ison_file.write(">recall {0}: {1}\n".format(id, recall))
-
+            index=nr_isoforms_dict[nr_isos]
             #print(ison_precision_list)
-            if ison_precision_list[nr_isos-2]:
-                #old_prec_list=ison_precision_dict[nr_isos]
-                #old_prec_list.append(precision)
-                #prec_repl_dict={nr_isos: old_prec_list}
-                #ison_precision_dict.update(prec_repl_dict)
-                #old_rec_list = ison_recall_dict[nr_isos]
-                #old_rec_list.append(recall)
-                #rec_repl_dict = {nr_isos: old_rec_list}
-                #ison_recall_dict.update(rec_repl_dict)
-                ison_precision_list[nr_isos-2].append(precision)
-                ison_recall_list[nr_isos-2].append(recall)
+            if ison_precision_list[index]:
+                ison_precision_list[index].append(precision)
+                ison_recall_list[index].append(recall)
             else:
-                #list_prec=[]
-                #list_prec.append(precision)
-                #ison_precision_dict[nr_isos]=list_prec
-                #list_rec = []
-                #list_rec.append(recall)
-                #ison_recall_dict[nr_isos] = list_rec
-                ison_precision_list[nr_isos-2] = []
-                ison_precision_list[nr_isos-2].append(precision)
-                ison_recall_list[nr_isos - 2] = []
-                ison_recall_list[nr_isos - 2].append(recall)
+                ison_precision_list[index] = []
+                ison_precision_list[index].append(precision)
+                ison_recall_list[index] = []
+                ison_recall_list[index].append(recall)
             ison_name = "ison_res_" + str(nr_isos) + "_" + str(run_id) + ".csv"
 
         elif analysisfile.startswith("results_rattle_"):
@@ -217,16 +203,17 @@ def main(args):
             #print(nr_isos)
             #print(run_id)
             fn = nr_isos - tp
+            index = nr_isoforms_dict[nr_isos]
             precision, recall = calculate_statistics(tp, fp, fn)
             print("Precision", precision)
-            print("Position", nr_isos - 2)
+            print("Position", index)
             print("Recall", recall)
             rattle_file.write(">precision {0}:{1}\n".format(id, recall))
             #rattle_file.write("precision\n")
             rattle_file.write(">recall {0}: {1}\n".format(id, precision))
 
             #print("rattle_precision_list",rattle_precision_list)
-            if rattle_precision_list[nr_isos-2]:
+            if rattle_precision_list[index]:
                 #old_prec_list = rattle_precision_dict[nr_isos]
                 #old_prec_list.append(precision)
                 #prec_repl_dict = {nr_isos: old_prec_list}
@@ -235,8 +222,8 @@ def main(args):
                 #old_rec_list.append(recall)
                 #rec_repl_dict = {nr_isos: old_rec_list}
                 #rattle_recall_dict.update(rec_repl_dict)
-                rattle_precision_list[nr_isos-2].append(precision)
-                rattle_recall_list[nr_isos - 2].append(recall)
+                rattle_precision_list[index].append(precision)
+                rattle_recall_list[index].append(recall)
             else:
                 #list_prec = []
                 #list_prec.append(precision)
@@ -244,10 +231,10 @@ def main(args):
                 #list_rec = []
                 #list_rec.append(recall)
                 #rattle_recall_dict[nr_isos] = list_rec
-                rattle_precision_list[nr_isos-2]=[]
-                rattle_precision_list[nr_isos-2].append(precision)
-                rattle_recall_list[nr_isos - 2] = []
-                rattle_recall_list[nr_isos - 2].append(recall)
+                rattle_precision_list[index]=[]
+                rattle_precision_list[index].append(precision)
+                rattle_recall_list[index] = []
+                rattle_recall_list[index].append(recall)
             rattle_name="rattle_res_"+str(nr_isos)+"_"+str(run_id)+".csv"
 
     #write_to_csv(ison_precision_list, ison_recall_list, args.outfolder, ison_name,id)
@@ -265,7 +252,7 @@ def main(args):
     print(ison_precision_list)
     print(rattle_precision_list)
     #write_to_csv(ison_precision_list,ison_recall_list,args.outfolder,id)
-    ticks = ['2', '3', '4','5','6','7','8','9','10','11','12','13','14','15']
+    ticks = ['5', '10', '15','20','25','30','35','40','45','50']
     plot_data("Precision", ison_precision_list, rattle_precision_list, ticks,args.outfolder)
     plot_data("Recall", ison_recall_list, rattle_recall_list, ticks,args.outfolder)
     #print(original_key_list)

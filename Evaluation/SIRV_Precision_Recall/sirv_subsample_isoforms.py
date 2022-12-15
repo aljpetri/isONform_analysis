@@ -59,7 +59,7 @@ def get_subsamples(transcript_cov, depth_dist, nr_isoforms,reference,new_referen
     subsamples = {}
     already_used=set()
     depth_list=[]
-    print("REF",reference)
+    #print("REF",reference)
     depthsum=0
     multi=0
     for i in range(0,nr_isoforms):
@@ -85,7 +85,7 @@ def get_subsamples(transcript_cov, depth_dist, nr_isoforms,reference,new_referen
                     not_set=False
                     already_used.add(this_acc)
                     new_reference[this_acc]=reference[this_acc]
-                    print("REFSEQ",reference[this_acc])
+                    #print("REFSEQ",reference[this_acc])
                     #print("Sampled ", depth_elem," reads for ",this_acc)
     return subsamples
 
@@ -147,7 +147,7 @@ def mkdir_p(path):
 def write_new_reference(dirname,new_reference):
     ref_file_name=os.path.join(dirname,"reference.fasta")
     new_ref_file = open(ref_file_name, "w")
-    print(new_reference)
+    #print(new_reference)
     for read_acc,seq in new_reference.items():
             seq = new_reference[read_acc]
             new_ref_file.write(">{0}\n{1}\n".format(read_acc, seq))
@@ -267,7 +267,6 @@ def parasail_alignment(s1, s2,new_transcript_cov,transcript_id,read, match_score
     return read_alignment, ref_alignment"""
 
 def filter_reference(transcript_cov,reference,fastq):
-    throw_out={}
     i=0
     iter=0
     overall_len=len(transcript_cov)
@@ -277,17 +276,9 @@ def filter_reference(transcript_cov,reference,fastq):
         print("Iter", iter, "/", overall_len)
         for read in read_list:
             i+=1
-
             read_seq=fastq[read][0]
             ref_seq=reference[transcript_id]
-            #print("READSEQ",read_seq)
-            #print("REFSEQ",ref_seq)
             parasail_alignment(read_seq,ref_seq, new_transcript_cov,transcript_id,read)
-            #insertions = ref_alignment.count("-")
-            #deletions = read_alignment.count("-")
-            #indels = insertions + deletions
-            #mismatches = len([1 for n1, n2 in zip(read_alignment, ref_alignment) if n1 != n2 and n1 != "-" and n2 != "-"])
-            #edit_distance = deletions + insertions + mismatches
     return new_transcript_cov
 
 def main(args):
@@ -296,6 +287,8 @@ def main(args):
     #print(args.sirv_ref)
     #print(args.fastq)
     mkdir_p(dirname)
+    #file_exists=os.path.exists(os.path.join(dirname,"minimap.txt"))
+    #if not file_exists:
     transcript_cov = get_abundance_aligned_reads(args.alignments)
     cov_file=open(os.path.join(dirname,"minimap.txt"),'w')
 
@@ -313,7 +306,7 @@ def main(args):
     #print(len(transcript_cov), [len(transcript_cov[g]) for g in transcript_cov])
     new_reference={}
     transcript_cov=filter_reference(transcript_cov,reference,fastq)
-    
+
     print()
     sum_good = 0
     for key,value in transcript_cov.items():

@@ -38,10 +38,11 @@ errorcounter=0
 #define the file we want to use as indicator for our algos performance
 file=out/mapping.txt
 file=$filedirectory/isonform/mapping.txt
-
+isoformNumbers=(5,10,15,20,25,30,35,40,45,50)
 #iterate over different numbers of isoforms
-for ((i=2; i<=$max_iso_nr; i++))
-do
+for i in ${isoformNumbers[@]}; do
+#for ((i=2; i<=$max_iso_nr; i++))
+#do
 	#we want to have some double reads 
 	n_reads=$(($i*5))
 	#echo "Generating $i TestIsoforms" >>results.tsv
