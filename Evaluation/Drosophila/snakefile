@@ -1,0 +1,206 @@
+#Run via submit_main_snakemake.sh
+#this snakemake pipeline is used to analyse the performance of isONform on Drosophila Data
+
+
+#The following variables represent the paths to the files required to run this pipeline
+
+###Script_input_folder: Equal to the folder the snakefile is located in. Should also contain all scripts needed for our analysis:
+script_input_folder=config["SCRIPT_FOLDER"]
+
+outfolder_root=config["ROOT_OUT"]
+isonform_location=config["ISONFORM_LOCATION"]
+isoform_abundance=config["ISO_ABUNDANCE"]
+rattle_location=config["RATTLE_DIR"]
+shell.prefix("set -o pipefail; ")
+wildcard_constraints:
+    nr_reads="[\d]+",
+####################################################
+########## standard python functions ###############
+####################################################
+
+import re
+import os
+import errno
+import shutil
+import glob
+
+def mkdir_p(path):
+    print("creating", path)
+    try:
+        os.makedirs(path)
+    except OSError as exc:  # Python >2.5
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else:
+            raise
+
+rule all:
+	input:outfolder_root+"/data/split_accs.fq",outfolder_root+'/data/full_length_output.fastq'  ,outfolder_root+"/stringtie/drosophila_aligned.sam",outfolder_root+"/stringtie/drosophila_aligned.sorted.bam",outfolder_root+"/stringtie/stringtie_res.gtf",outfolder_root+"/stringtie/stringtie_transcripts.fasta",outfolder_root + "/results/stringtie.sam",outfolder_root+"/rattle/transcriptome.fq"#,outfolder_root+'/isONform/outfolder/transcriptome.fq'
+
+
+###############################################################################################################################
+#                                                PREPROCESSING                                                                #
+###############################################################################################################################
+
+##Preprocessing:some of our tools have issues with the accessions- we shorten them here
+rule split_accessions_orig:
+    input: fastq = config["drosophila_reads"]
+    output: original_reads_split_accessions =  outfolder_root + "/data/split_accs.fq"
+
+    run:
+        shell("python split_accessions.py {input} {output.original_reads_split_accessions}")
+
+##Use pychopper so every tool has the same possibility to perform
+rule pychop:
+	input: outfolder_root + "/data/split_accs.fq"
+	output: outfolder_root+'/data/full_length_output.fastq'
+	shell: 'pychopper {input} {output}'
+
+###############################################################################################################################
+#                                                STRINGTIE PIPELINE                                                           #
+###############################################################################################################################
+
+
+##Align the original reads to the reference via minimap2 (part of the stringtie pipeline)
+rule align_original_reads_minimap2:
+    input: original_reads = outfolder_root+'/data/full_length_output.fastq' #outfolder_root+'/data/full_length_output.fastq'
+    output: original_reads_aligned =  outfolder_root+"/stringtie/drosophila_aligned.sam"
+    run:
+            ref = config["drosophila97"]
+            original_reads=config["drosophila_reads"]
+            shell("minimap2 --eqx -t 20 -ax splice -uf -k 13 -w 4 {ref} {original_reads} >  {output.original_reads_aligned} ")
+
+##Sort the alignment(StringtiePipe)
+rule sort_alignment:
+	input: outfolder_root+"/stringtie/drosophila_aligned.sam"
+	output: outfolder_root+"/stringtie/drosophila_aligned.sorted.bam"
+	shell: "samtools view -Su {input} | samtools sort -o {output}"
+
+##Index the alignment(StringtiePipe)
+rule index_alignment:
+	input: outfolder_root+"/stringtie/drosophila_aligned.sorted.bam"
+	output: outfolder_root+"/stringtie/drosophila_aligned.sorted.bam.bai"
+	shell: "samtools index {input}"
+
+##Run stringtie (stringtie pipe)
+rule run_stringtie:
+	input: ref=outfolder_root+"/stringtie/drosophila_aligned.sorted.bam",idx=outfolder_root+"/stringtie/drosophila_aligned.sorted.bam.bai"
+	output: outfolder_root+"/stringtie/stringtie_res.gtf"
+	shell: "stringtie -p 20 -L -c 3 -s 3 -o {output} {input.ref}"
+
+##Run gffread to get a fasta file from the stringtie output (stringtie pipe)
+rule run_gffread:
+	input: outfolder_root+"/stringtie/stringtie_res.gtf"
+	output: outfolder_root+"/stringtie/stringtie_transcripts.fasta"
+	run:
+		ref = config["drosophila97"]
+		#ref=config["droso"]
+		shell("gffread -w {output} -g {ref}  {input}")
+
+##Align the Stringtie consensus vs the reference (needed for evaluations)
+rule align_stringtie_reads_minimap2:
+    input: corrected_reads = outfolder_root+"/stringtie/stringtie_transcripts.fasta"
+    output: stringtie_aligned=outfolder_root + "/results/stringtie.sam"
+    run:
+            ref = config["drosophila97"]
+            shell("/usr/bin/time -v  minimap2 --eqx -t 20 -ax splice -uf -k13 -w4 {ref} {input.corrected_reads} >  {output} ")
+
+###############################################################################################################################
+#                                                    RATTLE ANALYSIS                                                          #
+###############################################################################################################################
+
+##Cluster the reads (RATTLE pipe)
+rule rattle_cluster:
+        input:
+                 outfolder_root+'/data/full_length_output.fastq'#outfolder_root+'/data/subsample.fastq'
+        output:
+                outfolder_root+"/rattle/clusters.out"
+        run:
+        	rattle_out_folder=outfolder_root+"/rattle/"
+           	shell("{rattle_location}rattle cluster -i {input} -t 20 -o {rattle_out_folder} ")
+
+##Correct the reads (RATTLE pipe)
+rule rattle_correct:
+        input:
+                clusters= outfolder_root+"/rattle/clusters.out", fastq=outfolder_root+'/data/full_length_output.fastq'
+        output:
+                outfolder_root+"/rattle/corrected.fq",
+                outfolder_root+"/rattle/uncorrected.fq",
+                outfolder_root+"/rattle/consensi.fq"
+
+        run:
+        	rattle_out_folder=outfolder_root+"/rattle/"
+             	shell("{rattle_location}/rattle correct -i {input.fastq} -c {input.clusters} -o {rattle_out_folder} -t 20  ")
+
+##Polish the reads (RATTLE pipe)
+rule rattle_polish:
+        input:
+                outfolder_root+"/rattle/consensi.fq"
+        output:
+                outfolder_root+"/rattle/transcriptome.fq"
+        run:
+        	rattle_out_folder=outfolder_root+"/rattle/"
+             	shell("{rattle_location}/rattle polish -i {input} -o {rattle_out_folder} -t 20 ")
+
+##Align the RATTLE consensus vs the reference (RATTLE evaluation)
+rule align_rattle_reference_minimap2:
+    input: corrected_reads = outfolder_root+"/rattle/transcriptome.fq"
+    output: rattle_aligned=outfolder_root + "/results/rattle_ref.sam"
+    run:
+            ref = config["drosophila97"]
+            shell("/usr/bin/time -v  minimap2 --eqx -t 20 -ax splice -uf -k13 -w4 {ref} {input.corrected_reads} >  {output} ")
+
+##Evaluate the RATTLE results
+rule evaluate_rattle:
+    input: original_reads = outfolder_root+"/stringtie/stringtie_transcripts.fasta",
+            corrected_reads = outfolder_root+"/rattle/transcriptome.fq",
+            original_reads_aligned =  rules.align_stringtie_reads_minimap2.output.stringtie_aligned,
+            corrected_reads_aligned =  rules.align_rattle_reference_minimap2.output.rattle_aligned,
+            gtf_annotation = config["ANNOTATION"] # drosophila v97 gtf annotation
+    output: csv_file =  config["ROOT_OUT"] + "/evaluation_biological/RATTLE/{nr_reads}/results_per_read.csv"
+    run:
+        ref =  config["drosophila97"]
+#        #eval_dir = config["ROOT_IN"] + "/scripts/"
+        outfolder = config["ROOT_OUT"] + "/evaluation_biological/RATTLE/{0}/".format(wildcards.nr_reads)
+        mkdir_p(outfolder)
+        shell("/usr/bin/time -v python evaluate_real_reads_to_genome.py  {input.original_reads_aligned}  {input.corrected_reads_aligned} {input.original_reads}  \
+                                                        {input.corrected_reads} {ref} {input.gtf_annotation} {outfolder}")
+
+
+###############################################################################################################################
+#                                                     ISONFORM ANALYSIS                                                       #
+###############################################################################################################################
+
+
+##Run the isONpipeline
+rule run_isONpipeline:
+	input: fastq = outfolder_root+'/data/full_length_output.fastq'
+	output: reads=outfolder_root+'/isONform/outfolder/transcriptome.fq', map=outfolder_root+'/isONform/transcriptome_mapping.txt'
+	run:
+	    output_dir=outfolder_root+'/isONform/outfolder'
+	    shell('/usr/bin/time -v ./pipeline_no_pychop.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance}')
+
+##Align the isONform consensus vs the reference  (isONform evaluation)
+rule align_isONform_reference_minimap2:
+    input: corrected_reads = outfolder_root+"/rattle/transcriptome.fq"
+    output: isONform_aligned=outfolder_root + "/results/isONform_ref.sam"
+    run:
+            ref = config["drosophila97"]
+            shell("/usr/bin/time -v  minimap2 --eqx -t 20 -ax splice -uf -k13 -w4 {ref} {input.corrected_reads} >  {output} ")
+
+##Evaluate the isONform results
+rule evaluate_isONform:
+    input: original_reads = outfolder_root+"/stringtie/stringtie_transcripts.fasta",
+            corrected_reads = outfolder_root+'/isONform/outfolder/transcriptome.fq',
+            original_reads_aligned =  rules.align_stringtie_reads_minimap2.output.stringtie_aligned,
+            corrected_reads_aligned =  rules.align_isONform_reference_minimap2.output.isONform_aligned,
+            gtf_annotation = config["ANNOTATION"] # drosophila v97 gtf annotation
+    output: csv_file =  config["ROOT_OUT"] + "/evaluation_biological/isONform/{nr_reads}/results_per_read.csv"
+    run:
+        ref =  config["drosophila97"]
+#        #eval_dir = config["ROOT_IN"] + "/scripts/"
+        outfolder = config["ROOT_OUT"] + "/evaluation_biological/isONform/{0}/".format(wildcards.nr_reads)
+        mkdir_p(outfolder)
+        shell("/usr/bin/time -v python evaluate_real_reads_to_genome.py  {input.original_reads_aligned}  {input.corrected_reads_aligned} {input.original_reads}  \
+                                                        {input.corrected_reads} {ref} {input.gtf_annotation} {outfolder}")
+
