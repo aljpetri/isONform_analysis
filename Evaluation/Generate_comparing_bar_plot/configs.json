@@ -1,12 +1,11 @@
 {
     "DATASETS" : ["SIRV"],
     "RATTLE_SCRIPT_FOLDER" : "~/RATTLE/",
-    "RATTLE_OUT_FOLDER" :"/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/Rattle/",
-    "ISONFORM_OUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/IsONform/isoforms/",
-    "MINIMAP_OUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/Minimap/",
-    "SOURCE_FOLDER" : "/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/",
-    "SCRIPT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Evaluation/Generate_comparing_bar_plot/",
+    "RATTLE_OUT_FOLDER" :"/home/alexanderpetri/isONform_analysis/Analysis/SIRV_Comparing_Picture/run_for_ISMB23_2/Rattle/",
+    "ISONFORM_OUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/SIRV_Comparing_Picture/run_for_ISMB23_2/isoforms",
+    "MINIMAP_OUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/SIRV_Comparing_Picture/run_for_ISMB23_2/Minimap/",
+    "SCRIPT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Evaluation/SIRV_Comparing_Picture/",
     "REFERENCE_FOLDER": "/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/",
-    "OUTPUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/isoform_pic/",
+    "OUTPUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/SIRV_Comparing_Picture/run_for_ISMB23_2/isoform_pic/",
     "ISONFORM_LOCATION" :"/home/alexanderpetri/PHDProject1/"
 }
