@@ -1,12 +1,12 @@
 {
 "SCRIPT_FOLDER": "/home/alexanderpetri/PHDProject1/",
 "IN_SEQUENCE" : "/home/alexanderpetri/Desktop/RAWDATA_PhD1/AccessionPRJEB34849-SIRV/",
-"SEQ_DIR": "/home/alexanderpetri/isONform_analysis/Analysis/Simulations/new_isoform_gen",
-"RATTLE_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/Analysis/Simulations/new_isoform_gen/Rattle/",
-"ISONFORM_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/Analysis/Simulations/new_isoform_gen/isONform/",
-"OUTPUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/Simulations/new_isoform_gen/results/",
+"SEQ_DIR": "/home/alexanderpetri/isONform_analysis/Analysis/Simulations/Parasail_mismatch_2",
+"RATTLE_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/Analysis/Simulations/Parasail_mismatch_2/Rattle/",
+"ISONFORM_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/Analysis/Simulations/Parasail_mismatch_2/isONform/",
+"OUTPUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/Analysis/Simulations/Parasail_mismatch_2/results/",
 "RATTLE_DIR" : "/home/alexanderpetri/RATTLE/",
 "MAX_ISO_NR" : 15,
-"RUNS": 5,
+"RUNS": 20,
 "ISO_ABUNDANCE": 2 
 }

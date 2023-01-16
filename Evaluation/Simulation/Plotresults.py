@@ -2,7 +2,9 @@ import argparse
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-
+import seaborn as sns
+import pandas as pd
+from matplotlib import pyplot
 def read_analysis(isonform_name):
     support_dict={}
     #print("RATTLE_OUTPUT",isonform_name)
@@ -49,7 +51,80 @@ def read_analysis(isonform_name):
             isonform_dict.update(up_dict)
     #print("ISONFORM DICTUS",isonform_dict)
     return isonform_dict,fp,tp
+def plot_with_seaborn_precision(ticks,outfolder):
+    #sns.set_theme()
+    sns.set_style("whitegrid")
+    palette = {
+        'isONform': 'tab:red',
+        'RATTLE': 'tab:green',
+        # "strobealign_mixed" : 'magenta'
+    }
+    plt.rcParams.update({'font.size': 18})
+    sns.set(font_scale=1.6)
+    sns.set_style("whitegrid")
+    precision_path = os.path.join(args.outfolder,"precision.csv")
+    recall_path = os.path.join(args.outfolder, "recall.csv")
+    print(precision_path)
+    #print(recall_path)
+    prec_data = pd.read_csv(precision_path,sep=",")
+    #recall_data=pd.read_csv(recall_path)
+    print(prec_data)
+    #print(recall_data)
 
+    g = sns.violinplot(data=prec_data, x="nr_isos", y="precision", hue="tool", style="type",
+                    #kind="line",  # dashes = dashes,
+                    col="dataset"#, hue_order=tool,  # hue="datastructure", style="datastructure",
+                    # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
+                    #col_order=["SIM3"], palette=palette)
+                       )
+    #g.fig.suptitle('Precision')
+    # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
+    # axes = g.axes
+    g.set(ylim=(0,1.1), xlim=(0-0.5,len(ticks)),xlabel='Number of isoforms', ylabel='Precision')
+    g.set_title("Precision SIM")
+    #g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
+    #g.tight_layout()
+    # g.set(ylim=(95, 100))
+    # ax.set_xticks([18,24,30,36])
+    plt.legend(title='Method')
+    plt.gcf().subplots_adjust(bottom=0.15,left=0.20)
+    plt.savefig(os.path.join(outfolder, "precision_SIM.pdf"))
+    plt.close()
+
+def plot_with_seaborn_recall(ticks, outfolder):
+        sns.set_style("whitegrid")
+        plt.rcParams.update({'font.size': 18})
+        sns.set(font_scale=1.6)
+        sns.set_style("whitegrid")
+        precision_path = os.path.join(args.outfolder, "precision.csv")
+        recall_path = os.path.join(args.outfolder, "recall.csv")
+        #print(precision_path)
+        print(recall_path)
+        #prec_data = pd.read_csv(precision_path, sep=",")
+        recall_data = pd.read_csv(recall_path)
+        #print(prec_data)
+        print(recall_data)
+
+        g = sns.violinplot(data=recall_data, x="nr_isos", y="recall", hue="tool", style="type",
+                           # kind="line",  # dashes = dashes,
+                           col="dataset"  # , hue_order=tool,  # hue="datastructure", style="datastructure",
+                           # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
+                           # col_order=["SIM3"], palette=palette)
+                           )
+        # g.fig.suptitle('Precision')
+        # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
+        # axes = g.axes
+        g.set_title("Recall SIM")
+        g.set(ylim=(0, 1.1), xlim=(0-0.6, len(ticks)),xlabel='Number of isoforms', ylabel='Recall')
+
+        # g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
+        # g.tight_layout()
+        # g.set(ylim=(95, 100))
+        # ax.set_xticks([18,24,30,36])
+        plt.legend(title='Method')
+        plt.gcf().subplots_adjust(bottom=0.15,left=0.20)
+        plt.savefig(os.path.join(outfolder, "recall_SIM.pdf"))
+        plt.close()
 def plot_results(id_list,original_list,rattle_list,isonform_list,gene_id,outfolder):
     # set width of bar
     barWidth = 0.25
@@ -141,12 +216,12 @@ def main(args):
     if not isExist:
         # Create a new directory because it does not exist
         os.makedirs(args.outfolder)
-    rattle_path = os.path.join(args.outfolder, "rattle.csv")
-    rattle_file = open(rattle_path, "w")
-    print("RATTLEPATHS",rattle_path)
-    ison_path = os.path.join(args.outfolder, "isONform.csv")
-    ison_file = open(ison_path, "w")
-    print("SIONPATHS", ison_path)
+    recall_path = os.path.join(args.outfolder, "recall.csv")
+    recall_file = open(recall_path, "w")
+    # print("RATTLEPATHS",rattle_path)
+    precision_path = os.path.join(args.outfolder, "precision.csv")
+    precision_file = open(precision_path, "w")
+    #print("SIONPATHS", ison_path)
     max_iso_nr=args.max_isoforms-1
     #we save the precision and recall values for isONform an Rattle in lists
     ison_precision_list=[None] * max_iso_nr
@@ -155,7 +230,8 @@ def main(args):
     rattle_recall_list=[None] * max_iso_nr
     print("IN",args.indir)
     print("OUT",args.outfolder)
-
+    precision_file.write("id,nr_isos,tool,precision\n")
+    recall_file.write("id,nr_isos,tool,recall\n")
 
     for analysisfile in os.listdir(args.indir):
         if analysisfile.startswith("results_ison_"):
@@ -174,9 +250,9 @@ def main(args):
             print("Precision", precision)
             print("Position", nr_isos - 2)
             print("Recall",recall)
-            ison_file.write(">precision {0}:{1}\n".format(id, precision))
+            precision_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "isONform", precision))
             # rattle_file.write("precision\n")
-            ison_file.write(">recall {0}: {1}\n".format(id, recall))
+            recall_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "isONform", recall))
 
             #print(ison_precision_list)
             if ison_precision_list[nr_isos-2]:
@@ -220,9 +296,8 @@ def main(args):
             print("Precision", precision)
             print("Position", nr_isos - 2)
             print("Recall", recall)
-            rattle_file.write(">precision {0}:{1}\n".format(id, recall))
-            #rattle_file.write("precision\n")
-            rattle_file.write(">recall {0}: {1}\n".format(id, precision))
+            precision_file.write("{0}, {1}, {2}, {3}\n".format(id, nr_isos, "RATTLE", precision))
+            recall_file.write("{0}, {1}, {2}, {3}\n".format(id, nr_isos, "RATTLE", recall))
 
             #print("rattle_precision_list",rattle_precision_list)
             if rattle_precision_list[nr_isos-2]:
@@ -261,12 +336,14 @@ def main(args):
     ax.boxplot(ison_precision_dict.values())
     ax.set_xticklabels(ison_precision_dict.keys())
 """
-    print(ison_precision_list)
-    print(rattle_precision_list)
+    precision_file.close()
+    recall_file.close()
     #write_to_csv(ison_precision_list,ison_recall_list,args.outfolder,id)
     ticks = ['2', '3', '4','5','6','7','8','9','10','11','12','13','14','15']
-    plot_data("Precision", ison_precision_list, rattle_precision_list, ticks,args.outfolder)
-    plot_data("Recall", ison_recall_list, rattle_recall_list, ticks,args.outfolder)
+    plot_with_seaborn_precision(ticks, args.outfolder)
+    plot_with_seaborn_recall(ticks, args.outfolder)
+    #plot_data("Precision", ison_precision_list, rattle_precision_list, ticks,args.outfolder)
+    #plot_data("Recall", ison_recall_list, rattle_recall_list, ticks,args.outfolder)
     #print(original_key_list)
     #print(csv_obj)
     #SIRV_dict=record_lines(csv_obj)

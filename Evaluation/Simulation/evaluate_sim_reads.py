@@ -427,7 +427,6 @@ def get_best_match(corrected_reads, reference_transcripts, outfile, params):
             corrected_read_abundances[r_acc] += 1
 
             # print(q_acc, q_acc.split("_")[-1], r_acc_max_id)
-
             error_rate_container[q_acc] = (best_ed / float(len(reference_transcripts[r_acc_max_id])))
             error_types_container[q_acc] = (best_mismatches, best_insertions, best_deletions)
             not_FN.add(r_acc_max_id)

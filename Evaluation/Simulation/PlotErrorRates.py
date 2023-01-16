@@ -2,7 +2,8 @@ import argparse
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-
+import seaborn as sns
+import pandas as pd
 def Average(lst):
     sum=0
     for ele in lst:
@@ -32,7 +33,85 @@ def read_analysis(isonform_name):
     # print("ISONFORM DICTUS",isonform_dict)
     return nr_errors,average_error_rate
 
+def plot_with_seaborn_error_rate(ticks,outfolder):
+    #sns.set_theme()
+    sns.set_style("whitegrid")
+    palette = {
+        'isONform': 'tab:red',
+        'RATTLE': 'tab:green',
+        # "strobealign_mixed" : 'magenta'
+    }
+    plt.rcParams.update({'font.size': 18})
+    sns.set(font_scale=1.6)
+    sns.set_style("whitegrid")
+    precision_path = os.path.join(args.outfolder,"average_error_rate.csv")
+    #recall_path = os.path.join(args.outfolder, "recall.csv")
+    print(precision_path)
+    #print(recall_path)
+    prec_data = pd.read_csv(precision_path,sep=",")
+    #recall_data=pd.read_csv(recall_path)
+    print(prec_data)
+    #print(recall_data)
 
+    g = sns.violinplot(data=prec_data, x="nr_isos", y="error_rates", hue="tool", style="type",
+                    #kind="line",  # dashes = dashes,
+                    col="dataset"#, hue_order=tool,  # hue="datastructure", style="datastructure",
+                    # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
+                    #col_order=["SIM3"], palette=palette)
+                       )#.set(title="Error Rate for Simulated data")
+    #g.fig.suptitle('Precision')
+    # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
+    # axes = g.axes
+    g.set_title("Average error rate SIM")
+    maximum = max(prec_data.loc[:, "error_rates"])
+    print("MAXI", maximum)
+    g.set(ylim=(0, maximum + 1), xlim=(0-0.5, len(ticks)),xlabel='Number of isoforms', ylabel='Average error rate (%)')
+    #g.set_xlabels("Method")
+    #g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
+    #g.tight_layout()
+    # g.set(ylim=(95, 100))
+    # ax.set_xticks([18,24,30,36])
+
+    plt.gcf().subplots_adjust(bottom=0.15,left=0.20)
+    plt.legend(title='Method')
+    plt.savefig(os.path.join(outfolder, "Avg_Error_rate_SIM.pdf"))
+    plt.close()
+
+def plot_with_seaborn_tot_errors(ticks, outfolder):
+        sns.set_style("whitegrid")
+        plt.rcParams.update({'font.size': 18})
+        sns.set(font_scale=1.6)
+        sns.set_style("whitegrid")
+        #precision_path = os.path.join(args.outfolder, "precision.csv")
+        recall_path = os.path.join(args.outfolder, "total_errors.csv")
+        #print(precision_path)
+        print(recall_path)
+        #prec_data = pd.read_csv(precision_path, sep=",")
+        recall_data = pd.read_csv(recall_path)
+        #print(prec_data)
+        print(recall_data)
+
+        g = sns.violinplot(data=recall_data, x="nr_isos", y="total_errors", hue="tool", style="type",
+                           # kind="line",  # dashes = dashes,
+                           col="dataset"  # , hue_order=tool,  # hue="datastructure", style="datastructure",
+                           # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
+                           # col_order=["SIM3"], palette=palette)
+                           )
+        # g.fig.suptitle('Precision')
+        # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
+        # axes = g.axes
+        maximum = max(recall_data.loc[:, "total_errors"])
+        print("MAXI", maximum)
+        g.set(ylim=(0, maximum + 1), xlim=(0, len(ticks)))
+
+        # g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
+        # g.tight_layout()
+        # g.set(ylim=(95, 100))
+        # ax.set_xticks([18,24,30,36])
+
+        plt.gcf().subplots_adjust(bottom=0.15,left=0.15)
+        plt.savefig(os.path.join(outfolder, "Total_Errors_SIM.pdf"))
+        plt.close()
 def plot_results(id_list, original_list, rattle_list, isonform_list, gene_id, outfolder):
     # set width of bar
     barWidth = 0.25
@@ -137,12 +216,14 @@ def main(args):
     if not isExist:
         # Create a new directory because it does not exist
         os.makedirs(args.outfolder)
-    rattle_path = os.path.join(args.outfolder, "rattle_errors.csv")
-    rattle_file = open(rattle_path, "w")
-    print("RATTLEPATHS", rattle_path)
-    ison_path = os.path.join(args.outfolder, "isONform_errors.csv")
-    ison_file = open(ison_path, "w")
-    print("SIONPATHS", ison_path)
+    avg_error_rate_path = os.path.join(args.outfolder, "average_error_rate.csv")
+    avg_error_rate_file = open(avg_error_rate_path, "w")
+    print("RATTLEPATHS", avg_error_rate_path)
+    total_errors_path = os.path.join(args.outfolder, "total_errors.csv")
+    total_errors_file = open(total_errors_path, "w")
+    print("SIONPATHS", total_errors_path)
+    total_errors_file.write("id,nr_isos,tool,total_errors\n")
+    avg_error_rate_file.write("id,nr_isos,tool,error_rates\n")
     max_iso_nr = args.max_isoforms - 1
     # we save the precision and recall values for isONform an Rattle in lists
     ison_avg_errors_list = [None] * max_iso_nr
@@ -162,9 +243,9 @@ def main(args):
             nr_isos = int(filename.split("_")[2])
             run_id = int(filename.split("_")[3])
             id = str(nr_isos) + "_" + str(run_id)
-            ison_file.write(">Average_Errors {0}:{1}\n".format(id, avg_nr_errors))
+            total_errors_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "isONform", avg_nr_errors))
             # rattle_file.write("precision\n")
-            ison_file.write(">Average_error_rate {0}: {1}\n".format(id, avg_error_rate))
+            avg_error_rate_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "isONform", avg_error_rate))
             print(avg_error_rate)
             # print(ison_precision_list)
             if ison_avg_errors_list[nr_isos - 2]:
@@ -203,9 +284,8 @@ def main(args):
             id = str(nr_isos) + "_" + str(run_id)
             # print(nr_isos)
             # print(run_id)
-            rattle_file.write(">Total_Errors {0}:{1}\n".format(id, avg_nr_errors))
-            # rattle_file.write("precision\n")
-            rattle_file.write(">Average_error_rate {0}: {1}\n".format(id, avg_error_rate))
+            total_errors_file.write("{0}, {1}, {2}, {3}\n".format(id, nr_isos, "RATTLE", avg_nr_errors))
+            avg_error_rate_file.write("{0}, {1}, {2}, {3}\n".format(id, nr_isos, "RATTLE", avg_error_rate))
 
             # print("rattle_precision_list",rattle_precision_list)
             if rattle_avg_errors_list[nr_isos - 2]:
@@ -244,17 +324,18 @@ def main(args):
     ax.boxplot(ison_precision_dict.values())
     ax.set_xticklabels(ison_precision_dict.keys())
 """
-    print(ison_avg_errors_list)
-    print(rattle_avg_errors_list)
-    print(ison_avg_error_rate)
-    print(rattle_avg_error_rate)
 
 
+    total_errors_file.close()
+    avg_error_rate_file.close()
     # write_to_csv(ison_precision_list,ison_recall_list,args.outfolder,id)
     ticks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
     #plot_data("AverageErrorRate", ison_avg_error_rate, rattle_avg_error_rate, ticks, args.outfolder)
-    plot_data("TotalNrErrors", ison_avg_errors_list, rattle_avg_errors_list, ticks, args.outfolder)
-    plot_data("AverageErrorRate",ison_avg_error_rate,rattle_avg_error_rate,ticks,args.outfolder)
+    plot_with_seaborn_tot_errors(ticks, args.outfolder)
+    plot_with_seaborn_error_rate(ticks, args.outfolder)
+
+    #plot_data("TotalNrErrors", ison_avg_errors_list, rattle_avg_errors_list, ticks, args.outfolder)
+    #plot_data("AverageErrorRate",ison_avg_error_rate,rattle_avg_error_rate,ticks,args.outfolder)
     # print(original_key_list)
     # print(csv_obj)
     # SIRV_dict=record_lines(csv_obj)

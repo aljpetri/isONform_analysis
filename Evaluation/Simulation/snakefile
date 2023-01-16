@@ -43,7 +43,7 @@ rule all:
 	#input: expand(outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
 	#input: expand(outfolder+"/alignments/results_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
 	#input: expand(outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	input: expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS,run_id=RUN_ID), outfolder+"/graphs/Precision.png"
+	input: expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS,run_id=RUN_ID), outfolder+"/graphs/precision.png"
 	
 	
 rule gen_sim_data:
@@ -84,16 +84,16 @@ rule run_rattle:
 rule align_for_best_match:
 	input: ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa',corr=outfolder+"/isONcorrform/cl_spoa_{nr_isoforms}_{run_id}.fastq"
 	output: ison_flag= outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv"
-	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output}"
+	shell:"python evaluate_sim_reads.py {input.corr} {input.ref} {output}"
 	
 rule align_rattle_for_best_match:
 	input: ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa', corr=outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq" #outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta",ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa'
 	output: rattle_flag=outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv"
-	shell:"python evaluate_simulated_reads.py {input.corr} {input.ref} {output}"
+	shell:"python evaluate_sim_reads.py {input.corr} {input.ref} {output}"
 	
 rule plot_results: 
 	input: expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID), expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	output: outfolder+"/graphs/Precision.png"
+	output: outfolder+"/graphs/precision.png",outfolder+"/graphs/Total_Errors.png"
 	run:
 		shell(" python Plotresults.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {MAX_ISO_NR}")
 		shell(" python PlotErrorRates.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {MAX_ISO_NR}")

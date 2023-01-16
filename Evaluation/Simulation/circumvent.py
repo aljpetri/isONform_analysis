@@ -15,6 +15,9 @@ def main(args):
         #if analysisfile.startswith("results_ison_"):
             #merge the full filepath 
             this_file=os.path.join(outdir,filename)
+            thisname=filename.split(".")[0]
+            this_id=thisname.split("_")[2:]
+
             id_dict={}
             form_error=0
             clust_error=0
@@ -39,7 +42,7 @@ def main(args):
             r_out.close()
             overall_form+=form_error
             overall_clust+=clust_error
-            outfile_handle.write("Form: {0}, Clust: {1},{2}\n".format(form_error, clust_error, id_dict))
+            outfile_handle.write("{0}: Form: {1}, Clust: {2},{3}\n".format(this_id,form_error, clust_error, id_dict))
     outfile_handle.write("OverallForm: {0}, OverallClust: {1}\n".format(overall_form, overall_clust))
             			
 
