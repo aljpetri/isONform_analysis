@@ -93,7 +93,7 @@ rule align_rattle_for_best_match:
 	
 rule plot_results: 
 	input: expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID), expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	output: outfolder+"/graphs/precision.png",outfolder+"/graphs/Total_Errors.png"
+	output: outfolder+"/graphs/precision_SIM.pdf"
 	run:
 		shell(" python Plotresults.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {MAX_ISO_NR}")
 		shell(" python PlotErrorRates.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {MAX_ISO_NR}")
