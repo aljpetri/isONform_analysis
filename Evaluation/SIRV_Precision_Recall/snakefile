@@ -1,121 +1,101 @@
-#this snakemake pipeline is used to analyse the performance of isONform,
-#especially on bigger datasets (>1k reads)
-#This is done by aligning all isoforms to the reference as well as aligning all original reads to the reference. We than can compare the counts of isoforms by comparing nr_occs and 
-
 #Runnable the script by using the following: snakemake --cores 1 --configfile configs.json
-#to change the isoform abundance: Change isONform call in full_pipeline.sh (this is located in the isONform folder itself)
+import re
+import os
+import errno
+import shutil
+import glob
+
+#This script is used to generate a plot indicating the precision and recall comparing rattle and the isONpipeline.
+#
 #The following variables represent the paths to the files required to run this pipeline
 
 ###File_location: Gives the location of the files that we want to analyse:
 #file_location="/home/alexanderpetri/isONform_analysis/100kSIRV/0againer/"
-file_location=config["REFERENCE_FOLDER"]
+file_location=config["IN_SEQUENCE"]
 
-###Script_input_folder: Equal to the folder the snakefile is located in. Should also contain all scripts needed for our analysis:
-#script_input_folder="/home/alexanderpetri/isONform_analysis/Evaluation/Evaluate_SIRV/"
-script_input_folder=config["SCRIPT_FOLDER"]
+###Script_folder: Equal to the folder the snakefile is located in. Should also contain all scripts needed for our analysis:
+script_folder=config["SCRIPT_FOLDER"]
 
 ### Output_folder: The folder in which all intermediate datasets as well as all real outputs are stored:
-#output_folder="/home/alexanderpetri/isONform_analysis/Analysis/SIRVtest/"
-output_folder=config["OUTPUT_FOLDER"]
 
+isoform_location=config["SEQ_DIR"]+"isoforms/"
+outfolder = config["SEQ_DIR"]
 ###ref_folder: Path to the reference which we use to analyse the data
-#ref_folder="/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/"
 ref_folder=config["REFERENCE_FOLDER"]
+sequence_dir = config["SEQ_DIR"]
 
-minimap_out_folder=config["MINIMAP_OUT_FOLDER"]
-
-IDS, = glob_wildcards(file_location+'spoa{id}merged.fa')
-#python get_error_rates_original.py SIRVTranscriptome.fasta 100kvsOriginal.sam analyse_100k_reads.csv
-#python count_SIRV_id_occurrences.py analyse_100k_reads.csv out.csv
-isonform_location=config["ISONFORM_LOCATION"]
-snakemake_out_folder=config["RATTLE_OUT_FOLDER"]
-rattle_location=config["RATTLE_SCRIPT_FOLDER"]
-isonform_outfolder=config["ISONFORM_OUT_FOLDER"]
+max_iso_nr=config["MAX_ISO_NR"]
+n_runs=config["RUNS"]
+RUN_ID=[str(x) for x in range(1,config["RUNS"] + 1)]
+NR_ISOFORMS = [str(x) for x in [5,10,15,20,25,30,35,40,45,50]]
+#NR_ISOFORMS= [str(x) for x in range(2,15)]
+rattle_dir=config["RATTLE_DIR"]
+isExist = os.path.exists(outfolder)
+if not isExist:
+    # Create a new directory because it does not exist
+    os.makedirs(outfolder) 
+          
 rule all:
-	input: minimap_out_folder+'SIRV_occ_counts.csv', snakemake_out_folder+'rattle_counts.csv',output_folder+'dummy.txt', isonform_outfolder+'/isONformAnalysis.csv'
-		#snakemake_out_folder+"clusters.out"
-#The following rules are used to get a minimap based isoform count of our inputfile
+    input: outfolder+"/graphs/precision_SIRV.pdf"
+#input: #expand(outfolder+'/isONcorrform/alignments/alignment_{nr_isoforms}_{run_id}.sam', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
+#input: expand(sequence_dir+'/reads/reads_{nr_isoforms}_{run_id}.fastq', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
+#input:  outfolder+"/graphs/Precision.png", expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS,run_id=RUN_ID)
+
 rule pychop:
 	input: file_location+'100k_sample.fastq'
 	output: file_location+'full_length_output.fastq'
 	shell: 'pychopper {input} {output}'
-	
+#align the original set of reads to the reference transcriptome
 rule minimap_alignment:
 	input: ref=ref_folder+'non_redundant_SIRVTranscriptome.fasta', reads=file_location+'full_length_output.fastq'
-	output: minimap_out_folder+'100kvsOriginal.sam'
+	output: outfolder+'/minimap/100kvsOriginal.sam'
 	shell: 'minimap2 -ax map-ont --eqx {input.ref} {input.reads} > {output}'
-
-rule minimap_alignment_parse:
-	input: ref_folder+'non_redundant_SIRVTranscriptome.fasta', minimap_out_folder+'100kvsOriginal.sam'
-	output: minimap_out_folder+'analyse_100k_reads.csv'
-	shell:'python get_error_rates_original.py {input} {output}'
-
-rule count_SIRV_occs:
-	input: minimap_out_folder+'analyse_100k_reads.csv'
-	output: minimap_out_folder+'SIRV_occ_counts.csv'
-	shell: 'python count_SIRV_id_occurrences.py {input} {output}'
-	
-	
-rule rattle_cluster:
-        input:
-                 file_location+'full_length_output.fastq'
-        output:
-                snakemake_out_folder+"clusters.out"
-        shell:
-                 "{rattle_location}rattle cluster -i {input} -t 24 -o {snakemake_out_folder} "
-
-rule rattle_correct:
-        input:
-                clusters= snakemake_out_folder+"clusters.out", 		 fastq=file_location+'full_length_output.fastq'
-        output:
-                snakemake_out_folder+"corrected.fq",
-                snakemake_out_folder+"uncorrected.fq",
-                snakemake_out_folder+"consensi.fq"
-
-        shell:
-                 "{rattle_location}/rattle correct -i {input.fastq} -c {input.clusters} -o {snakemake_out_folder} -t 24  "
-
-rule rattle_polish:
-        input:
-                snakemake_out_folder+"consensi.fq"
-        output:
-                snakemake_out_folder+"transcriptome.fq"
-        shell:
-                 "{rattle_location}/rattle polish -i {input} -o {snakemake_out_folder} -t24 "
-      
-rule align_rattle:
-	input: ref_folder+'non_redundant_SIRVTranscriptome.fasta',snakemake_out_folder+'transcriptome.fq'
-	output: snakemake_out_folder+'Orig_vs_Rattle.sam'
-	shell: 'minimap2 -k 7 -w 1 -ax map-ont {input} > {output}'  
-	
-rule count_rattle_occs:
-	input: ref_folder+'non_redundant_SIRVTranscriptome.fasta',snakemake_out_folder+'Orig_vs_Rattle.sam'
-	output: snakemake_out_folder+'rattle_counts.csv'
-	shell: 'python get_error_rates_original.py {input} {output}' 
-	   
-rule generate_plots:
-	input:    minimap_out_folder+'SIRV_occ_counts.csv', snakemake_out_folder+'rattle_counts.csv', snakemake_out_folder+"transcriptome.fq",isonform_outfolder+'/isONformAnalysis.csv'
-	output:  output_folder+'dummy.txt'
-	run: 
-	    outfolder=output_folder
-	    shell('python Plotresults_SIRV_Bar.py {input} {outfolder}')
-#TODO: change isONform output, finish this rule and add output parsing rule, change generateplots rule
-
-rule run_isONpipeline:
-	input: file_location+'100k_sample.fastq'
-	output: reads=isonform_outfolder+'/isoforms/transcriptome.fastq', map=isonform_outfolder+'/isoforms/transcriptome_mapping.txt'
+#subsample reads so that we get a controlled number of isoforms by using the generated sam file	
+rule subsample_reads:
+	input: align=outfolder+'/minimap/100kvsOriginal.sam', seqs=file_location+'full_length_output.fastq', fold=sequence_dir, ref=ref_folder+'non_redundant_SIRVTranscriptome.fasta'
+	output: outflag=expand(sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),otheroutfl=expand(sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
 	run:
-		outfolder=isonform_outfolder 
-		shell('{isonform_location}pipeline_no_pychop.sh {input} {outfolder} 8 {isonform_location} 5')
+	 	nr_runs=str(n_runs)
+		shell("./Generate_SIRV_subsamples.sh 15 {nr_runs} {input.seqs} {input.fold} {input.align} {input.ref}")	
+rule split_accessions_orig:
+    input: fastq = sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
+    output: original_reads_split_accessions =  sequence_dir+"/splitreads/split_{nr_isoforms}_{run_id}.fastq"
+
+    run:
+        #eval_dir = config["ROOT_IN"] + "/scripts/"
+        shell("python split_accessions.py {input} {output.original_reads_split_accessions}")
+rule run_ison_pipe_single:
+    input: sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
+    output: outfolder+"/isONform/cl_spoa_{nr_isoforms}_{run_id}.fastq"
+    run:
+    	time = config["GNUTIME"]
+    	iso_abundance=config["ISO_ABUNDANCE"]
+    	shell('{time} ./RunIsonpipeline_Single.sh  {sequence_dir} {script_folder} {input} {iso_abundance}')
+#run Rattle 
+rule run_rattle:
+	input: outflag=expand(sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID) #sequence_dir+"/reads/reads_{isoform_nr}_{run_id}.fastq"
+	output: flag3=expand(outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
+	run:
+	    time = config["GNUTIME"]
+	    shell("{time} ./RunRattle.sh {sequence_dir} {rattle_dir}")
+
+#align the results to the input file better to align vs transcriptome?	
+rule align_for_best_match:
+	#input: ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",corr=outfolder+"/isONcorrform/cl_result_{nr_isoforms}_{run_id}.fasta"
+	input:corr=outfolder+"/isONform/cl_spoa_{nr_isoforms}_{run_id}.fastq",ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",#ref=ref_folder+'SIRVTranscriptome.fasta' #
+	output: ison_flag= outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv"#, notneeded=outfolder+"/alignments/error_ison_{nr_isoforms}_{run_id}.csv"
+	shell:"python evaluate_sim_reads.py {input.corr} {input.ref} {output.ison_flag}"
 	
-rule align_isONform:
-	input: ref_folder+'non_redundant_SIRVTranscriptome.fasta',isonform_outfolder+'/isoforms/transcriptome.fastq'
-	output: isonform_outfolder+'/isONform_alignment.sam'
-	shell: 'minimap2 -ax map-ont -k 7 -w 1 {input} > {output}'
+rule align_rattle_for_best_match:
+	input:  corr=outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fastq", ref=sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta"#outfolder+"/Rattle/rattle_res_{nr_isoforms}_{run_id}.fasta",ref=outfolder+'/isoforms/isoforms_{nr_isoforms}_{run_id}.fa',ref=ref_folder+'SIRVTranscriptome.fasta'#,
+	output: needed=outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv"#, notneeded=outfolder+"/alignments/error_rattle_{nr_isoforms}_{run_id}.csv"
+	shell:"python evaluate_sim_reads.py {input.corr} {input.ref} {output.needed}"
 	
-rule get_isonform_error_rates:
-	input:	db = ref_folder+'non_redundant_SIRVTranscriptome.fasta',map = isonform_outfolder+'/isoforms/transcriptome_mapping.txt',align= isonform_outfolder+'/isONform_alignment.sam'
-	output: isonform_outfolder+'/isONformAnalysis.csv'
-      	shell: 'python {script_input_folder}get_error_rates.py {input.db} {input.map} {input.align} {output}'
- 	
+rule plot_results: 
+	input: expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID), expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
+	output: outfolder+"/graphs/precision_SIRV.pdf"
+	run:
+	    max_isos=config["MAX_ISO_NR"]
+	    shell(" python Plotresults.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {max_isos}")
+	    shell(" python PlotErrorRates.py --indir {outfolder}/alignments/ --outfolder {outfolder}/graphs --max_isoforms {max_isos}")
 
