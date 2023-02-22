@@ -41,29 +41,29 @@ rule all:
 #input: expand(sequence_dir+'/reads/reads_{nr_isoforms}_{run_id}.fastq', nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
 #input:  outfolder+"/graphs/Precision.png", expand(outfolder+"/alignments/results_rattle_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),expand(outfolder+"/alignments/results_ison_{nr_isoforms}_{run_id}.csv",nr_isoforms=NR_ISOFORMS,run_id=RUN_ID)
 
-rule pychop:
-	input: file_location+'100k_sample.fastq'
-	output: file_location+'full_length_output.fastq'
-	shell: 'pychopper {input} {output}'
+#rule pychop:
+#	input: file_location+'100k_sample.fastq'
+#	output: file_location+'full_length_output.fastq'
+#	shell: 'pychopper {input} {output}'
 #align the original set of reads to the reference transcriptome
-rule minimap_alignment:
-	input: ref=ref_folder+'non_redundant_SIRVTranscriptome.fasta', reads=file_location+'full_length_output.fastq'
-	output: outfolder+'/minimap/100kvsOriginal.sam'
-	shell: 'minimap2 -ax map-ont --eqx {input.ref} {input.reads} > {output}'
+#rule minimap_alignment:
+#	input: ref=ref_folder+'non_redundant_SIRVTranscriptome.fasta', reads=file_location+'full_length_output.fastq'
+#	output: outfolder+'/minimap/100kvsOriginal.sam'
+#	shell: 'minimap2 -ax map-ont --eqx {input.ref} {input.reads} > {output}'
 #subsample reads so that we get a controlled number of isoforms by using the generated sam file	
-rule subsample_reads:
-	input: align=outfolder+'/minimap/100kvsOriginal.sam', seqs=file_location+'full_length_output.fastq', fold=sequence_dir, ref=ref_folder+'non_redundant_SIRVTranscriptome.fasta'
-	output: outflag=expand(sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),otheroutfl=expand(sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
-	run:
-	 	nr_runs=str(n_runs)
-		shell("./Generate_SIRV_subsamples.sh 15 {nr_runs} {input.seqs} {input.fold} {input.align} {input.ref}")	
-rule split_accessions_orig:
-    input: fastq = sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
-    output: original_reads_split_accessions =  sequence_dir+"/splitreads/split_{nr_isoforms}_{run_id}.fastq"
-
-    run:
-        #eval_dir = config["ROOT_IN"] + "/scripts/"
-        shell("python split_accessions.py {input} {output.original_reads_split_accessions}")
+#rule subsample_reads:
+#	input: align=outfolder+'/minimap/100kvsOriginal.sam', seqs=file_location+'full_length_output.fastq', fold=sequence_dir, ref=ref_folder+'non_redundant_SIRVTranscriptome.fasta'
+#	output: outflag=expand(sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID),otheroutfl=expand(sequence_dir+"/references/reference_{nr_isoforms}_{run_id}.fasta",nr_isoforms=NR_ISOFORMS ,run_id=RUN_ID)
+#	run:
+#	 	nr_runs=str(n_runs)
+#		shell("./Generate_SIRV_subsamples.sh 15 {nr_runs} {input.seqs} {input.fold} {input.align} {input.ref}")	
+#rule split_accessions_orig:
+#    input: fastq = sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
+#    output: original_reads_split_accessions =  sequence_dir+"/splitreads/split_{nr_isoforms}_{run_id}.fastq"
+#
+#    run:
+#        #eval_dir = config["ROOT_IN"] + "/scripts/"
+#        shell("python split_accessions.py {input} {output.original_reads_split_accessions}")
 rule run_ison_pipe_single:
     input: sequence_dir+"/reads/reads_{nr_isoforms}_{run_id}.fastq"
     output: outfolder+"/isONform/cl_spoa_{nr_isoforms}_{run_id}.fastq"

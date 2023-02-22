@@ -25,7 +25,7 @@ mkdir -p $filedirectory
 mkdir -p $filedirectory/reads
 mkdir -p $filedirectory/isONform
 outputfile=$filedirectory/CorrectForm.tsv
-rm -rfv $filedirectory/isONpipe/*
+#rm -rfv $filedirectory/isONpipe/*
 echo $filedirectory
 #if results.tsv already exists 
 if [ -s $outputfile ]
@@ -73,7 +73,7 @@ num_cores=8
 		#run IsONform
 		#if e=True
 	echo $isonform_dir/main.py
-	$isonform_dir/pipeline_no_pychop.sh $actual_file $filedirectory/isONpipe/$number 8 $isonform_dir $iso_abundance
+	$isonform_dir/full_pipeline.sh $actual_file $filedirectory/isONpipe/$number 8 $isonform_dir $iso_abundance analysis
 	mv $filedirectory/isONpipe/$number/isoforms/transcriptome.fastq  $filedirectory/isONform/cl_spoa_$number.fastq
 	mv $filedirectory/isONpipe/$number/isoforms/transcriptome_support.txt $filedirectory/isONform/support_$number.txt
 	mv $filedirectory/isONpipe/$number/isoforms/transcriptome_mapping.txt $filedirectory/isONform/mapping_$number.txt
