@@ -120,7 +120,7 @@ rule ultra_mm2_align_st:
     run:
         ref =  config["REFERENCE"]
         outfolder = outfolder_root + "/uLTRA_st"
-         shell("/usr/bin/time -v uLTRA align {ref} {input.reads}  {outfolder} --min_mem 17 --min_acc 0.6 --t 19  2>&1 | tee {output.time_and_mem} ") # 2> {output.time_and_mem})
+        shell("/usr/bin/time -v uLTRA align {ref} {input.reads}  {outfolder} --min_mem 17 --min_acc 0.6 --t 19  2>&1 | tee {output.time_and_mem} ") # 2> {output.time_and_mem})
 
 
 ###############################################################################################################################
