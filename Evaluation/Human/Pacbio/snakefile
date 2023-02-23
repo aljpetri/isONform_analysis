@@ -195,7 +195,7 @@ rule evaluate_rattle:
     input: original_reads = outfolder_root+"/stringtie/stringtie_transcripts.fasta",
             corrected_reads = outfolder_root+"/rattle/transcriptome.fq",
             original_reads_aligned = outfolder_root + "/uLTRA_st/reads.sam",
-            corrected_reads_aligned =  outfolder_root + "/uLTRA_rattle/reads.sa$
+            corrected_reads_aligned =  outfolder_root + "/uLTRA_rattle/reads.sam"
             gtf_annotation = config["ANNOTATION"] # drosophila v97 gtf annotation
     output: csv_file =  config["ROOT_OUT"] + "/evaluation_biological/RATTLE/{nr_reads}/results_per_read.csv"
     run:
