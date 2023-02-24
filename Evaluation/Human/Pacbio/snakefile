@@ -11,9 +11,10 @@ outfolder_root=config["ROOT_OUT"]
 isonform_location=config["ISONFORM_LOCATION"]
 isoform_abundance=config["ISO_ABUNDANCE"]
 rattle_location=config["RATTLE_DIR"]
+orig_reads = config["READS"]
 shell.prefix("set -o pipefail; ")
-wildcard_constraints:
-    nr_reads="[\d]+",
+#wildcard_constraints:
+#    nr_reads="[\d]+",
 ####################################################
 ########## standard python functions ###############
 ####################################################
@@ -35,7 +36,8 @@ def mkdir_p(path):
             raise
 
 rule all:
-	input:outfolder_root+"/data/split_accs.fq",outfolder_root+'/data/full_length_output.fastq'  ,outfolder_root+"/stringtie/drosophila_aligned.sam",outfolder_root+"/stringtie/drosophila_aligned.sorted.bam",outfolder_root+"/stringtie/stringtie_res.gtf",outfolder_root+"/stringtie/stringtie_transcripts.fasta",outfolder_root + "/results/stringtie.sam",outfolder_root+"/rattle/transcriptome.fq"#,outfolder_root+'/isONform/outfolder/transcriptome.fq'
+	input:outfolder_root+"/stringtie/aligned.sam",outfolder_root+"/stringtie/aligned.sorted.bam",outfolder_root+"/stringtie/stringtie_res.gtf",outfolder_root+"/stringtie/stringtie_transcripts.fasta",outfolder_root+"/rattle/transcriptome.fq", config["ROOT_OUT"] + "/evaluation_biological/RATTLE/results_per_read.csv", config["ROOT_OUT"] + "/evaluation_biological/isONform/results_per_read.csv"
+#,outfolder_root+'/isONform/outfolder/transcriptome.fq'
 
 
 ###############################################################################################################################
@@ -44,9 +46,8 @@ rule all:
 
 ##Preprocessing:some of our tools have issues with the accessions- we shorten them here
 rule split_accessions_orig:
-    input: fastq = config["READS"]
+    input: fastq = orig_reads
     output: original_reads_split_accessions =  outfolder_root + "/data/split_accs.fq"
-
     run:
         shell("python split_accessions.py {input} {output.original_reads_split_accessions}")
 
@@ -140,7 +141,8 @@ rule rattle_cluster:
 ##Correct the reads (RATTLE pipe)
 rule rattle_correct:
         input:
-                clusters= outfolder_root+"/rattle/clusters.out", fastq=outfolder_root+'/data/full_length_output.fastq'
+                clusters= outfolder_root+"/rattle/clusters.out",
+                fastq=outfolder_root + "/data/split_accs.fq"
         output:
                 outfolder_root+"/rattle/corrected.fq",
                 outfolder_root+"/rattle/uncorrected.fq",
@@ -163,8 +165,6 @@ rule rattle_polish:
 rule ultra_mm2_prep_Rattle:
     input:
     output: ref_index = outfolder_root + "/uLTRA_rattle/all_splice_sites_annotations.pickle"
-
-
     run:
         outfolder = outfolder_root + "/uLTRA_rattle"
         mkdir_p(outfolder)
@@ -195,12 +195,12 @@ rule evaluate_rattle:
     input: original_reads = outfolder_root+"/stringtie/stringtie_transcripts.fasta",
             corrected_reads = outfolder_root+"/rattle/transcriptome.fq",
             original_reads_aligned = outfolder_root + "/uLTRA_st/reads.sam",
-            corrected_reads_aligned =  outfolder_root + "/uLTRA_rattle/reads.sam"
+            corrected_reads_aligned =  outfolder_root + "/uLTRA_rattle/reads.sam",
             gtf_annotation = config["ANNOTATION"] # drosophila v97 gtf annotation
-    output: csv_file =  config["ROOT_OUT"] + "/evaluation_biological/RATTLE/{nr_reads}/results_per_read.csv"
+    output: csv_file =  config["ROOT_OUT"] + "/evaluation_biological/RATTLE/results_per_read.csv"
     run:
         ref = config["REFERENCE"]
-        outfolder = config["ROOT_OUT"] + "/evaluation_biological/RATTLE/{0}/".format(wildcards.nr_reads)
+        outfolder = config["ROOT_OUT"] + "/evaluation_biological/RATTLE/"
         mkdir_p(outfolder)
         shell("/usr/bin/time -v python evaluate_real_reads_to_genome.py  {input.original_reads_aligned}  {input.corrected_reads_aligned} {input.original_reads}  \
                                                         {input.corrected_reads} {ref} {input.gtf_annotation} {outfolder}")
@@ -214,7 +214,7 @@ rule evaluate_rattle:
 ##Run the isONpipeline
 rule run_isONpipeline:
 	input: fastq = outfolder_root + "/data/split_accs.fq"
-	output: reads=outfolder_root+'/isONform/outfolder/transcriptome.fq', map=outfolder_root+'/isONform/transcriptome_mapping.txt'
+	output: reads=outfolder_root+'/isONform/outfolder/isoforms/transcriptome.fastq', map=outfolder_root+'/isONform/transcriptome_mapping.txt'
 	run:
 	    output_dir=outfolder_root+'/isONform/outfolder'
 	    shell('/usr/bin/time -v ./full_pipeline.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance} pacbio')
@@ -223,7 +223,6 @@ rule run_isONpipeline:
 rule ultra_mm2_prep_isON:
     input:
     output: ref_index = outfolder_root + "/uLTRA_ison/all_splice_sites_annotations.pickle"
-
     run:
         outfolder = outfolder_root + "/uLTRA_ison"
         mkdir_p(outfolder)
@@ -254,14 +253,14 @@ rule ultra_mm2_align_isON:
 ##Evaluate the isONform results
 rule evaluate_isONform:
     input: original_reads = outfolder_root+"/stringtie/stringtie_transcripts.fasta",
-            corrected_reads = outfolder_root+'/isONform/outfolder/transcriptome.fq',
+            corrected_reads = outfolder_root+'/isONform/outfolder/isoforms/transcriptome.fastq',
             original_reads_aligned = outfolder_root + "/uLTRA_st/reads.sam",
             corrected_reads_aligned =  outfolder_root + "/uLTRA_ison/reads.sam",
             gtf_annotation = config["ANNOTATION"] # drosophila v97 gtf annotation
-    output: csv_file =  config["ROOT_OUT"] + "/evaluation_biological/isONform/{nr_reads}/results_per_read.csv"
+    output: csv_file =  config["ROOT_OUT"] + "/evaluation_biological/isONform/results_per_read.csv"
     run:
         ref = config["REFERENCE"]
-        outfolder = config["ROOT_OUT"] + "/evaluation_biological/isONform/{0}/".format(wildcards.nr_reads)
+        outfolder = config["ROOT_OUT"] + "/evaluation_biological/isONform/".format(wildcards.nr_reads)
         mkdir_p(outfolder)
         shell("/usr/bin/time -v python evaluate_real_reads_to_genome.py  {input.original_reads_aligned}  {input.corrected_reads_aligned} {input.original_reads}  \
                                                         {input.corrected_reads} {ref} {input.gtf_annotation} {outfolder}")
