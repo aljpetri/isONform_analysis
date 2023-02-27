@@ -2,7 +2,7 @@
 
     "__default__" : 
     {
-        "account" : "snic2021-5-572",
+        "account" : "snic2022-5-592",
         "cpus-per-task" : "1",
         "C" : "mem128GB",
         "Nodes" : 1,
