@@ -61,7 +61,8 @@ rule all:
 rule convert_bam_to_fastq:
 	input: bam=bam_file
 	output: outfolder_root + "/data/converted.fastq"
-	shell('bamtools convert -format fastq -in {bam} -out {output}')
+	run:
+	   shell('bamtools convert -format fastq -in {bam} -out {output}')
 
 ###############################################################################################################################
 #                                                STRINGTIE PIPELINE                                                           #
