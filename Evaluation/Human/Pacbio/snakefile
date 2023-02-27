@@ -12,6 +12,7 @@ isonform_location=config["ISONFORM_LOCATION"]
 isoform_abundance=config["ISO_ABUNDANCE"]
 rattle_location=config["RATTLE_DIR"]
 orig_reads = config["READS"]
+bam_file=config["BAM"]
 shell.prefix("set -o pipefail; ")
 #wildcard_constraints:
 #    nr_reads="[\d]+",
@@ -36,7 +37,7 @@ def mkdir_p(path):
             raise
 
 rule all:
-	input:outfolder_root+"/stringtie/aligned.sam",outfolder_root+"/stringtie/aligned.sorted.bam",outfolder_root+"/stringtie/stringtie_res.gtf",outfolder_root+"/stringtie/stringtie_transcripts.fasta",outfolder_root+"/rattle/transcriptome.fq", config["ROOT_OUT"] + "/evaluation_biological/RATTLE/results_per_read.csv", config["ROOT_OUT"] + "/evaluation_biological/isONform/results_per_read.csv"
+	input:outfolder_root+"/stringtie/aligned.sam",outfolder_root+"/stringtie/aligned.sorted.bam",outfolder_root+"/stringtie/stringtie_res.gtf",outfolder_root+"/stringtie/stringtie_transcripts.fasta", config["ROOT_OUT"] + "/evaluation_biological/isONform/results_per_read.csv"#,outfolder_root+"/rattle/transcriptome.fq", config["ROOT_OUT"] + "/evaluation_biological/RATTLE/results_per_read.csv"
 #,outfolder_root+'/isONform/outfolder/transcriptome.fq'
 
 
@@ -45,17 +46,22 @@ rule all:
 ###############################################################################################################################
 
 ##Preprocessing:some of our tools have issues with the accessions- we shorten them here
-rule split_accessions_orig:
-    input: fastq = orig_reads
-    output: original_reads_split_accessions =  outfolder_root + "/data/split_accs.fq"
-    run:
-        shell("python split_accessions.py {input} {output.original_reads_split_accessions}")
+#rule split_accessions_orig:
+#    input: fastq = orig_reads
+#    output: original_reads_split_accessions =  outfolder_root + "/data/split_accs.fq"
+#    run:
+#        shell("python split_accessions.py {input} {output.original_reads_split_accessions}")
 
 ##Use pychopper so every tool has the same possibility to perform its analysis on a clean dataset
 #rule pychop:
 #	input: outfolder_root + "/data/split_accs.fq"
 #	output: outfolder_root+'/data/full_length_output.fastq'
 #	shell: 'pychopper {input} {output}'
+##Convert the bam to the correct format
+rule convert_bam_to_fastq:
+	input: bam=bam_file
+	output: outfolder_root + "/data/converted.fastq"
+	shell('bamtools convert -format fastq -in {bam} -out {output}')
 
 ###############################################################################################################################
 #                                                STRINGTIE PIPELINE                                                           #
@@ -131,7 +137,7 @@ rule ultra_mm2_align_st:
 ##Cluster the reads (RATTLE pipe)
 rule rattle_cluster:
         input:
-                 outfolder_root + "/data/split_accs.fq"#outfolder_root+'/data/subsample.fastq'
+                 outfolder_root + "/data/converted.fastq"#orig_reads#outfolder_root + "/data/split_accs.fq"#outfolder_root+'/data/subsample.fastq'
         output:
                 outfolder_root+"/rattle/clusters.out"
         run:
@@ -142,7 +148,7 @@ rule rattle_cluster:
 rule rattle_correct:
         input:
                 clusters= outfolder_root+"/rattle/clusters.out",
-                fastq=outfolder_root + "/data/split_accs.fq"
+                fastq=orig_reads#outfolder_root + "/data/split_accs.fq"
         output:
                 outfolder_root+"/rattle/corrected.fq",
                 outfolder_root+"/rattle/uncorrected.fq",
@@ -213,11 +219,11 @@ rule evaluate_rattle:
 
 ##Run the isONpipeline
 rule run_isONpipeline:
-	input: fastq = outfolder_root + "/data/split_accs.fq"
+	input: fastq = outfolder_root + "/data/converted.fastq"#outfolder_root + "/data/split_accs.fq"
 	output: reads=outfolder_root+'/isONform/outfolder/isoforms/transcriptome.fastq', map=outfolder_root+'/isONform/transcriptome_mapping.txt'
 	run:
 	    output_dir=outfolder_root+'/isONform/outfolder'
-	    shell('/usr/bin/time -v ./full_pipeline.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance} pacbio')
+	    shell('/usr/bin/time -v {isonform_location}full_pipeline.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance} pacbio')
 
 ##Align the isONform consensus vs the reference  (isONform evaluation)
 rule ultra_mm2_prep_isON:
@@ -264,4 +270,5 @@ rule evaluate_isONform:
         mkdir_p(outfolder)
         shell("/usr/bin/time -v python evaluate_real_reads_to_genome.py  {input.original_reads_aligned}  {input.corrected_reads_aligned} {input.original_reads}  \
                                                         {input.corrected_reads} {ref} {input.gtf_annotation} {outfolder}")
+
 

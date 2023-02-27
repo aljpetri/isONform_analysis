@@ -153,6 +153,17 @@
         "runtime" : "14-00:00:00",
         "mail" : "alexander.petri@math.su.se",
         "mail_type" : "FAIL"
+    }, 
+    
+    "convert_bam_to_fastq" :
+    {
+        "jobname" : "convert_bam_to_fastq",
+        "cpus-per-task" : "1",
+        "Nodes" : 1,
+        "C" : "mem256GB",
+        "runtime" : "24:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
     },
 
     "run_isONpipeline" :
