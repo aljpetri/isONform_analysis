@@ -1,7 +1,7 @@
 {
 "DATASETS" : "human_pacbio",
   "SCRIPT_FOLDER": "/proj/snic2022-6-31/nobackup/alexp/Evaluation/Human/Pacbio",
-  "ANNOTATION" : "/proj/snic2022-6-31/nobackup/alexp/References/Human/chm13v2.0_RefSeq_Liftoff_v4.gff3",
+  "ANNOTATION" : "/proj/snic2022-6-31/nobackup/alexp/References/Human/chm13v2.0_RefSeq_Liftoff_v4.gtf",
   "ROOT_OUT": "/proj/snic2022-6-31/nobackup/alexp/Results/human_pacbio",
   "ISONFORM_LOCATION" : "/proj/snic2022-6-31/nobackup/alexp/isONform/",
   "ISO_ABUNDANCE": 5,
