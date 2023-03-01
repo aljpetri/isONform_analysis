@@ -106,7 +106,7 @@
     	"cpus-per-task":"20",
     	"Nodes": "1",
     	"C" : "mem128GB",
-    	"runtime":"10:00:00",
+    	"runtime":"5-00:00:00",
     	"mail" : "alexander.petri@math.su.se",
         "mail_type" : "FAIL"
     },
@@ -172,7 +172,7 @@
         "cpus-per-task" : "20",
         "Nodes" : 1,
         "C" : "mem256GB",
-        "runtime" : "3-00:00:00",
+        "runtime" : "5-00:00:00",
         "mail" : "alexander.petri@math.su.se",
         "mail_type" : "FAIL"
     },
