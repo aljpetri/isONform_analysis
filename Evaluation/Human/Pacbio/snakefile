@@ -224,7 +224,7 @@ rule run_isONpipeline:
 	output: reads=outfolder_root+'/isONform/outfolder/isoforms/transcriptome.fastq', map=outfolder_root+'/isONform/transcriptome_mapping.txt'
 	run:
 	    output_dir=outfolder_root+'/isONform/outfolder'
-	    shell('/usr/bin/time -v {isonform_location}full_pipeline.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance} pacbio')
+	    shell('/usr/bin/time -v {isonform_location}full_pipeline.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance} only_isonform')
 
 ##Align the isONform consensus vs the reference  (isONform evaluation)
 rule ultra_mm2_prep_isON:
