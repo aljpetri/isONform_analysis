@@ -286,3 +286,4 @@ rule evaluate_isONform:
         shell("/usr/bin/time -v python evaluate_real_reads_to_genome.py  {input.original_reads_aligned}  {input.corrected_reads_aligned} {input.original_reads}  \
                                                         {input.corrected_reads} {ref} {input.gtf_annotation} {outfolder}")
 
+

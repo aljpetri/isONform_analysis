@@ -197,6 +197,68 @@
         "runtime" : "14-00:00:00",
         "mail" : "alexander.petri@math.su.se",
         "mail_type" : "FAIL"
+    },
+    "ultra_mm2_prep_isON":
+    {
+        "jobname" : "ultra_prep_ison",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "5:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+  "ultra_mm2_prep_Rattle":
+    {
+     	"jobname" : "ultra_prep_rattle",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "5:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+"ultra_mm2_align_isON": 
+    {
+        "jobname" : "ultra_align_isON",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+"ultra_mm2_align_RATTLE":
+    {
+        "jobname" : "ultra_align_RATTLE",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+"ultra_mm2_align_st":
+    {
+     	"jobname" : "ultra_align_st",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+"ultra_mm2_prep_st":
+    {
+     	"jobname" : "ultra_prep_st",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "5:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
     }
+
 
 }
