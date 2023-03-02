@@ -37,7 +37,7 @@ def mkdir_p(path):
             raise
 
 rule all:
-	input:outfolder_root+"/stringtie/aligned.sam",outfolder_root+"/stringtie/aligned.sorted.bam",outfolder_root+"/stringtie/stringtie_res.gtf",outfolder_root+"/stringtie/stringtie_transcripts.fasta", config["ROOT_OUT"] + "/evaluation_biological/isONform/results_per_read.csv"#,outfolder_root+"/rattle/transcriptome.fq", config["ROOT_OUT"] + "/evaluation_biological/RATTLE/results_per_read.csv"
+	input:outfolder_root+"/stringtie/aligned.sam",outfolder_root+"/stringtie/aligned.sorted.bam",outfolder_root+"/stringtie/stringtie_res.gtf",outfolder_root+"/stringtie/stringtie_transcripts.fasta", config["ROOT_OUT"] + "/evaluation_biological/isONform/results_per_read.csv",outfolder_root+"/rattle/transcriptome.fq", config["ROOT_OUT"] + "/evaluation_biological/RATTLE/results_per_read.csv"
 #,outfolder_root+'/isONform/outfolder/transcriptome.fq'
 
 
