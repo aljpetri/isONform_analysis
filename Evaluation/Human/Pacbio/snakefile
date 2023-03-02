@@ -58,11 +58,11 @@ rule all:
 #	output: outfolder_root+'/data/full_length_output.fastq'
 #	shell: 'pychopper {input} {output}'
 ##Convert the bam to the correct format
-rule convert_bam_to_fastq:
-	input: bam=bam_file
-	output: outfolder_root + "/data/converted.fastq"
-	run:
-	   shell('bamtools convert -format fastq -in {input.bam} -out {output}')
+#rule convert_bam_to_fastq:
+#	input: bam=bam_file
+#	output: outfolder_root + "/data/converted.fastq"
+#	run:
+#	   shell('bamtools convert -format fastq -in {input.bam} -out {output}')
 
 ###############################################################################################################################
 #                                                STRINGTIE PIPELINE                                                           #
