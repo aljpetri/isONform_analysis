@@ -1,0 +1,146 @@
+Stringtie2Runtimes
+Command being timed: "minimap2 --eqx -t 20 -ax splice -uf -k 13 -w 4 /proj/snic2022-6-31/nobackup/alexp/Reference/Drosophila_melanogaster.BDGP6.22.dna.toplevel.fa /proj/snic2022-6-31/$
+        User time (seconds): 3861.99
+        System time (seconds): 98.49
+        Percent of CPU this job got: 1730%
+        Elapsed (wall clock) time (h:mm:ss or m:ss): 3:48.85
+        Average shared text size (kbytes): 0
+        Average unshared data size (kbytes): 0
+        Average stack size (kbytes): 0
+        Average total size (kbytes): 0
+        Maximum resident set size (kbytes): 11094704
+        Average resident set size (kbytes): 0
+        Major (requiring I/O) page faults: 2
+        Minor (reclaiming a frame) page faults: 36880924
+        Voluntary context switches: 2182756
+        Involuntary context switches: 51749
+        Swaps: 0
+        File system inputs: 779328
+        File system outputs: 11959504
+        Socket messages sent: 0
+        Socket messages received: 0
+        Signals delivered: 0
+        Page size (bytes): 4096
+        Exit status: 0
+
+  Command being timed: "samtools view -Su --threads 19 /proj/snic2022-6-31/nobackup/alexp/stringtie_out/stringtie/drosophila_aligned.sam"
+        User time (seconds): 16.24
+        System time (seconds): 7.45
+        Percent of CPU this job got: 41%
+        Elapsed (wall clock) time (h:mm:ss or m:ss): 0:56.77
+        Average shared text size (kbytes): 0
+        Average unshared data size (kbytes): 0
+        Average stack size (kbytes): 0
+        Average total size (kbytes): 0
+        Maximum resident set size (kbytes): 106676
+        Average resident set size (kbytes): 0
+        Major (requiring I/O) page faults: 0
+        Minor (reclaiming a frame) page faults: 148161
+        Voluntary context switches: 314859
+        Involuntary context switches: 138
+        Swaps: 0
+        File system inputs: 494200
+        File system outputs: 0
+        Socket messages sent: 0
+        Socket messages received: 0
+        Signals delivered: 0
+        Page size (bytes): 4096
+        Exit status: 0
+
+Command being timed: "samtools index -@ 19 /proj/snic2022-6-31/nobackup/alexp/stringtie_out/stringtie/drosophila_aligned.sorted.bam"
+        User time (seconds): 27.65
+        System time (seconds): 2.04
+        Percent of CPU this job got: 593%
+        Elapsed (wall clock) time (h:mm:ss or m:ss): 0:05.00
+        Average shared text size (kbytes): 0
+        Average unshared data size (kbytes): 0
+        Average stack size (kbytes): 0
+        Average total size (kbytes): 0
+        Maximum resident set size (kbytes): 13304
+        Average resident set size (kbytes): 0
+        Major (requiring I/O) page faults: 0
+        Minor (reclaiming a frame) page faults: 8451
+        Voluntary context switches: 173539
+        Involuntary context switches: 324
+        Swaps: 0
+        File system inputs: 494928
+        File system outputs: 864
+        Socket messages sent: 0
+        Socket messages received: 0
+        Signals delivered: 0
+        Page size (bytes): 4096
+        Exit status: 0
+
+Command being timed: "stringtie -p 20 -L -c 3 -s 3 -o /proj/snic2022-6-31/nobackup/alexp/stringtie_out/stringtie/stringtie_res.gtf /proj/snic2022-6-31/nobackup/alexp/stringtie_out/str$
+        User time (seconds): 115.21
+        System time (seconds): 2.80
+        Percent of CPU this job got: 359%
+        Elapsed (wall clock) time (h:mm:ss or m:ss): 0:32.82
+        Average shared text size (kbytes): 0
+        Average unshared data size (kbytes): 0
+        Average stack size (kbytes): 0
+        Average total size (kbytes): 0
+        Maximum resident set size (kbytes): 185936
+        Average resident set size (kbytes): 0
+        Major (requiring I/O) page faults: 0
+        Minor (reclaiming a frame) page faults: 248666
+        Voluntary context switches: 83607
+        Involuntary context switches: 471
+        Swaps: 0
+        File system inputs: 494192
+        File system outputs: 38120
+        Socket messages sent: 0
+        Socket messages received: 0
+        Signals delivered: 0
+        Page size (bytes): 4096
+        Exit status: 0
+
+
+ Command being timed: "gffread -w /proj/snic2022-6-31/nobackup/alexp/stringtie_out/stringtie/stringtie_transcripts.fasta -g /proj/snic2022-6-31/nobackup/alexp/Reference/Drosophila_mela$
+        User time (seconds): 0.68
+        System time (seconds): 0.84
+        Percent of CPU this job got: 81%
+        Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.88
+        Average shared text size (kbytes): 0
+        Average unshared data size (kbytes): 0
+        Average stack size (kbytes): 0
+        Average total size (kbytes): 0
+        Maximum resident set size (kbytes): 77764
+        Average resident set size (kbytes): 0
+        Major (requiring I/O) page faults: 0
+        Minor (reclaiming a frame) page faults: 69127
+        Voluntary context switches: 168
+        Involuntary context switches: 1
+        Swaps: 0
+        File system inputs: 305696
+        File system outputs: 59488
+        Socket messages sent: 0
+        Socket messages received: 0
+        Signals delivered: 0
+        Page size (bytes): 4096
+        Exit status: 0
+
+Calculation:
+
+
+Minimap2:
+max RAM usage: 11.1 Gb
+3:48.85
+Samtools view:
+0.1Gb
+0:56.77
+Samtools index:
+0:05.00
+0.01 Gb
+StringTie2:
+0:32.82
+0.19Gb
+Gffread:
+0:01.88
+0.08Gb
+
+         3:48.85
+0:56.77  1:01.77
+0:05.00
+
+         4:50.62

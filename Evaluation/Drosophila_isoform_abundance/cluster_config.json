@@ -1,0 +1,12 @@
+{
+"DATASETS" : "drosophila",
+  "SCRIPT_FOLDER": "/proj/snic2022-6-31/nobackup/alexp/isONf_eval_Drosophila",
+  "ANNOTATION" : "/proj/snic2022-6-31/nobackup/alexp/References/Drosophila/Drosophila_melanogaster.BDGP6.32.104.gtf",
+  "ROOT_OUT": "/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new",
+  "ISONFORM_LOCATION" : "/proj/snic2022-6-31/nobackup/alexp/isONform/",
+  "ISONCORRECT_LOCATION" : "/proj/snic2022-6-31/nobackup/alexp/isONcorrect/",
+  "ISO_ABUNDANCE": 0,
+  "RATTLE_DIR" : "/proj/snic2022-6-31/nobackup/alexp/RATTLE/",
+  "drosophila97" : "/proj/snic2022-6-31/nobackup/alexp/References/Drosophila/Drosophila_melanogaster.BDGP6.22.dna.toplevel.fa",
+  "drosophila_reads": "/proj/snic2022-6-31/nobackup/alexp/Rawdata/Drosophila_ONT/ERR3588905_1.fastq"
+}

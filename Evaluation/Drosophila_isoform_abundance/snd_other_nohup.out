@@ -1,0 +1,12 @@
+Full Traceback (most recent call last):
+  File "/proj/snic2022-6-31/nobackup/alexp/conda_envs/isonform/lib/python3.10/site-packages/snakemake/__init__.py", line 639, in snakemake
+    workflow.include(
+  File "/proj/snic2022-6-31/nobackup/alexp/conda_envs/isonform/lib/python3.10/site-packages/snakemake/workflow.py", line 1225, in include
+    exec(compile(code, snakefile.get_path_or_uri(), "exec"), self.globals)
+  File "/crex/proj/snic2022-6-31/nobackup/alexp/isONf_eval_Drosophila/snakefile", line 240
+    	shell ( / usr / bin / time - v "{rattle_location}/rattle polish -i {input} -o {rattle_out_folder} -t 20 " )
+    	        ^
+SyntaxError: invalid syntax
+
+SyntaxError in file /crex/proj/snic2022-6-31/nobackup/alexp/isONf_eval_Drosophila/snakefile, line 142:
+invalid syntax

@@ -1,0 +1,254 @@
+{
+
+    "__default__" : 
+    {
+        "account" : "snic2022-5-592 ",
+        "cpus-per-task" : "1",
+        "C" : "mem128GB",
+        "Nodes" : 1,
+        "runtime" : "0-10:00:00",
+        "jobname" : "pipeline",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "split_accessions_orig":
+    {
+    	"jobname" :"split_accessions",
+    	"cpus-per-task":"1",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "pychop":
+    {
+    	"jobname" :"pychopper",
+    	"cpus-per-task":"20",
+    	"Nodes": "1",
+    	"C" : "mem256GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "align_original_reads_minimap2":
+    {
+        "jobname" : "align_original_reads_minimap2",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "sort_alignment":
+     {
+    	"jobname" :"sortalignment",
+    	"cpus-per-task":"1",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "index_alignment":
+    {
+    	"jobname" :"indexalignment",
+    	"cpus-per-task":"1",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "run_stringtie":
+    {
+    	"jobname" :"stringtie",
+    	"cpus-per-task":"20",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "run_gffread":
+    {
+    	"jobname" :"gffread",
+    	"cpus-per-task":"1",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "align_stringtie_reads_minimap2":
+    {
+        "jobname" : "align_stringtie_reads_minimap2",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "rattle_cluster":
+    {
+    	"jobname" :"rattle_cluster",
+    	"cpus-per-task":"20",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "rattle_correct":
+    {
+    	"jobname" :"rattle_correct",
+    	"cpus-per-task":"20",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "rattle_polish":
+    {
+    	"jobname" :"rattle_polish",
+    	"cpus-per-task":"20",
+    	"Nodes": "1",
+    	"C" : "mem128GB",
+    	"runtime":"10:00:00",
+    	"mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "align_rattle_reference_minimap2":
+    {
+        "jobname" : "align_rattle_reference_minimap2",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "evaluate_rattle" :
+    {
+        "jobname" : "evaluate_rattle",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "2-00:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "run_isONpipeline" :
+    {
+        "jobname" : "run_isONpipeline",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "3-00:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+    "align_isONform_reference_minimap2":
+    {
+        "jobname" : "align_isONform_reference_minimap2",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+  "evaluate_isONform" :
+    {
+        "jobname" : "evaluate_isONform",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+   "ultra_mm2_prep_isON":
+    {
+        "jobname" : "ultra_prep_ison",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "1:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+  "ultra_mm2_prep_Rattle":
+    {
+     	"jobname" : "ultra_prep_rattle",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "1:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+
+"ultra_mm2_align_isON": 
+    {
+        "jobname" : "ultra_align_isON",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+"ultra_mm2_align_RATTLE":
+    {
+        "jobname" : "ultra_align_RATTLE",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+"ultra_mm2_align_st":
+    {
+     	"jobname" : "ultra_align_st",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "10:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    },
+"ultra_mm2_prep_st":
+    {
+     	"jobname" : "ultra_prep_st",
+        "cpus-per-task" : "20",
+        "Nodes" : 1,
+        "C" : "mem128GB",
+        "runtime" : "1:00:00",
+        "mail" : "alexander.petri@math.su.se",
+        "mail_type" : "FAIL"
+    }
+
+
+
+}

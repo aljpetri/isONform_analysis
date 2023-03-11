@@ -1,0 +1,71 @@
+	Command being timed: "/proj/snic2022-6-31/nobackup/alexp/RATTLE/rattle cluster -i /proj/snic2022-6-31/nobackup/alexp/isONform_eval/data/full_length_output.fastq -t 20 -o /proj/snic2022-6-31/nobackup/alexp/isONform_eval/rattle/"
+	User time (seconds): 246292.26
+	System time (seconds): 561.65
+	Percent of CPU this job got: 1769%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:52:34
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 44416984
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5
+	Minor (reclaiming a frame) page faults: 33118361
+	Voluntary context switches: 7100727
+	Involuntary context switches: 2730359
+	Swaps: 0
+	File system inputs: 495088
+	File system outputs: 36144
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+	
+		Command being timed: "/proj/snic2022-6-31/nobackup/alexp/RATTLE//rattle correct -i /proj/snic2022-6-31/nobackup/alexp/isONform_eval/data/full_length_output.fastq -c /proj/snic2022-6-31/nobackup/alexp/isONform_eval/rattle/clusters.out -o /proj/snic2022-6-31/nobackup/alexp/isONform_eval/rattle/ -t 20"
+	User time (seconds): 50566.93
+	System time (seconds): 42117.06
+	Percent of CPU this job got: 1166%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:12:28
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 21270444
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 7992750149
+	Voluntary context switches: 16854322
+	Involuntary context switches: 1587035
+	Swaps: 0
+	File system inputs: 532808
+	File system outputs: 9917096
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+	
+	Command being timed: "/proj/snic2022-6-31/nobackup/alexp/RATTLE//rattle polish -i /proj/snic2022-6-31/nobackup/alexp/isONform_eval/rattle/consensi.fq -o /proj/snic2022-6-31/nobackup/alexp/isONform_eval/rattle/ -t 20"
+	User time (seconds): 12817.87
+	System time (seconds): 18.43
+	Percent of CPU this job got: 1760%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 12:09.00
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 940140
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 905294
+	Voluntary context switches: 151451
+	Involuntary context switches: 97662
+	Swaps: 0
+	File system inputs: 96184
+	File system outputs: 95680
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

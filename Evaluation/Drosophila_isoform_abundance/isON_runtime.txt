@@ -1,0 +1,200 @@
+253
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster253_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/28
+28
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster28_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/10781
+10781
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster10781_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/2461
+2461
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster2461_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/15735
+15735
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster15735_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/9125
+9125
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster9125_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/12806
+12806
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster12806_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/11955
+11955
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster11955_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/10855
+10855
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster10855_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/7613
+7613
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster7613_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/12684
+12684
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster12684_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/7218
+7218
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster7218_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/13661
+13661
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster13661_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/14602
+14602
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster14602_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/519
+519
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster519_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/14783
+14783
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster14783_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/13557
+13557
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster13557_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/8187
+8187
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster8187_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/1102
+1102
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster1102_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/13352
+13352
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster13352_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/9360
+9360
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster9360_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/10834
+10834
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster10834_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/12280
+12280
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster12280_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/6949
+6949
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster6949_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/11395
+11395
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster11395_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/4755
+4755
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster4755_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/1115
+1115
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster1115_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/12965
+12965
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster12965_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/4093
+4093
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster4093_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/4718
+4718
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster4718_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/9837
+9837
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster9837_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/5059
+5059
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster5059_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/14429
+14429
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster14429_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/4221
+4221
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster4221_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/9915
+9915
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster9915_merged.fq
+True
+subfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/10333
+10333
+/proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms/cluster10333_merged.fq
+True
+Joined back batched files in: 27461.935577630997
+Finished full algo after : 73908.37553215027
+	Command being timed: "/proj/snic2022-6-31/nobackup/alexp/isONform_cluster//isONform_parallel.py --t 20 --fastq_folder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/correction/ --exact_instance_limit 50 --k 20 --w 31 --xmin 14 --xmax 80 --max_seqs_to_spoa 200 --delta_len 10 --outfolder /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms --iso_abundance 5 --split_wrt_batches --merge_sub_isoforms_3 --merge_sub_isoforms_5 --delta_iso_len_3 30 --delta_iso_len_5 100 --slow"
+	User time (seconds): 911642.48
+	System time (seconds): 11986.69
+	Percent of CPU this job got: 1249%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 20:31:52
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1562536
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 58
+	Minor (reclaiming a frame) page faults: 4754724000
+	Voluntary context switches: 32199625
+	Involuntary context switches: 42974656
+	Swaps: 0
+	File system inputs: 21473592
+	File system outputs: 136532176
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+
+Finished isONform
+
+
+Finished with pipeline and wrote corrected reads to:  /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder/isoforms
+
+	Command being timed: "./pipeline_no_pychop.sh /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/data/full_length_output.fastq /proj/snic2022-6-31/nobackup/alexp/isONform_eval_new/isONform/outfolder 20 /proj/snic2022-6-31/nobackup/alexp/isONform_cluster/ 5"
+	User time (seconds): 911642.48
+	System time (seconds): 11986.71
+	Percent of CPU this job got: 1249%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 20:31:52
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1562536
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 58
+	Minor (reclaiming a frame) page faults: 4754725423
+	Voluntary context switches: 32199660
+	Involuntary context switches: 42974661
+	Swaps: 0
+	File system inputs: 21473608
+	File system outputs: 136532184
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+[Fri Jan 13 12:03:25 2023]
+Finished job 0.
+1 of 1 steps (100%) done
