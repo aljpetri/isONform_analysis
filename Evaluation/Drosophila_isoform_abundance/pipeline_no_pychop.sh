@@ -35,11 +35,11 @@ echo
 #echo "Running isONclust"
 #echo
 
-#/usr/bin/time -v isONclust  --t $num_cores  --ont --fastq $raw_reads \
-#             --outfolder $outfolder/clustering --k 8 --w 9 
+/usr/bin/time -v isONclust  --t $num_cores  --ont --fastq $raw_reads \
+             --outfolder $outfolder/clustering
 #ONT: k 14 w 20
-#/usr/bin/time -v isONclust write_fastq --clusters $outfolder/clustering/final_clusters.tsv \
-#                     --fastq $raw_reads --outfolder  $outfolder/clustering/fastq_files --N $iso_abundance
+/usr/bin/time -v isONclust write_fastq --clusters $outfolder/clustering/final_clusters.tsv \
+                     --fastq $raw_reads --outfolder  $outfolder/clustering/fastq_files --N $iso_abundance
 #echo
 #echo "Finished isONclust"
 #echo
