@@ -232,7 +232,7 @@ rule run_isONpipeline:
 	output: reads=outfolder_root+'/isONform/outfolder/isoforms/transcriptome.fastq', map=outfolder_root+'/isONform/outfolder/isoforms/transcriptome_mapping.txt'
 	run:
 	    output_dir=outfolder_root+'/isONform/outfolder'
-	    shell('/usr/bin/time -v ./pipeline_no_pychop.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance}')
+	    shell('/usr/bin/time -v ./pipeline_no_pychop.sh {input.fastq} {output_dir} 20 {isonform_location} {isoform_abundance} ')
 
 ##Align the isONform consensus vs the reference  (isONform evaluation)
 #rule align_isONform_reference_minimap2:

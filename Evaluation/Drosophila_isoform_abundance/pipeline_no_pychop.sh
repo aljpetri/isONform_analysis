@@ -18,7 +18,7 @@ echo "Outfolder "$outfolder
 echo "Will run pychopper (cdna_classifier.py), isONclust, isONcorrect and isONform. Make sure you have these tools installed."
 echo "For installation see: https://github.com/ksahlin/isONcorrect#installation and  https://github.com/aljpetri/isONform"
 echo
-source conda_init.sh
+#source conda_init.sh
 #echo
 #echo "Running pychopper"
 #echo
@@ -49,7 +49,7 @@ source conda_init.sh
 #echo "Filtering clusters"
 #echo
 #python3.11 $isONform_folder/filter_clusters_by_size.py --in_folder $outfolder/clustering/fastq_files --abundance $iso_abundance
-conda activate isON311
+#conda activate isON311
 #echo
 #echo "Filtering done"
 #echo
@@ -88,4 +88,4 @@ echo
 echo
 echo "Finished with pipeline and wrote corrected reads to: " $outfolder/isoforms
 echo
-conda activate /proj/snic2022-6-31/nobackup/alexp/conda_envs/isonform
+#conda activate /proj/snic2022-6-31/nobackup/alexp/conda_envs/isonform
