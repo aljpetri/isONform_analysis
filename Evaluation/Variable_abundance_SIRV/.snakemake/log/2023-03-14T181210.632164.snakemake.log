@@ -1,0 +1,38 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                            count    min threads    max threads
+---------------------------  -------  -------------  -------------
+align_for_best_match              70              1              1
+align_rattle_for_best_match       70              1              1
+all                                1              1              1
+plot_results                       1              1              1
+total                            142              1              1
+
+Select jobs to execute...
+
+[Tue Mar 14 18:12:10 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/filtered/transcriptome_50_1_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_1.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1_2.csv
+    jobid: 2
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1_2.csv; Updated input files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/filtered/transcriptome_50_1_2.fastq
+    wildcards: nr_isoforms=50, run_id=1, abundance=2
+    resources: tmpdir=/tmp
+
+[Tue Mar 14 18:12:12 2023]
+Error in rule align_for_best_match:
+    jobid: 2
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/filtered/transcriptome_50_1_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_1.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1_2.csv
+    shell:
+        python evaluate_sim_reads.py /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/filtered/transcriptome_50_1_2.fastq /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_1.fasta /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1_2.csv
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Removing output files of failed job align_for_best_match since they might be corrupted:
+/home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1_2.csv
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-03-14T181210.632164.snakemake.log

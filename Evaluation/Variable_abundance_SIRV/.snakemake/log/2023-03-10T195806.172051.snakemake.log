@@ -1,0 +1,28 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                            count    min threads    max threads
+---------------------------  -------  -------------  -------------
+align_for_best_match              10              1              1
+align_rattle_for_best_match       10              1              1
+all                                1              1              1
+plot_results                       1              1              1
+run_ison_pipe_single              10              1              1
+total                             32              1              1
+
+Select jobs to execute...
+
+[Fri Mar 10 19:58:06 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_3.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_3.fastq
+    jobid: 7
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_3.fastq
+    wildcards: nr_isoforms=50, run_id=3
+    resources: tmpdir=/tmp
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-03-10T195806.172051.snakemake.log

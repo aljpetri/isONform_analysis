@@ -1,0 +1,3 @@
+WildcardError in line 99 of /home/alexanderpetri/isONform_analysis/Evaluation/Variable_abundance_SIRV/snakefile:
+No values given for wildcard 'abundance'.
+  File "/home/alexanderpetri/isONform_analysis/Evaluation/Variable_abundance_SIRV/snakefile", line 99, in <module>

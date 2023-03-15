@@ -1,0 +1,7 @@
+Building DAG of jobs...
+MissingInputException in rule align_rattle_for_best_match  in line 93 of /home/alexanderpetri/isONform_analysis/Evaluation/Variable_abundance_SIRV/snakefile:
+Missing input files for rule align_rattle_for_best_match:
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/alignments/results_rattle_50_1_2.csv
+    wildcards: nr_isoforms=50, run_id=1, abundance=2
+    affected files:
+        /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/RATTLE_filtered/transcriptome_50_1_2.fastq

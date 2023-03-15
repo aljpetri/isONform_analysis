@@ -1,0 +1,460 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                            count    min threads    max threads
+---------------------------  -------  -------------  -------------
+align_for_best_match              10              1              1
+align_rattle_for_best_match       10              1              1
+all                                1              1              1
+plot_results                       1              1              1
+run_ison_pipe_single              10              1              1
+total                             32              1              1
+
+Select jobs to execute...
+
+[Fri Mar 10 20:01:52 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_3.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_3.fastq
+    jobid: 7
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_3.fastq
+    wildcards: nr_isoforms=50, run_id=3
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:05:53 2023]
+Finished job 7.
+1 of 32 steps (3%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:05:53 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_4.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_4.fastq
+    jobid: 9
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_4.fastq
+    wildcards: nr_isoforms=50, run_id=4
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:09:29 2023]
+Finished job 9.
+2 of 32 steps (6%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:09:29 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_7.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_7.fastq
+    jobid: 15
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_7.fastq
+    wildcards: nr_isoforms=50, run_id=7
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:13:45 2023]
+Finished job 15.
+3 of 32 steps (9%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:13:45 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_2.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_2.fastq
+    jobid: 5
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_2.fastq
+    wildcards: nr_isoforms=50, run_id=2
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:17:54 2023]
+Finished job 5.
+4 of 32 steps (12%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:17:54 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_9.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_9.fastq
+    jobid: 19
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_9.fastq
+    wildcards: nr_isoforms=50, run_id=9
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:21:46 2023]
+Finished job 19.
+5 of 32 steps (16%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:21:46 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_1.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_1.fastq
+    jobid: 3
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_1.fastq
+    wildcards: nr_isoforms=50, run_id=1
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:23:35 2023]
+Finished job 3.
+6 of 32 steps (19%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:23:35 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_5.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_5.fastq
+    jobid: 11
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_5.fastq
+    wildcards: nr_isoforms=50, run_id=5
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:25:10 2023]
+Finished job 11.
+7 of 32 steps (22%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:25:10 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_8.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_8.fastq
+    jobid: 17
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_8.fastq
+    wildcards: nr_isoforms=50, run_id=8
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:31:03 2023]
+Finished job 17.
+8 of 32 steps (25%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:31:03 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_10.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_10.fastq
+    jobid: 21
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_10.fastq
+    wildcards: nr_isoforms=50, run_id=10
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:37:29 2023]
+Finished job 21.
+9 of 32 steps (28%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:37:29 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_6.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_6.fastq
+    jobid: 13
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_6.fastq
+    wildcards: nr_isoforms=50, run_id=6
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:39:52 2023]
+Finished job 13.
+10 of 32 steps (31%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:39:52 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_4.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_4.csv
+    jobid: 8
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_4.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_4.fastq
+    wildcards: nr_isoforms=50, run_id=4
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:39:55 2023]
+Finished job 8.
+11 of 32 steps (34%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:39:55 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_3.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_3.csv
+    jobid: 6
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_3.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_3.fastq
+    wildcards: nr_isoforms=50, run_id=3
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:39:57 2023]
+Finished job 6.
+12 of 32 steps (38%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:39:57 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_2.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_2.csv
+    jobid: 4
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_2.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_2.fastq
+    wildcards: nr_isoforms=50, run_id=2
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:39:59 2023]
+Finished job 4.
+13 of 32 steps (41%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:39:59 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_7.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_7.csv
+    jobid: 14
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_7.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_7.fastq
+    wildcards: nr_isoforms=50, run_id=7
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:02 2023]
+Finished job 14.
+14 of 32 steps (44%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:02 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_9.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_9.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_9.csv
+    jobid: 18
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_9.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_9.fastq
+    wildcards: nr_isoforms=50, run_id=9
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:04 2023]
+Finished job 18.
+15 of 32 steps (47%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:04 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_10.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_10.csv
+    jobid: 20
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_10.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_10.fastq
+    wildcards: nr_isoforms=50, run_id=10
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:06 2023]
+Finished job 20.
+16 of 32 steps (50%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:06 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_5.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_5.csv
+    jobid: 10
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_5.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_5.fastq
+    wildcards: nr_isoforms=50, run_id=5
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:08 2023]
+Finished job 10.
+17 of 32 steps (53%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:08 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_8.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_8.csv
+    jobid: 16
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_8.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_8.fastq
+    wildcards: nr_isoforms=50, run_id=8
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:10 2023]
+Finished job 16.
+18 of 32 steps (56%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:10 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_1.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1.csv
+    jobid: 2
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_1.fastq
+    wildcards: nr_isoforms=50, run_id=1
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:12 2023]
+Finished job 2.
+19 of 32 steps (59%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:12 2023]
+rule align_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_6.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_6.csv
+    jobid: 12
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_6.csv; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_6.fastq
+    wildcards: nr_isoforms=50, run_id=6
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:14 2023]
+Finished job 12.
+20 of 32 steps (62%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:14 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_6.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_6.csv
+    jobid: 28
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_6.csv
+    wildcards: nr_isoforms=50, run_id=6
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:16 2023]
+Finished job 28.
+21 of 32 steps (66%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:16 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_3.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_3.csv
+    jobid: 25
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_3.csv
+    wildcards: nr_isoforms=50, run_id=3
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:17 2023]
+Finished job 25.
+22 of 32 steps (69%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:17 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_4.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_4.csv
+    jobid: 26
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_4.csv
+    wildcards: nr_isoforms=50, run_id=4
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:18 2023]
+Finished job 26.
+23 of 32 steps (72%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:18 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_9.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_9.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_9.csv
+    jobid: 31
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_9.csv
+    wildcards: nr_isoforms=50, run_id=9
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:20 2023]
+Finished job 31.
+24 of 32 steps (75%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:20 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_1.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_1.csv
+    jobid: 22
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_1.csv
+    wildcards: nr_isoforms=50, run_id=1
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:21 2023]
+Finished job 22.
+25 of 32 steps (78%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:21 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_8.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_8.csv
+    jobid: 30
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_8.csv
+    wildcards: nr_isoforms=50, run_id=8
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:22 2023]
+Finished job 30.
+26 of 32 steps (81%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:22 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_2.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_2.csv
+    jobid: 24
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_2.csv
+    wildcards: nr_isoforms=50, run_id=2
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:24 2023]
+Finished job 24.
+27 of 32 steps (84%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:24 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_7.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_7.csv
+    jobid: 29
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_7.csv
+    wildcards: nr_isoforms=50, run_id=7
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:25 2023]
+Finished job 29.
+28 of 32 steps (88%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:25 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_10.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_10.csv
+    jobid: 32
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_10.csv
+    wildcards: nr_isoforms=50, run_id=10
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:26 2023]
+Finished job 32.
+29 of 32 steps (91%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:26 2023]
+rule align_rattle_for_best_match:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/Rattle/rattle_res_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/references/reference_50_5.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_5.csv
+    jobid: 27
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_5.csv
+    wildcards: nr_isoforms=50, run_id=5
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:28 2023]
+Finished job 27.
+30 of 32 steps (94%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:28 2023]
+rule plot_results:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_2.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_3.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_4.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_5.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_6.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_7.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_8.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_9.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_10.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_1.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_2.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_3.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_4.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_5.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_6.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_7.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_8.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_9.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_10.csv
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/graphs/precision_SIRV.pdf
+    jobid: 1
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/graphs/precision_SIRV.pdf; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_8.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_7.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_9.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_5.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_5.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_1.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_4.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_10.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_6.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_4.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_3.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_2.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_3.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_1.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_9.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_7.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_2.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_ison_50_10.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_8.csv, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/alignments/results_rattle_50_6.csv
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:31 2023]
+Finished job 1.
+31 of 32 steps (97%) done
+Select jobs to execute...
+
+[Fri Mar 10 20:40:31 2023]
+localrule all:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/graphs/precision_SIRV.pdf
+    jobid: 0
+    reason: Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/graphs/precision_SIRV.pdf
+    resources: tmpdir=/tmp
+
+[Fri Mar 10 20:40:31 2023]
+Finished job 0.
+32 of 32 steps (100%) done
+Complete log: .snakemake/log/2023-03-10T200152.115253.snakemake.log

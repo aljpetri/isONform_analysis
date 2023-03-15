@@ -1,0 +1,7 @@
+Building DAG of jobs...
+MissingInputException in rule run_ison_pipe_single  in line 67 of /home/alexanderpetri/isONform_analysis/Evaluation/Variable_abundance_SIRV/snakefile:
+Missing input files for rule run_ison_pipe_single:
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/isONform/cl_spoa_50_1.fastq
+    wildcards: nr_isoforms=50, run_id=1
+    affected files:
+        /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance/reads/reads_50_1.fastq

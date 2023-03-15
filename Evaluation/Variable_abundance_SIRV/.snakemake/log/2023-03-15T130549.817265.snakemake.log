@@ -1,0 +1,211 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job                            count    min threads    max threads
+---------------------------  -------  -------------  -------------
+align_for_best_match              70              1              1
+align_rattle_for_best_match       70              1              1
+all                                1              1              1
+filter_isonform                    1              1              1
+filter_rattle                      1              1              1
+minimap_alignment                  1              1              1
+plot_results                       1              1              1
+run_ison_pipe_single              10              1              1
+run_rattle                         1              1              1
+subsample_reads                    1              1              1
+total                            157              1              1
+
+Select jobs to execute...
+
+[Wed Mar 15 13:05:50 2023]
+rule minimap_alignment:
+    input: /home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/non_redundant_SIRVTranscriptome.fasta, /home/alexanderpetri/Desktop/RAWDATA_PhD1/AccessionPRJEB34849-SIRV/full_length_output.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/minimap/100kvsOriginal.sam
+    jobid: 6
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/minimap/100kvsOriginal.sam
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 13:06:03 2023]
+Finished job 6.
+1 of 157 steps (1%) done
+Select jobs to execute...
+
+[Wed Mar 15 13:06:03 2023]
+rule subsample_reads:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/minimap/100kvsOriginal.sam, /home/alexanderpetri/Desktop/RAWDATA_PhD1/AccessionPRJEB34849-SIRV/full_length_output.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2, /home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/non_redundant_SIRVTranscriptome.fasta
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_9.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_1.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_2.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_3.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_4.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_5.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_6.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_7.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_8.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_9.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_10.fasta
+    jobid: 5
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_5.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_2.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_4.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_7.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_1.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_9.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_6.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_3.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_10.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/references/reference_50_8.fasta, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_9.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/minimap/100kvsOriginal.sam
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 13:58:35 2023]
+Finished job 5.
+2 of 157 steps (1%) done
+Select jobs to execute...
+
+[Wed Mar 15 13:58:35 2023]
+rule run_rattle:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_9.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_10.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_9.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_10.fastq
+    jobid: 88
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/Rattle/rattle_res_50_9.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_9.fastq
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:12:01 2023]
+Finished job 88.
+3 of 157 steps (2%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:12:01 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_5.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_5.fastq
+    jobid: 11
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_5.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_5.fastq
+    wildcards: nr_isoforms=50, run_id=5
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:16:31 2023]
+Finished job 11.
+4 of 157 steps (3%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:16:31 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_9.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_9.fastq
+    jobid: 15
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_9.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_9.fastq
+    wildcards: nr_isoforms=50, run_id=9
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:19:46 2023]
+Finished job 15.
+5 of 157 steps (3%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:19:46 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_2.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_2.fastq
+    jobid: 8
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_2.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_2.fastq
+    wildcards: nr_isoforms=50, run_id=2
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:23:17 2023]
+Finished job 8.
+6 of 157 steps (4%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:23:17 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_7.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_7.fastq
+    jobid: 13
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_7.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_7.fastq
+    wildcards: nr_isoforms=50, run_id=7
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:26:48 2023]
+Finished job 13.
+7 of 157 steps (4%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:26:48 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_3.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_3.fastq
+    jobid: 9
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_3.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_3.fastq
+    wildcards: nr_isoforms=50, run_id=3
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:30:05 2023]
+Finished job 9.
+8 of 157 steps (5%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:30:05 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_4.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_4.fastq
+    jobid: 10
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_4.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_4.fastq
+    wildcards: nr_isoforms=50, run_id=4
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:34:00 2023]
+Finished job 10.
+9 of 157 steps (6%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:34:00 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_6.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_6.fastq
+    jobid: 12
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_6.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_6.fastq
+    wildcards: nr_isoforms=50, run_id=6
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:37:21 2023]
+Finished job 12.
+10 of 157 steps (6%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:37:21 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_1.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_1.fastq
+    jobid: 4
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_1.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_1.fastq
+    wildcards: nr_isoforms=50, run_id=1
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:40:11 2023]
+Finished job 4.
+11 of 157 steps (7%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:40:11 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_8.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_8.fastq
+    jobid: 14
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_8.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_8.fastq
+    wildcards: nr_isoforms=50, run_id=8
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:42:12 2023]
+Finished job 14.
+12 of 157 steps (8%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:42:12 2023]
+rule run_ison_pipe_single:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_10.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_10.fastq
+    jobid: 16
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_10.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/reads/reads_50_10.fastq
+    wildcards: nr_isoforms=50, run_id=10
+    resources: tmpdir=/tmp
+
+[Wed Mar 15 14:45:43 2023]
+Finished job 16.
+13 of 157 steps (8%) done
+Select jobs to execute...
+
+[Wed Mar 15 14:45:43 2023]
+rule filter_isonform:
+    input: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_9.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_10.fastq
+    output: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_50.fastq
+    jobid: 3
+    reason: Missing output files: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_3_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_10_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_8_15.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_20.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_4_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_50.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_6_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_1_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_5_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_7_2.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_2_25.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/filtered/transcriptome_50_9_2.fastq; Input files updated by another job: /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_8.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_5.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_6.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_1.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_4.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_3.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_9.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_10.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_7.fastq, /home/alexanderpetri/isONform_analysis/Analysis/SIRV/VarAbundance/variable_abundance2/isONform/cl_spoa_50_2.fastq
+    resources: tmpdir=/tmp
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2023-03-15T130549.817265.snakemake.log

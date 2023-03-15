@@ -1,0 +1,4 @@
+Building DAG of jobs...
+WildcardError in line 82 of /home/alexanderpetri/isONform_analysis/Evaluation/Variable_abundance_SIRV/snakefile:
+Wildcards in input files cannot be determined from output files:
+'nr_isoforms'
