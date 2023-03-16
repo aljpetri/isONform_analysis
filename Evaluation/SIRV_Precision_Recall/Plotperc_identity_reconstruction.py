@@ -15,8 +15,8 @@ def read_analysis(isonform_name):
     # print("RATTLE_OUTPUT",isonform_name)
     fp = 0
     tp = 0
-    error_rate_list=[]
-    error_nr_list=[]
+    perc_identity_list=[]
+    reconstr=[]
     with open(isonform_name) as r_out:
         lines = r_out.readlines()
         for line in lines:
@@ -27,12 +27,14 @@ def read_analysis(isonform_name):
                 name_list = []
                 name_list.append(row[0])
                 # sprint("NAMELIST",name_list)
-                error_rate_list.append(float(row[3]))
-                error_nr_list.append(int(row[2]))
-    nr_errors=sum(error_nr_list)
-    average_error_rate=Average(error_rate_list)
+                perc_identity_list.append(float(row[9]))
+                reconstr.append(float(row[10]))
+    #nr_errors=sum(error_nr_list)
+    avg_perc_identity=Average(perc_identity_list)
     # print("ISONFORM DICTUS",isonform_dict)
-    return nr_errors,average_error_rate
+    perfect_reconstrs=len([1 for n1 in reconstr if n1 >95 and n1 < 105])
+    partial=len(reconstr)-perfect_reconstrs
+    return avg_perc_identity,perfect_reconstrs,partial
 
 def plot_with_seaborn_total_errors(ticks,outfolder):
     #sns.set_theme()
@@ -50,9 +52,9 @@ def plot_with_seaborn_total_errors(ticks,outfolder):
     total_errors_data = pd.read_csv(total_error_path,sep=",")
     #print(prec_data)
 
-    g = sns.swarmplot(data=total_errors_data, x="nr_isos", y="total_errors", hue="tool"#, style="type",
+    g = sns.swarmplot(data=total_errors_data, x="nr_isos", y="total_errors", hue="tool", style="type",
                     #kind="line",  # dashes = dashes,
-                    #col="dataset"#, hue_order=tool,  # hue="datastructure", style="datastructure",
+                    col="dataset"#, hue_order=tool,  # hue="datastructure", style="datastructure",
                     # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
                     #col_order=["SIM3"], palette=palette)
                        )
@@ -71,7 +73,7 @@ def plot_with_seaborn_total_errors(ticks,outfolder):
     plt.gcf().subplots_adjust(bottom=0.15)
     plt.savefig(os.path.join(outfolder, "Total_Errors.pdf"))
     plt.close()
-def plot_with_seaborn_error_rate(ticks,outfolder):
+def plot_with_seaborn_reconstruction(ticks,outfolder):
     #sns.set_theme()
     #sns.set_style("whitegrid")
     palette = {
@@ -82,7 +84,7 @@ def plot_with_seaborn_error_rate(ticks,outfolder):
     plt.rcParams.update({'font.size': 18})
     sns.set(font_scale=1.6)
     #sns.set_style("whitegrid")
-    precision_path = os.path.join(args.outfolder,"Error_Rates.csv")
+    precision_path = os.path.join(args.outfolder,"Reconstruction.csv")
     #recall_path = os.path.join(args.outfolder, "recall.csv")
     print(precision_path)
     #print(recall_path)
@@ -90,8 +92,8 @@ def plot_with_seaborn_error_rate(ticks,outfolder):
     #recall_data=pd.read_csv(recall_path)
     print(prec_data)
     #print(recall_data)
-
-    g = sns.boxplot(data=prec_data, x="nr_isos", y="error_rates", hue="tool" #, style="type",
+    #sns.histplot(data=tips, x="day", hue="sex", multiple="dodge", shrink=.8)
+    g = sns.histplot(data=prec_data, x="nr_isos", y="full", hue="tool"#,multiple="stack"#, style="type",
                     #kind="line",  # dashes = dashes,
                     #col="dataset"#, hue_order=tool,  # hue="datastructure", style="datastructure",
                     # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
@@ -100,9 +102,9 @@ def plot_with_seaborn_error_rate(ticks,outfolder):
     #g.fig.suptitle('Precision')
     # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
     # axes = g.axes
-    maximum = max(prec_data.loc[:, "error_rates"])
-    print("MAXI", maximum)
-    g.set(ylim=(0, maximum + 1), xlim=(0-0.5, len(ticks)),xlabel='Number of isoforms', ylabel='Average error rate (%)')
+    #maximum = max(prec_data.loc[:, "full"])
+    #print("MAXI", maximum)
+    #g.set(ylim=(0, maximum + 1), xlim=(0-0.5, len(ticks)),xlabel='Number of isoforms', ylabel='Average error rate (%)')
     g.set_title("Average Error Rate SIRV")
     #g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
     #g.tight_layout()
@@ -110,20 +112,20 @@ def plot_with_seaborn_error_rate(ticks,outfolder):
     # ax.set_xticks([18,24,30,36])
     plt.legend(title='Method')
     plt.gcf().subplots_adjust(bottom=0.15)
-    plt.savefig(os.path.join(outfolder, "Avg_Error_rate_SIRV.pdf"))
+    plt.savefig(os.path.join(outfolder, "Perc_reconstruction.pdf"))
     plt.close()
-def plot_with_seaborn_avg_error_rate(ticks, outfolder):
+def plot_with_seaborn_perc_id(ticks, outfolder):
         #sns.set_style("whitegrid")
         plt.rcParams.update({'font.size': 18})
         sns.set(font_scale=1.6)
         #sns.set_style("whitegrid")
         #precision_path = os.path.join(args.outfolder, "precision.csv")
-        error_rates_path = os.path.join(args.outfolder, "Error_Rates.csv")
-        #print(recall_path)
+        error_rates_path = os.path.join(args.outfolder, "Perc_identity.csv")
+        print(error_rates_path)
         error_rates_data = pd.read_csv(error_rates_path, sep=",")
-        #print(recall_data)
+        print(error_rates_data)
 
-        g = sns.boxplot(data=error_rates_data, x="nr_isos", y="error_rates ", hue="tool"#, style="type",
+        g = sns.boxplot(data=error_rates_data, x="nr_isos", y="perc_identity", hue="tool"#, style="type",
                            # kind="line",  # dashes = dashes,
                            #col="dataset"  # , hue_order=tool,  # hue="datastructure", style="datastructure",
                            # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
@@ -132,10 +134,10 @@ def plot_with_seaborn_avg_error_rate(ticks, outfolder):
         # g.fig.suptitle('Precision')
         # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
         # axes = g.axes
-        g.set_title("Average error rate SIRV")
-        maximum = max(error_rates_data.loc[:, "error_rates"])
-        print("MAXI", maximum)
-        g.set(ylim=(0, maximum+1), xlim=(0, len(ticks)),xlabel='Number of isoforms', ylabel='Average error rate (%)')
+        g.set_title("Percent identity")
+        #maximum = max(error_rates_data.loc[:, "error_rates"])
+        #print("MAXI", maximum)
+        g.set(ylim=(85, 101), xlim=(0, len(ticks)),xlabel='Number of isoforms', ylabel='Identity (%)')
 
         # g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
         # g.tight_layout()
@@ -143,7 +145,7 @@ def plot_with_seaborn_avg_error_rate(ticks, outfolder):
         # ax.set_xticks([18,24,30,36])
         plt.legend(title='Method')
         plt.gcf().subplots_adjust(bottom=0.15,left=0.20)
-        plt.savefig(os.path.join(outfolder, "Error_Rates_SIRV.pdf"))
+        plt.savefig(os.path.join(outfolder, "Perc_identity.pdf"))
         plt.close()
 def plot_results(id_list, original_list, rattle_list, isonform_list, gene_id, outfolder):
     # set width of bar
@@ -249,14 +251,14 @@ def main(args):
     if not isExist:
         # Create a new directory because it does not exist
         os.makedirs(args.outfolder)
-    error_rates_path = os.path.join(args.outfolder, "Error_Rates.csv")
-    error_rates_file = open(error_rates_path, "w")
+    reconstruction_path = os.path.join(args.outfolder, "Reconstruction.csv")
+    reconstruction_file = open(reconstruction_path, "w")
     # print("RATTLEPATHS",rattle_path)
-    tot_errors_path = os.path.join(args.outfolder, "Total_Errors.csv")
-    tot_errors_file = open(tot_errors_path, "w")
+    perc_identity_path = os.path.join(args.outfolder, "Perc_identity.csv")
+    perc_identity_file = open(perc_identity_path, "w")
 
-    tot_errors_file.write("id,nr_isos,tool,total_errors\n")
-    error_rates_file.write("id,nr_isos,tool,error_rates\n")
+    perc_identity_file.write("id,nr_isos,tool,perc_identity\n")
+    reconstruction_file.write("id,nr_isos,tool,full,partial\n")
     isoformNumbers = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
     # max_iso_nr=args.max_isoforms-1
     max_iso_nr = len(isoformNumbers)
@@ -274,32 +276,32 @@ def main(args):
         if analysisfile.startswith("results_ison_"):
             print("File", analysisfile)
             file_dir = os.path.join(args.indir, analysisfile)
-            avg_nr_errors,avg_error_rate = read_analysis(file_dir)
+            avg_perc_identity,perfect_reconstrs,partial = read_analysis(file_dir)
             # tp=len(isonform_dict)
             filename = analysisfile.split(".")[0]
             nr_isos = int(filename.split("_")[2])
             run_id = int(filename.split("_")[3])
             id = str(nr_isos) + "_" + str(run_id)
-            tot_errors_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "isONform", avg_nr_errors))
+            perc_identity_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "isONform", avg_perc_identity))
             # rattle_file.write("precision\n")
-            error_rates_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "isONform", avg_error_rate))
+            reconstruction_file.write("{0},{1},{2},{3},{4}\n".format(id, nr_isos, "isONform", perfect_reconstrs,partial))
             index = nr_isoforms_dict[nr_isos]
-            print(avg_error_rate)
-            if ison_avg_errors_list[index]:
-                ison_avg_error_rate[index].append(avg_error_rate)
-                ison_avg_errors_list[index].append(avg_nr_errors)
-            else:
-                ison_avg_error_rate[index] = []
-                ison_avg_error_rate[index].append(avg_error_rate)
-                ison_avg_errors_list[index] = []
-                ison_avg_errors_list[index].append(avg_nr_errors)
+            #print(avg_error_rate)
+            #if ison_avg_errors_list[index]:
+            #    ison_avg_error_rate[index].append(avg_error_rate)
+            #    ison_avg_errors_list[index].append(avg_nr_errors)
+            #else:
+            #    ison_avg_error_rate[index] = []
+            #    ison_avg_error_rate[index].append(avg_error_rate)
+            #    ison_avg_errors_list[index] = []
+            #    ison_avg_errors_list[index].append(avg_nr_errors)"""
             ison_name = "ison_res_" + str(nr_isos) + "_" + str(run_id) + ".csv"
 
         elif analysisfile.startswith("results_rattle_"):
             print("File", analysisfile)
 
             file_dir = os.path.join(args.indir, analysisfile)
-            avg_nr_errors,avg_error_rate = read_analysis(file_dir)
+            avg_perc_identity,perfect_reconstrs,partial = read_analysis(file_dir)
             # tp = len(rattle_dict)
             filename = analysisfile.split(".")[0]
             nr_isos = int(filename.split("_")[2])
@@ -307,8 +309,9 @@ def main(args):
             id = str(nr_isos) + "_" + str(run_id)
             # print(nr_isos)
             # print(run_id)
-            tot_errors_file.write("{0}, {1}, {2}, {3}\n".format(id, nr_isos, "RATTLE", avg_nr_errors))
-            error_rates_file.write("{0}, {1}, {2}, {3}\n".format(id, nr_isos, "RATTLE", avg_error_rate))
+            perc_identity_file.write("{0},{1},{2},{3}\n".format(id, nr_isos, "RATTLE", avg_perc_identity))
+            reconstruction_file.write("{0},{1},{2},{3},{4}\n".format(id, nr_isos, "RATTLE", perfect_reconstrs,partial))
+            """
             index = nr_isoforms_dict[nr_isos]
             if rattle_avg_errors_list[index]:
                 rattle_avg_errors_list[index].append(avg_nr_errors)
@@ -317,7 +320,7 @@ def main(args):
                 rattle_avg_errors_list[index] = []
                 rattle_avg_errors_list[index].append(avg_nr_errors)
                 rattle_avg_error_rate[index] = []
-                rattle_avg_error_rate[index].append(avg_error_rate)
+                rattle_avg_error_rate[index].append(avg_error_rate)"""
             rattle_name = "rattle_res_" + str(nr_isos) + "_" + str(run_id) + ".csv"
 
 
@@ -335,15 +338,18 @@ def main(args):
     print(rattle_avg_errors_list)
     print(ison_avg_error_rate)
     print(rattle_avg_error_rate)
-    error_rates_file.close()
-    tot_errors_file.close()
+    reconstruction_file.close()
+    """tot_errors_file.close()"""
 
     ticks = ['5', '10', '15', '20', '25', '30', '35', '40', '45', '50']
     #plot_data("AverageErrorRate", ison_avg_error_rate, rattle_avg_error_rate, ticks, args.outfolder)
     #plot_data("TotalNrErrors", ison_avg_errors_list, rattle_avg_errors_list, ticks, args.outfolder)
     #plot_data("AverageErrorRate", ison_avg_error_rate, rattle_avg_error_rate, ticks, args.outfolder)
     #plot_with_seaborn_total_errors(ticks, args.outfolder)
-    plot_with_seaborn_error_rate(ticks, args.outfolder)
+    #plot_with_seaborn_error_rate(ticks, args.outfolder)
+    perc_identity_file.close()
+    plot_with_seaborn_perc_id(ticks,args.outfolder)
+    plot_with_seaborn_reconstruction(ticks,args.outfolder)
     # print(original_key_list)
     # print(csv_obj)
     # SIRV_dict=record_lines(csv_obj)

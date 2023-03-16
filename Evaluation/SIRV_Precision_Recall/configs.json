@@ -1,13 +1,14 @@
 {
 "SCRIPT_FOLDER": "/home/alexanderpetri/PHDProject1",
 "IN_SEQUENCE" : "/home/alexanderpetri/Desktop/RAWDATA_PhD1/AccessionPRJEB34849-SIRV/",
-"SEQ_DIR": "/home/alexanderpetri/isONform_analysis/Analysis/SIRV_Precision_Recall/test_new_isoform_gen",
-"RATTLE_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/SIRV_Precision_Recall/test_new_isoform_gen/Rattle/",
-"ISONFORM_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/SIRV_Precision_Recall/test_new_isoform_gen/isONform/",
-"OUTPUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/SIRV_Precision_Recall/test_new_isoform_gen/results/",
+"SEQ_DIR": "/home/alexanderpetri/isONform_analysis/Analysis/SIRV/test_pipeline_final",
+"RATTLE_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/SIRV/test_pipeline_final/Rattle/",
+"ISONFORM_OUT_DIR" :"/home/alexanderpetri/isONform_analysis/SIRV/test_pipeline_final/isONform/",
+"OUTPUT_FOLDER" : "/home/alexanderpetri/isONform_analysis/SIRV/test_pipeline_final/results/",
 "REFERENCE_FOLDER": "/home/alexanderpetri/Desktop/RAWDATA_PhD1/100kSIRVSubsampling/",
 "RATTLE_DIR" : "/home/alexanderpetri/RATTLE/",
+"GNUTIME" : "/usr/bin/time -v",
 "MAX_ISO_NR" : 15,
-"RUNS": 5,
+"RUNS": 10,
 "ISO_ABUNDANCE": 5
 }

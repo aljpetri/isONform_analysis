@@ -2,7 +2,9 @@ import argparse
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-
+import seaborn as sns
+import pandas as pd
+from matplotlib import pyplot
 def read_analysis(isonform_name):
     support_dict={}
     #print("RATTLE_OUTPUT",isonform_name)
@@ -115,37 +117,113 @@ def calculate_statistics(tp,fp,fn):
         recall=0
     print("P",precision," R",recall)
     return precision,recall
-def plot_data(header,data1,data2,ticks,outfolder):
-    plt.figure()
-    bpl = plt.boxplot(data1, positions=np.array(range(len(data1))) * 2.0 - 0.4, widths=0.6)
-    bpr = plt.boxplot(data2, positions=np.array(range(len(data2))) * 2.0 + 0.4, widths=0.6)
-    set_box_color(bpl, '#D7191C')  # colors are from http://colorbrewer2.org/
-    set_box_color(bpr, '#2C7BB6')
+def plot_with_seaborn_precision(ticks,outfolder):
+    #sns.set_theme()
+    #sns.set_style("whitegrid")
+    palette = {
+        'isONform': 'tab:red',
+        'RATTLE': 'tab:green',
+        # "strobealign_mixed" : 'magenta'
+    }
+    plt.rcParams.update({'font.size': 18})
+    sns.set(font_scale=1.6)
+    #sns.set_style("whitegrid")
+    precision_path = os.path.join(args.outfolder,"precision.csv")
+    recall_path = os.path.join(args.outfolder, "recall.csv")
+    print(precision_path)
+    print(recall_path)
+    prec_data = pd.read_csv(precision_path,sep=",")
+    recall_data=pd.read_csv(recall_path)
+    print(prec_data)
+    print(recall_data)
 
-    # draw temporary red and blue lines and use them to create a legend
-    plt.plot([], c='#D7191C', label='isONform')
-    plt.plot([], c='#2C7BB6', label='RATTLE')
-    plt.legend()
-    plt.title(header)
-    plt.xticks(range(0, len(ticks) * 2, 2), ticks)
-    plt.xlim(-2, len(ticks) * 2)
-    plt.ylim(0, 1.1)
-    plt.tight_layout()
-    file=header+".png"
-    filename=os.path.join(outfolder, file)
-    plt.savefig(filename)
-    plt.show()
+    g = sns.boxplot(data=prec_data, x="nr_isos", y="precision", hue="tool"#,s=7,alpha=0.5 #style="type",
+                    #kind="line",  # dashes = dashes,
+                    #col="dataset"#, hue_order=tool,  # hue="datastructure", style="datastructure",
+                    # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
+                    #col_order=["SIM3"], palette=palette)
+                       )
+    #g.fig.suptitle('Precision')
+    # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
+    # axes = g.axes
+    g.set(ylim=(0.3,1.1), xlim=(0-0.5,len(ticks)),xlabel='Number of isoforms', ylabel='Precision')
+    g.set_title("Precision SIRV")
+    #g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
+    #g.tight_layout()
+    # g.set(ylim=(95, 100))
+    # ax.set_xticks([18,24,30,36])
+    plt.legend(title='Method')
+    plt.gcf().subplots_adjust(bottom=0.15,left=0.20)
+    plt.savefig(os.path.join(outfolder, "precision_SIRV.pdf"))
+    plt.close()
+
+def plot_with_seaborn_recall(ticks, outfolder):
+        #sns.set_style("whitegrid")
+        plt.rcParams.update({'font.size': 18})
+        sns.set(font_scale=1.6)
+        #sns.set_style("whitegrid")
+        precision_path = os.path.join(args.outfolder, "precision.csv")
+        recall_path = os.path.join(args.outfolder, "recall.csv")
+        print(precision_path)
+        print(recall_path)
+        prec_data = pd.read_csv(precision_path, sep=",")
+        recall_data = pd.read_csv(recall_path)
+        print(prec_data)
+        print(recall_data)
+        print("TICKS",ticks)
+
+        g = sns.boxplot(data=recall_data, x="nr_isos", y="recall", hue="tool"#,s=7,alpha=0.5#,# style="type",
+                           # kind="line",  # dashes = dashes,
+                           #col="dataset"  # , hue_order=tool,  # hue="datastructure", style="datastructure",
+                           # col_wrap=3, col_order=["SIM1", "SIM2", "SIM4"], palette=palette)
+                           # col_order=["SIM3"], palette=palette)
+                           )
+        # g.fig.suptitle('Precision')
+        # ax = sns.lineplot(data=indata, x="k", y="unique", hue="datastructure", style="chr", palette = sns.color_palette()[:7])
+        # axes = g.axes
+        g.set(ylim=(0.3, 1.1), xlim=(0-0.5, len(ticks)), xlabel='Number of isoforms', ylabel='Recall')
+        g.set_title("Recall SIRV")
+        # g.set_xticklabels(rotation=60, labels=[50, 75, 100, 150, 200, 250, 300, 500])
+        # g.tight_layout()
+        # g.set(ylim=(95, 100))
+        # ax.set_xticks([18,24,30,36])
+        plt.legend(title='Method')
+        plt.gcf().subplots_adjust(bottom=0.15,left=0.20)
+        plt.savefig(os.path.join(outfolder, "recall_SIRV.pdf"))
+        plt.close()
+def plot_data(header, data1, data2, ticks, outfolder):
+        plt.figure()
+
+        bpl = plt.boxplot(data1, positions=np.array(range(len(data1))) * 2.0 - 0.4, widths=0.6)
+        bpr = plt.boxplot(data2, positions=np.array(range(len(data2))) * 2.0 + 0.4, widths=0.6)
+        set_box_color(bpl, '#D7191C')  # colors are from http://colorbrewer2.org/
+        set_box_color(bpr, '#2C7BB6')
+
+        # draw temporary red and blue lines and use them to create a legend
+        plt.plot([], c='#D7191C', label='isONform')
+        plt.plot([], c='#2C7BB6', label='RATTLE')
+        plt.legend()
+        plt.title(header)
+        plt.xticks(range(0, len(ticks) * 2, 2), ticks)
+        plt.xlim(-2, len(ticks) * 2)
+        plt.ylim(0, 1.1)
+        plt.tight_layout()
+        file = header + ".png"
+        filename = os.path.join(outfolder, file)
+        plt.savefig(filename)
+        plt.show()
+
+
 def main(args):
     isExist = os.path.exists(args.outfolder)
     if not isExist:
         # Create a new directory because it does not exist
         os.makedirs(args.outfolder)
-    rattle_path = os.path.join(args.outfolder, "rattle.csv")
-    rattle_file = open(rattle_path, "w")
-    print("RATTLEPATHS",rattle_path)
-    ison_path = os.path.join(args.outfolder, "isONform.csv")
-    ison_file = open(ison_path, "w")
-    print("SIONPATHS", ison_path)
+    recall_path = os.path.join(args.outfolder, "recall.csv")
+    recall_file = open(recall_path, "w")
+    #print("RATTLEPATHS",rattle_path)
+    precision_path = os.path.join(args.outfolder, "precision.csv")
+    precision_file = open(precision_path, "w")
     isoformNumbers = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
     #max_iso_nr=args.max_isoforms-1
     max_iso_nr=len(isoformNumbers)
@@ -157,7 +235,8 @@ def main(args):
     print("IN",args.indir)
     print("OUT",args.outfolder)
     nr_isoforms_dict={}
-
+    precision_file.write("id,nr_isos,tool,precision\n")
+    recall_file.write("id,nr_isos,tool,recall\n")
     for i,number in enumerate(isoformNumbers):
         nr_isoforms_dict[number]=i
     print("NR_ISOS_DICT",nr_isoforms_dict)
@@ -175,9 +254,9 @@ def main(args):
             print("Precision", precision)
             print("Position", nr_isos - 2)
             print("Recall",recall)
-            ison_file.write(">precision {0}:{1}\n".format(id, precision))
+            precision_file.write("{0},{1},{2},{3}\n".format(id,nr_isos,"isONform", precision))
             # rattle_file.write("precision\n")
-            ison_file.write(">recall {0}: {1}\n".format(id, recall))
+            recall_file.write("{0},{1},{2},{3}\n".format(id,nr_isos,"isONform", recall))
             index=nr_isoforms_dict[nr_isos]
             #print(ison_precision_list)
             if ison_precision_list[index]:
@@ -200,37 +279,20 @@ def main(args):
             nr_isos = int(filename.split("_")[2])
             run_id = int(filename.split("_")[3])
             id = str(nr_isos) + "_" + str(run_id)
-            #print(nr_isos)
-            #print(run_id)
             fn = nr_isos - tp
             index = nr_isoforms_dict[nr_isos]
             precision, recall = calculate_statistics(tp, fp, fn)
             print("Precision", precision)
             print("Position", index)
             print("Recall", recall)
-            rattle_file.write(">precision {0}:{1}\n".format(id, recall))
-            #rattle_file.write("precision\n")
-            rattle_file.write(">recall {0}: {1}\n".format(id, precision))
+            precision_file.write("{0}, {1}, {2}, {3}\n".format(id,nr_isos,"RATTLE", precision))
+            recall_file.write("{0}, {1}, {2}, {3}\n".format(id,nr_isos,"RATTLE", recall))
 
             #print("rattle_precision_list",rattle_precision_list)
             if rattle_precision_list[index]:
-                #old_prec_list = rattle_precision_dict[nr_isos]
-                #old_prec_list.append(precision)
-                #prec_repl_dict = {nr_isos: old_prec_list}
-                #rattle_precision_dict.update(prec_repl_dict)
-                #old_rec_list = rattle_recall_dict[nr_isos]
-                #old_rec_list.append(recall)
-                #rec_repl_dict = {nr_isos: old_rec_list}
-                #rattle_recall_dict.update(rec_repl_dict)
                 rattle_precision_list[index].append(precision)
                 rattle_recall_list[index].append(recall)
             else:
-                #list_prec = []
-                #list_prec.append(precision)
-                #rattle_precision_dict[nr_isos] = list_prec
-                #list_rec = []
-                #list_rec.append(recall)
-                #rattle_recall_dict[nr_isos] = list_rec
                 rattle_precision_list[index]=[]
                 rattle_precision_list[index].append(precision)
                 rattle_recall_list[index] = []
@@ -249,12 +311,16 @@ def main(args):
     ax.boxplot(ison_precision_dict.values())
     ax.set_xticklabels(ison_precision_dict.keys())
 """
+    precision_file.close()
+    recall_file.close()
     print(ison_precision_list)
     print(rattle_precision_list)
     #write_to_csv(ison_precision_list,ison_recall_list,args.outfolder,id)
     ticks = ['5', '10', '15','20','25','30','35','40','45','50']
-    plot_data("Precision", ison_precision_list, rattle_precision_list, ticks,args.outfolder)
-    plot_data("Recall", ison_recall_list, rattle_recall_list, ticks,args.outfolder)
+    plot_with_seaborn_precision(ticks, args.outfolder)
+    plot_with_seaborn_recall(ticks, args.outfolder)
+    #plot_data("Precision", ison_precision_list, rattle_precision_list, ticks,args.outfolder)
+    #plot_data("Recall", ison_recall_list, rattle_recall_list, ticks,args.outfolder)
     #print(original_key_list)
     #print(csv_obj)
     #SIRV_dict=record_lines(csv_obj)
