@@ -40,6 +40,7 @@ errorcounter=0
 #echo -e "Number of Isoforms \t Found isoforms by IsONform \n">>results.tsv
 #ls
 #define the file we want to use as indicator for our algos performance
+mkdir $filedirectory/isONResult
 file=out/mapping.txt
 file=$filedirectory/isONform/mapping.txt
 num_cores=8
@@ -62,6 +63,7 @@ FILES=$filedirectory"/reads/*.fastq"
 	i=${fnamesplit[1]}
 	j=${fnamesplit[2]}
 	number="${i}_${j}"
+	echo $number
 	echo "$i \t $j" 
 	read_amount=$(< $actual_file wc -l)
 	#As fastq entries have 4 lines divide by 4 to get the actual number of reads
@@ -71,17 +73,22 @@ FILES=$filedirectory"/reads/*.fastq"
 		#run IsONform
 		#if e=True
 	echo $isonform_dir/main.py
-	isONcorrect  --fastq $actual_file  --outfolder $filedirectory/correction/
-	mv $filedirectory/correction/corrected_reads.fastq $filedirectory/correction/corr_$number.fastq
-	python $isonform_dir/main.py --fastq $filedirectory/correction/corr_$number.fastq --k 9 --w 20 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 10 --outfolder $filedirectory/isONcorrform --iso_abundance $iso_abundance
+	/home/alexanderpetri/isONcorrect/isONcorrect  --fastq $actual_file  --outfolder $filedirectory/correction/$number/$number --k 9 --w 10
+	#mkdir $filedirectory/correction
+	#mv $filedirectory/correction/corrected_reads.fastq $filedirectory/correction/$number/$number/corr_$number.fastq
+	####OLDRUN######/usr/bin/time -v python $isonform_dir/isONform_parallel.py --fastq_folder $filedirectory/correction/$number --t 4 --k 9 --w 20 --xmin 14 --xmax 80  --split_wrt_batches --iso_abundance $iso_abundance --exact_instance_limit 50 --max_seqs_to_spoa 200 --delta_len 10 --outfolder $filedirectory/isONcorrform/$number
+	/usr/bin/time -v python $isonform_dir/isONform_parallel.py --fastq_folder $filedirectory/correction/$number --t 4 --k 9 --w 20 --xmin 14 --xmax 80  --split_wrt_batches --exact_instance_limit 50 --max_seqs_to_spoa 200 --delta_len 10 --outfolder $filedirectory/isONcorrform/$number --iso_abundance 5 --merge_sub_isoforms_3 --merge_sub_isoforms_5 --delta_iso_len_3 5 --delta_iso_len_5 5
 	#FILE=$filedirectory/isONcorrform/cluster_merged.fastq
 	#if test -f "$FILE"; then
-	mv $filedirectory/isONcorrform/transcriptome.fastq  $filedirectory/isONcorrform/cl_spoa_$number.fastq
-	mv $filedirectory/isONpipe/isoforms/transcriptome_support.txt $filedirectory/isONcorrform/support_$number.txt
-	mv $filedirectory/isONpipe/isoforms/transcriptome_mapping.txt $filedirectory/isONcorrform/mapping_$number.txt
-	#else
-	#	mv $filedirectory/isONcorrform/spoa0merged.fasta $filedirectory/isONcorrform/cl_spoa_$number.fasta
+	mv $filedirectory/isONcorrform/$number/transcriptome.fastq  $filedirectory/isONResult/cl_spoa_$number.fastq
+	mv $filedirectory/isONcorrform/$number/transcriptome_support.txt $filedirectory/isONResult/support_$number.txt
+	mv $filedirectory/isONcorrform/$number/transcriptome_mapping.txt $filedirectory/isONResult/mapping_$number.txt
+	#else #$filedirectory/isONcorrform/*
+
+	#mv $filedirectory/isONcorrform/spoa0merged.fasta $filedirectory/isONResult/cl_spoa_*.fasta
+	#seqtk seq -F '#' cl_spoa_$number.fasta > cl_spoa_$number.fastq
 	#fi
+	#rm
 	#mv $filedirectory/isONcorrform/spoa0merged.fastq $filedirectory/isONcorrform/cl_spoa_$number.fastq
 	#python -m pyinstrument main.py --fastq $filedirectory/reads_$number.fq --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isonform/
 		#if e=False

@@ -13,40 +13,44 @@ if [ $# -lt 2 ]; then
     exit 1
 fi
 
-filedirectory=$1
+input_file=$1
 rattle_loc=$2
-mkdir -p $filedirectory/Rattle
+filedirectory=$3
+echo $filedirectory
+mkdir -p  $filedirectory"/Rattle"
 
-outputfile=$filedirectory/rattle/resultserror1.tsv
+#outputfile=$filedirectory/rattle/resultserror1.tsv
 #if results.tsv already exists 
-if [ -s $outputfile ]
-then 
+#if [ -s $outputfile ]
+#then
 #delete all data from the file 
-   > $outputfile
-else
+#   > $outputfile
+#else
 #add a file results.tsv to write into
-   touch $outputfile
-fi
+#   touch $outputfile
+#fi
 #counter used to name error files correctly
-errorcounter=0
+#errorcounter=0
 #write nice header into the output file
 #echo -e "Number of Isoforms \t Found isoforms by IsONform \n">>results.tsv
 #ls
 #define the file we want to use as indicator for our algos performance
-rattle_dir=$filedirectory/Rattle
-
-FILES=$filedirectory"/reads/*.fastq"
-echo $FILES
-start=$(date +%s)
-for file in $FILES
-do
-	echo $file
+rattle_dir=$filedirectory"/Rattle"
+output_dir=$filedirectory"/Rattle_out"
+mkdir -p $output_dir
+echo $rattle_dir
+#FILES=$filedirectory"/reads/*.fastq"
+#echo $FILES
+#start=$(date +%s)
+#for file in $FILES
+#do
+#	echo $file
 	# cp $filedirectory/reads/reads.fq $filedirectory
 		#we want to figure out how many reads were actually generated
 		#read_amount=$(< $filedirectory/reads/reads.fq wc -l)
 		#
 		
-	part2=$(basename "$file")
+	part2=$(basename "$input_file")
 	echo "Part2"
 	echo "$part2"
 	arrIN=(${part2//./ })
@@ -58,36 +62,37 @@ do
 	j=${fnamesplit[2]}
 	number="${i}_${j}"
 	echo "$i \t $j" 
-	rattle_out_file=$rattle_dir/transcriptome$i_$j.fq
-	read_amount=$(< $file wc -l)
+	rattle_out_file=$filedirectory"/Rattle/transcriptome_$i_$j.fq"
+	echo $rattle_out_file
+	#read_amount=$(< $file wc -l)
 	#As fastq entries have 4 lines divide by 4 to get the actual number of reads
-	var=4
-	true_read_amount=$((read_amount / var))
+	#var=4
+	#true_read_amount=$((read_amount / var))
 		#mv $filedirectory/reads.fq $filedirectory/reads_$number.fq
 		#run IsONform
 		#if e=True
-	echo $isonform_dir/main.py
+	#echo $isonform_dir/main.py
 	echo "RATTLE cluster"
-	$rattle_loc/rattle cluster -i $file -t 24 -o $rattle_dir  --iso
+	$rattle_loc/rattle cluster -i $input_file -t 24 -o $rattle_dir  --iso
 	echo "RATTLE correct"
-	$rattle_loc/rattle correct -i $file -c $rattle_dir"/clusters.out"  -o $rattle_dir -t 24
+	$rattle_loc/rattle correct -i $input_file -c $rattle_dir"/clusters.out"  -o $rattle_dir -t 24
 	echo "RATTLE polish"
 	$rattle_loc/rattle polish -i $rattle_dir"/consensi.fq" -o $rattle_out_file -t24 
 	echo "Polished"
-	FILE=$rattle_dir/transcriptome.fq
-	OTHERFILE=$rattle_dir/consensi.fq
-	if test -f "$FILE"; then
-		mv $rattle_dir"/transcriptome.fq" $rattle_dir/rattle_res_$number.fastq
-	elif test -f "$OTHERFILE" ;then
-		mv $rattle_dir"/consensi.fq" $rattle_dir/rattle_res_$number.fastq
-	else
-		touch $rattle_dir/rattle_res_$number.fastq
+	#FILE=$rattle_dir/transcriptome.fq
+	#OTHERFILE=$rattle_dir/consensi.fq
+	if test -f $rattle_dir"/transcriptome.fq"; then
+	  mv $rattle_dir"/transcriptome.fq" $output_dir/rattle_res_$number.fastq
+	elif test -f $rattle_dir"/consensi.fq" ;then
+		mv $rattle_dir"/consensi.fq" $output_dir/rattle_res_$number.fastq
+	#else
+	#	touch $rattle_dir/rattle_res_$number.fastq
 	fi
 	#python $isonform_dir/main.py --fastq $file --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isONform
 	#python -m pyinstrument main.py --fastq $filedirectory/reads_$number.fq --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 5 --outfolder $filedirectory/isonform/
 		#if e=False
 		#python main.py --fastq $filedirectory/reads/isoforms.fa --k 9 --w 10 --xmin 14 --xmax 80 --exact --max_seqs_to_spoa 200 --delta_len 3 --outfolder out
-	
-done
-end=$(date +%s)
-echo "Elapsed Time: $(($end-$start)) seconds"	
+rm $rattle_dir/*
+#done
+#end=$(date +%s)
+#echo "Elapsed Time: $(($end-$start)) seconds"

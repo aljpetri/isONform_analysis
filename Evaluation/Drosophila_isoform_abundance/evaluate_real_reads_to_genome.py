@@ -263,8 +263,10 @@ def decide_primary_locations(sam_file, args): # maybe this function is not neede
             # if has_large_del:
             #     print(has_large_del)
             if read.query_name in reads_primary:
+                #the query has multiple primary alignments and therefore is added to reads_multiple_primary
                 reads_multiple_primary.add(read.query_name)
                 if identity >= reads_tmp[read.query_name][0] and  matches >= reads_tmp[read.query_name][1]:
+                    #if the identity of this alignment is higher than in the previous primary alignment, replace the infos
                     reads_primary[read.query_name] = read
                     reads_tmp[read.query_name] = (identity, matches)
                 elif identity <= reads_tmp[read.query_name][0] and  matches <= reads_tmp[read.query_name][1]:
@@ -290,10 +292,12 @@ def decide_primary_locations(sam_file, args): # maybe this function is not neede
                 #         continue
 
             else:
+                #reads_primary has all sam infos
                 reads_primary[read.query_name] = read
+                #reads_tmp contains the identity and matches
                 reads_tmp[read.query_name] = (identity, matches)
-    print("Total Reads flagged with primary",len(reads_primary))
     print("TOTAL READS FLAGGED WITH MULTIPLE PRIMARY:", len(reads_multiple_primary))
+    print("Total Reads flagged with primary",len(reads_primary))
     return reads_primary     
 
 
@@ -462,12 +466,13 @@ def print_detailed_values_to_file(alignments_dict, annotations_dict, reads_to_cl
 
     for (acc, (ins, del_, subs, matches, chr_id, reference_start, reference_end, sam_flag, read_index)) in alignments_sorted:
         error_rate = round( 100* (ins + del_ + subs) /float( (ins + del_ + subs + matches) ), 4 )
+        #print(annotations_dict)
         read_class = annotations_dict[acc] #"NA" # annotations_dict[acc]
         if acc in reads_to_cluster_size:
             cluster_size = reads_to_cluster_size[acc]
         else:
             cluster_size = 1
-        read_length =0 # len(reads[acc])
+        read_length = 0 #len(reads[acc])
         aligned_length = (ins + del_ + subs + matches)
         is_unaligned_in_other_method = 1 if acc in reads_unaligned_in_other_method else 0
         # is_missing_from_clustering_or_correction = 1 if acc in reads_missing_from_clustering_correction_output else 0
@@ -894,7 +899,7 @@ def get_splice_classifications(annotated_ref_isoforms, annotated_splice_coordina
     print("total splice sites:", all_splice)
     print("GT-AG splice sites:", canonical_splice)
 
-    return read_annotations
+    return read_annotations,total_reads
 
 def pickle_dump(data, filename):
     with open(os.path.join(args.outfolder,filename), 'wb') as f:
@@ -944,6 +949,7 @@ def print_exact_alignments(reads, corr_reads):
 
 def main(args):
     refs = { acc.split()[0] : seq for i, (acc, (seq, _)) in enumerate(readfq(open(args.refs, 'r')))}
+
     print(refs.keys())
     if args.load_database:
         print()
@@ -959,13 +965,19 @@ def main(args):
         pickle_dump(annotated_splice_coordinates, os.path.join( args.outfolder, 'annotated_splice_coordinates.pickle') )
         pickle_dump(annotated_splice_coordinates_pairs, os.path.join( args.outfolder, 'annotated_splice_coordinates_pairs.pickle') )
         pickle_dump(minimum_annotated_intron, os.path.join( args.outfolder, 'minimum_annotated_intron.pickle') )
-
+    #load the read files as well as the alignement files
     reads = { acc.split()[0] : seq for i, (acc, (seq, qual)) in enumerate(readfq_split(open(args.reads, 'r')))}
+    #print("READS",args.corr_reads)
+    filename=args.corr_reads.split("/")[-1].split(".")[0]
+    #print("FILENAME",filename)
+    id=filename.split("_")[1]
+    #print("ID",id)
     corr_reads = { acc.split()[0] : seq for i, (acc, (seq, qual)) in enumerate(readfq_split(open(args.corr_reads, 'r')))}
+
     orig_primary_locations = decide_primary_locations(args.orig_sam, args)
     corr_primary_locations = decide_primary_locations(args.corr_sam, args)
 
-
+    #this should be true for our case
     if args.align:
         corr, corr_detailed = get_error_rate_stats_per_read(corr_primary_locations, corr_reads, annotated_splice_coordinates_pairs, args, reference = refs)
         orig, orig_detailed = get_error_rate_stats_per_read(orig_primary_locations, reads, annotated_splice_coordinates_pairs, args, reference = refs)
@@ -989,8 +1001,18 @@ def main(args):
     print("Reads, Best, top 5%, top 10%, top 25%, Median, top 75%, top 90%, top 95%, Worst")
     print("Original,{0},{1},{2},{3},{4},{5},{6},{7},{8}".format( *[round(100*round(x,3), 2) for x in quantile_tot_orig ] ))
     print("Corrected,{0},{1},{2},{3},{4},{5},{6},{7},{8}".format( *[round(100*round(x,3), 2) for x in quantile_tot_corr ] ))
+    from pathlib import Path
 
-    outfile = open(os.path.join(args.outfolder, "results.csv"), "w")
+
+    real_outfolder=Path(args.outfolder).parent
+    print("REAL",real_outfolder)
+    if args.tool=="isONform":
+        new_name="results_"+id+"_i.csv"
+    else:
+        new_name="results_"+id+"_r.csv"
+
+
+    outfile = open(os.path.join(real_outfolder, new_name), "w")
     outfile.write("Original,tot,{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}\n".format( *[round(100*round(x,3), 2) for x in quantile_tot_orig ], *orig_stats, len(orig)))
     outfile.write("Corrected,tot,{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}\n".format( *[round(100*round(x,3), 2) for x in quantile_tot_corr ], *corr_stats, len(corr)))
     
@@ -1017,7 +1039,17 @@ def main(args):
         
 
     print('Corrected')
-    corr_splice_results = get_splice_classifications(annotated_ref_isoforms, annotated_splice_coordinates, annotated_splice_coordinates_pairs, corrected_splice_sites, refs, corr_primary_locations)
+    corr_splice_results,total_reads = get_splice_classifications(annotated_ref_isoforms, annotated_splice_coordinates, annotated_splice_coordinates_pairs, corrected_splice_sites, refs, corr_primary_locations)
+    if args.tool=="isONform":
+        outname=id+"_i.csv"
+    else:
+        outname = id + "_r.csv"
+    print("OUTNAME",id)
+    other_outfile= open(os.path.join(real_outfolder, outname), "w")
+    print("{0},{1},{2},tot_pred\n".format(args.tool,id,total_reads))
+    print("{0},{1}, ,unique_FSM\n".format(args.tool,id))
+    other_outfile.write("{0},{1},{2},tot_pred\n".format(args.tool,id,total_reads))
+    other_outfile.write("{0},{1}, ,unique_FSM\n".format(args.tool,id))
     print('Original')
     orig_splice_results = get_splice_classifications(annotated_ref_isoforms, annotated_splice_coordinates, annotated_splice_coordinates_pairs, original_splice_sites, refs, orig_primary_locations)
     #reads_to_cluster_size = get_cluster_sizes(args.cluster_file, reads)
@@ -1030,22 +1062,25 @@ def main(args):
             corr_splice_results[r_acc] = orig_splice_results[r_acc]
             corr_reads[r_acc] = reads[r_acc]
 
-    # bug_if_not_empty = set(corr_reads.keys()) - set(reads.keys())
     reads_unaligned_in_original = set(reads.keys()) - set(orig_primary_locations.keys())
-    reads_unaligned_in_correction = set(corr_reads.keys()) - set(corr_primary_locations.keys()) 
-
-    detailed_results_outfile = open(os.path.join(args.outfolder, "results_per_read.csv"), "w")
+    reads_unaligned_in_correction = set(corr_reads.keys()) - set(corr_primary_locations.keys())
+    if args.tool=="isONform":
+        res_per_read_outname="results_per_read_"+id+"_i.csv"
+    else:
+        res_per_read_outname ="results_per_read_"+ id + "_r.csv"
+    detailed_results_outfile=open(os.path.join(real_outfolder,res_per_read_outname),"w")
+    #detailed_results_outfile = open(os.path.join(args.outfolder, "results_per_read.csv"), "w")
     detailed_results_outfile.write("acc,read_type,ins,del,subs,matches,error_rate,read_length,aligned_length,cluster_size, is_unaligned_in_other_method,tot_splices,read_sm_junctions,read_nic_junctions,fsm,nic,ism,nnc,no_splices,donor_acceptors,donor_acceptors_choords,transcript_fsm_id,chr_id,reference_start,reference_end,sam_flag\n")
     #new version of evaluation_output
-    # print_detailed_values_to_file(corr, corr_splice_results, reads_to_cluster_size, corr_reads,
-    #                              detailed_results_outfile, reads_unaligned_in_original,
-    #                              reads_missing_from_clustering_correction_output, "corrected")
+    print_detailed_values_to_file(corr, corr_splice_results, reads_to_cluster_size, corr_reads,
+                                  detailed_results_outfile, reads_unaligned_in_original,
+                                  reads_missing_from_clustering_correction_output, "corrected")
     #print_detailed_values_to_file(orig, orig_splice_results, reads_to_cluster_size, reads, detailed_results_outfile,
     #                              reads_unaligned_in_correction, reads_missing_from_clustering_correction_output,
     #                              "original")
     #original version of evaluation_output
-    print_detailed_values_to_file(corr, corr_splice_results, reads_to_cluster_size, corr_reads, detailed_results_outfile, reads_unaligned_in_original, reads_missing_from_clustering_correction_output, "corrected")
-    print_detailed_values_to_file(orig, orig_splice_results, reads_to_cluster_size, reads, detailed_results_outfile, reads_unaligned_in_correction, reads_missing_from_clustering_correction_output, "original")
+    #print_detailed_values_to_file(corr, corr_splice_results, reads_to_cluster_size, corr_reads, detailed_results_outfile, reads_unaligned_in_original, reads_missing_from_clustering_correction_output, "corrected")
+    #print_detailed_values_to_file(orig, orig_splice_results, reads_to_cluster_size, reads, detailed_results_outfile, reads_unaligned_in_correction, reads_missing_from_clustering_correction_output, "original")
     detailed_results_outfile.close()
 
     print()
@@ -1081,7 +1116,8 @@ if __name__ == '__main__':
     parser.add_argument('--infer_genes', action= "store_true", help='Include pairwise alignment of original and corrected read.')
     parser.add_argument('--load_database', action= "store_true", help='Load already computed splice junctions and transcript annotations instead of constructing a new database.')
     parser.add_argument('--align', action= "store_true", help='Include pairwise alignment of original and corrected read.')
-
+    parser.add_argument('--id', type=str, help='Output path of results')
+    parser.add_argument('--tool', type=str, help='Output path of results')
     args = parser.parse_args()
 
     outfolder = args.outfolder

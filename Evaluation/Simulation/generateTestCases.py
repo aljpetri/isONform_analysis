@@ -383,6 +383,7 @@ def generate_isoforms(args, ref_path):
     known_isoforms=[]
     #actual_isoforms stores the count of the actual number of different isoforms which were generated
     actual_isoforms=1
+
     #as we want to generate a certain number of isoforms, we have to use a while loop to regenerate an isoform which was equal to a known isoform
     while actual_isoforms < args.n_isoforms:
         #exonlist stores the exons which were deemed to be in this isoform
@@ -395,7 +396,15 @@ def generate_isoforms(args, ref_path):
         #generate the actual isoform sequence
         isoform = "".join([ex for ex in exonlist])
         #test whether we already know this isoform(if yes start again to generate something different)
-        if not isoform in known_isoforms or not isoform:
+        if isoform in known_isoforms or not isoform:
+            continue
+        is_subiso=False
+        for iso in known_isoforms:
+            if isoform in iso:
+                is_subiso=True
+                print("we found a subisoform")
+                break
+        if not is_subiso:
             actual_isoforms += 1
             isoforms[actual_isoforms]=isoform
             isoforms_out.write(">sim|sim|{0}\n{1}\n".format(actual_isoforms, isoform))
@@ -405,7 +414,7 @@ def generate_isoforms(args, ref_path):
             #TODO change this part. We always want isoforms to be supported by 1-10 reads
             if double_seed>1:
                 for i in range(1,double_seed):
-                    #name the second instance of an isoform so that we can identify it in the final output
+                            #name the second instance of an isoform so that we can identify it in the final output
                     name=str(actual_isoforms)+"."+str(i)
                     isoforms[name]=isoform
                     isoforms_out.write(">sim|sim|{0}\n{1}\n".format(name, isoform))
@@ -460,31 +469,47 @@ def generate_isoforms_def_start_end(args, ref_path):
         for exon in exons:
             if exon==exons[0] or exon==exons[-1]:
                 exonlist.append(exon)
-
             else:
                 exon_present_seed = random.random()
                 # we use a rng to figure out whether the isoform contains a certain exon
                 if exon_present_seed > 0.6:
                     exonlist.append(exon)
+        if not len(exonlist)>4:
+            continue
         #generate the actual isoform sequence
         isoform = "".join([ex for ex in exonlist])
+        print("isoform", isoform)
         #test whether we already know this isoform(if yes start again to generate something different)
-        if not (isoform in known_isoforms) or not isoform:
-            if len(isoform)>=100:
-                actual_isoforms += 1
-                isoforms_out.write(">sim|sim|{0}\n{1}\n".format(actual_isoforms, isoform))
-                isoforms[actual_isoforms]=isoform
-                known_isoforms.append(isoform)
+        if isoform in known_isoforms:
+            continue
+        if isoform:
+            is_subiso = False
+            for iso in known_isoforms:
+                if isoform in iso or iso in isoform:
+                    is_subiso = True
+                    print("we found a subisoform")
+                    break
+            if is_subiso:
+                print("subiso")
+                continue
+            if len(isoform)<100:
+                print("tooshort")
+                continue
+            #if len(isoform)>=100:
+            actual_isoforms += 1
+            isoforms_out.write(">sim|sim|{0}\n{1}\n".format(actual_isoforms, isoform))
+            isoforms[actual_isoforms]=isoform
+            known_isoforms.append(isoform)
                 #now we want to make sure that we also have some equal isoforms in the data(to make sure we get the correct amount of isoforms)
                 #double_seed=random.randrange(99,101)
-                if args.read_dist=="uniform":
+            if args.read_dist=="uniform":
                     double_seed=random.randrange(10,50)
-                elif args.read_dist=="exp":
+            elif args.read_dist=="exp":
                     #double_seed=random.choice([1,2,4,8,16,32,64,128])#]),256,512,1024])
                     double_seed=random.choice([8,16,32,64])
                 #TODO change this part. We always want isoforms to be supported by 1-10 reads
                 #if double_seed>1:
-                for i in range(0,double_seed+1):
+            for i in range(0,double_seed+1):
                         #name the second instance of an isoform so that we can identify it in the final output
                         name=str(actual_isoforms)+"."+str(i)
                         #isoforms_out.write(">sim|sim|{0}\n{1}\n".format(name, isoform))
@@ -501,9 +526,10 @@ def main(args):
         genome_out.write(
             ">{0}\n{1}\n".format("ref", "".join([random.choice("ACGT") for i in range(args.sim_genome_len)])))
         genome_out.close()
+        print("and now for the isoformGen")
         #isoforms=generate_isoforms(args, genome_out.name)
         isoforms=generate_isoforms_def_start_end(args,genome_out.name)
-        #print("Hello World")
+        print("Hello World")
         if args.e==True:
             simulate_reads(args,isoforms)
             #print("Simulating reads")

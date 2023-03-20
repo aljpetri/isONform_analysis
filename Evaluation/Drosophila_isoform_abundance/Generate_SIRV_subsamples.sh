@@ -16,10 +16,12 @@ max_iso_nr=$1
 nr_runs=$2
 input_ref=$3
 filedirectory=$4
+alignment=$5
+reference=$6
 mkdir -p $filedirectory
-mkdir -p $filedirectory/errors
+#mkdir -p $filedirectory/errors
 mkdir -p $filedirectory/reads
-mkdir -p $filedirectory/isonform
+mkdir -p $filedirectory/references
 outputfile=$filedirectory/resultserror1.tsv
 #if results.tsv already exists 
 if [ -s $outputfile ]
@@ -38,12 +40,10 @@ errorcounter=0
 #define the file we want to use as indicator for our algos performance
 file=out/mapping.txt
 file=$filedirectory/isonform/mapping.txt
-
+isoformNumbers=(5 10 15 20 25 30 35 40 45 50)
 #iterate over different numbers of isoforms
-for ((i=2; i<=$max_iso_nr; i++))
-do
-	#we want to have some double reads 
-	n_reads=$(($i*5))
+for i in ${isoformNumbers[@]}; do
+	echo $i
 	#echo "Generating $i TestIsoforms" >>results.tsv
 	#for each amount of isoforms we would like to run 15 tests to make sure our algo works stable
 	for((j=1;j<=$nr_runs;j++))
@@ -56,10 +56,9 @@ do
 		number="${i}_${j}"
 		############ COMMENT THE FOLLOWING TWO LINES FOR BUGFIXING ON IDENTICAL READ FILES ############
 		###############################################################################################
-		python generateTestCases.py --ref $input_ref --sim_genome_len 1344 --nr_reads $n_reads --outfolder $filedirectory/isoforms --coords  200 400 600 800 1000 1200 1400 1600 1800 2000 --probs 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 0.4 --n_isoforms $i --e True --id $number --read_dist exp
-		cp $filedirectory/isoforms/reads.fq $filedirectory/reads/reads.fq
-		#mkdir $filedirectory/reads/$number
-		mv $filedirectory/reads/reads.fq $filedirectory/reads/$number/reads_$number.fastq
+		python sirv_subsample_isoforms.py --fastq $input_ref  --outfile $filedirectory/reads/reads_$number.fastq  --depth_dist exp --nr_isoforms $i --alignments $alignment --sirv_ref $reference
+		#cp $filedirectory/isoforms/reads.fq $filedirectory/reads/reads.fq
+		mv $filedirectory/reads/reference.fasta $filedirectory/references/reference_$number.fasta
 	done
 done
 touch dummyfile

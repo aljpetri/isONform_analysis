@@ -261,31 +261,41 @@ def get_alignments(best_edit_distances, querys, targets):
         for acc2 in best_edit_distances[acc1]:
             seq2 = targets[acc2]
             read_alignment, ref_alignment = parasail_alignment(seq1, seq2)
+            reconstruction_rate = len(seq1) / len(seq2)
             insertions = ref_alignment.count("-")
             deletions = read_alignment.count("-")
             indels = insertions + deletions
             mismatches = len(
                 [1 for n1, n2 in zip(read_alignment, ref_alignment) if n1 != n2 and n1 != "-" and n2 != "-"])
-
+            #calculate the number of matches
+            matches=len([1 for n1, n2 in zip(read_alignment, ref_alignment) if n1==n2])
             insertions_minus_ends = ref_alignment[20:-20].count("-")
             deletions_minus_ends = read_alignment[20:-20].count("-")
             indels_minus_ends = insertions_minus_ends + deletions_minus_ends
             mismatches_minus_ends = len([1 for n1, n2 in zip(read_alignment[20:-20], ref_alignment[20:-20]) if
                                          n1 != n2 and n1 != "-" and n2 != "-"])
-
+            overall_alignment_length=len(read_alignment)
+            overall_alignment_length2=len(ref_alignment)
+            #we make sure that both alignments have the same length
+            assert overall_alignment_length==overall_alignment_length2
             sw_ed = mismatches + indels
             # print(sw_ed,best_ed)
             if sw_ed < best_ed:
                 best_edit_distances_parasail[acc1] = {}
-                best_edit_distances_parasail[acc1][acc2] = (deletions, insertions, mismatches)
+                #added matches and overall_alignment_length
+                best_edit_distances_parasail[acc1][acc2] = (deletions, insertions, mismatches,matches,overall_alignment_length,reconstruction_rate)
+
                 best_ed = sw_ed
 
             elif sw_ed == best_ed:
-                best_edit_distances_parasail[acc1][acc2] = (deletions, insertions, mismatches)
+                # added matches and overall_alignment_length
+                best_edit_distances_parasail[acc1][acc2] = (deletions, insertions, mismatches,matches,overall_alignment_length,reconstruction_rate)
+
 
             # seq1_aln, match_line, seq2_aln = result.alignment
 
     return best_edit_distances_parasail
+
 
 
 def list_to_file_name(input_list):
@@ -329,6 +339,8 @@ def get_best_match(corrected_reads, reference_transcripts, outfile, params):
     error_rate_container = {}
     error_types_container = {}
     best_match_container = {}
+    perc_identity_container = {}
+    reconst_rate_container = {}
 
     original_abundances = defaultdict(int)
     for acc in corrected_reads.keys():
@@ -408,14 +420,16 @@ def get_best_match(corrected_reads, reference_transcripts, outfile, params):
                 # print(q_acc, minimizer_graph_c_to_t[q_acc])
 
             for j, (r_acc, r_seq) in enumerate(minimizer_graph_c_to_t[q_acc].items()):
-                deletions, insertions, mismatches = minimizer_graph_c_to_t[q_acc][r_acc]
+                deletions, insertions, mismatches, matches, overall_al_len, reconstruction_rate = minimizer_graph_c_to_t[q_acc][r_acc]
+
                 edit_distance = deletions + insertions + mismatches
                 print(edit_distance, best_ed)
                 if edit_distance < best_ed:
                     best_ed = edit_distance
                     r_acc_max_id = r_acc
                     fewest_errors = edit_distance
-                    best_mismatches, best_insertions, best_deletions = mismatches, insertions, deletions
+                    best_mismatches, best_insertions, best_deletions, best_matches, best_alignment_len,best_reconstruction = mismatches, insertions, deletions, matches, overall_al_len,reconstruction_rate
+
 
             errors_container[q_acc] = fewest_errors
             best_match_container[q_acc] = r_acc_max_id
@@ -427,8 +441,10 @@ def get_best_match(corrected_reads, reference_transcripts, outfile, params):
             corrected_read_abundances[r_acc] += 1
 
             # print(q_acc, q_acc.split("_")[-1], r_acc_max_id)
+            perc_identity_container[q_acc] = best_matches / float(best_alignment_len)
             error_rate_container[q_acc] = (best_ed / float(len(reference_transcripts[r_acc_max_id])))
             error_types_container[q_acc] = (best_mismatches, best_insertions, best_deletions)
+            reconst_rate_container[q_acc] = best_reconstruction
             not_FN.add(r_acc_max_id)
 
         print("Stop1!")
@@ -463,13 +479,18 @@ def get_best_match(corrected_reads, reference_transcripts, outfile, params):
 
     if params.deal_with_ties:
         out_file.write(
-            "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format("q_acc", "ref_acc", "total_errors", "error_rate",
-                                                                    "subs", "ins", "del", "switch", "abundance",
-                                                                    "mutation_present", "minor"))
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}\n".format("q_acc", "ref_acc", "total_errors",
+                                                                              "error_rate",
+                                                                              "subs", "ins", "del", "switch",
+                                                                              "abundance",
+                                                                              "mutation_present", "minor", "%identity",
+                                                                              "reconstruction_rate"))
     else:
         out_file.write(
-            "{0},{1},{2},{3},{4},{5},{6},{7},{8}\n".format("q_acc", "ref_acc", "total_errors", "error_rate", "subs",
-                                                           "ins", "del", "switch", "abundance"))
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format("q_acc", "ref_acc", "total_errors", "error_rate",
+                                                                    "subs",
+                                                                    "ins", "del", "switch", "abundance", "%identity",
+                                                                    "reconstruction_rate"))
 
     for q_acc in errors_container:
         q_acc_mod = q_acc.split("_")[0]
@@ -479,16 +500,24 @@ def get_best_match(corrected_reads, reference_transcripts, outfile, params):
         if params.deal_with_ties:
             mut_present = mutation_present[q_acc]
             minor = 1 if true_abundance != max(list(original_abundances.values())) else 0
-            out_file.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format(q_acc, best_match_container[q_acc],
-                                                                                   errors_container[q_acc], round(
-                    100 * error_rate_container[q_acc], 4), *error_types_container[q_acc], switch, true_abundance,
-                                                                                   mut_present, minor))
+            out_file.write(
+                "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}\n".format(q_acc, best_match_container[q_acc],
+                                                                                  errors_container[q_acc], round(
+                        100 * error_rate_container[q_acc], 4), *error_types_container[q_acc], switch, true_abundance,
+                                                                                  mut_present, minor,
+                                                                                  100 * perc_identity_container[q_acc],
+                                                                                  reconst_rate_container[q_acc]))
         else:
-            out_file.write("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n".format(q_acc, best_match_container[q_acc],
-                                                                          errors_container[q_acc],
-                                                                          round(100 * error_rate_container[q_acc], 4),
-                                                                          *error_types_container[q_acc], switch,
-                                                                          true_abundance))
+            out_file.write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}\n".format(q_acc, best_match_container[q_acc],
+                                                                                   errors_container[q_acc],
+                                                                                   round(100 * error_rate_container[
+                                                                                       q_acc],
+                                                                                         4),
+                                                                                   *error_types_container[q_acc],
+                                                                                   switch,
+                                                                                   true_abundance,
+                                                                                   100 * perc_identity_container[q_acc],
+                                                                                   100 * reconst_rate_container[q_acc]))
 
     print("TOTAL ERRORS:", sum([ed for acc, ed in errors_container.items()]))
 
